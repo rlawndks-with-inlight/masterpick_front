@@ -65,6 +65,7 @@ border-radius:0.25rem;
 border: 1px solid transparent;
 @media (max-width: 600px) {
 width:80%;
+margin:49px auto 0 auto;
 }
 `
 const MLoginCard = () => {
