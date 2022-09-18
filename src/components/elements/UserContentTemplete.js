@@ -1,0 +1,112 @@
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import $ from 'jquery'
+import { useState } from "react";
+import thumbImg from '../../assets/images/icon/thumb.svg';
+export const WrappersStyle = styled.div`
+position:relative;
+display:flex;
+flex-direction:column;
+width:100%;
+max-width:1000px;
+background:#fff;
+margin-top:8rem;
+margin-left:auto;
+margin-right:auto;
+margin-bottom:6rem;
+min-height:58vh;
+@media screen and (max-width:1050px) { 
+    margin-top:3.5rem;
+}
+
+`
+
+export const Wrappers = (props) =>{
+    const [minHeight, setMinHeight] = useState(500);
+    const {pathname} = useLocation();
+    useEffect(()=>{
+        setMinHeight($(window).height()-224-173);
+    },[pathname])
+    useEffect(()=>{
+
+    },[])
+    return (
+        <>
+        <WrappersStyle style={{minHeight:`${minHeight}px`}}>
+            {props.children??""}
+        </WrappersStyle>
+        </>
+    )
+}
+
+export const TitleStyle = styled.div`
+font-size:${props => props.theme.size.font2};
+font-weight:bold;
+margin-right:16px;
+cursor:pointer;
+`
+export const Title = (props) =>{
+    const navigate = useNavigate();
+    return (
+        <>
+        <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
+        <img src={thumbImg} style={{height:'36px',margin:'0 8px 0 5vw'}}/>
+        <TitleStyle>
+            {props?.children??""}
+        </TitleStyle>
+        <hr className="bar"/>
+        </div>
+        
+        </>
+    )
+}
+export const Content = styled.div`
+margin:0 auto 1rem 0;
+width:100%;
+font-size:${props => props.theme.size.font3};
+display:flex;
+flex-direction:column;
+font-weight:normal;
+@media screen and (max-width:700px) { 
+    
+}
+`
+export const Img = styled.div`
+width: 100%;
+height:320px;
+background:#fff;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center center;
+background-blend-mode: multiply;
+@media screen and (max-width:1200px) {
+    height: 28.266666666vw;
+}
+@media screen and (max-width:600px) {
+    height: 60vw;
+}
+`
+export const Card = styled.div`
+width: 48%; 
+margin-bottom:16px;
+background: ${props => props.theme.color.background3};
+cursor:pointer;
+@media screen and (max-width:600px) {
+    width:100%;
+}
+`
+export const WrapDiv = styled.div`
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+@media screen and (max-width:600px) { 
+    display:none;
+}
+`
+export const SliderDiv = styled.div`
+display:none;
+@media screen and (max-width:602px) { 
+    display:flex;
+}
+`

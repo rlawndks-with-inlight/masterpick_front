@@ -1,0 +1,14 @@
+import React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import './styles/style.css'
+import theme from './styles/theme'
+import App from '../src/pages/App';
+import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from 'styled-components';
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <ThemeProvider theme={theme}>
+  <App />
+  </ThemeProvider>
+);
+reportWebVitals();
