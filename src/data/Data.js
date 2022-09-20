@@ -15,7 +15,7 @@ import bottomMenuImg5 from '../assets/images/icon/bottommenu5.svg';
 import bottomMenuActiveImg5 from '../assets/images/icon/bottommenu5-active.svg';
 import logo from '../assets/images/test/logo.svg'
 import { EditorState } from "draft-js"
-export const backUrl = "http://localhost:8001";
+export const backUrl = "http://masterpick.co.kr:8001";
 export const logoSrc = logo;
 //http://masterpick.com:8001
 export const editorState = {
