@@ -15,7 +15,7 @@ height:62px;
 border:none;
 background:linear-gradient(to right, ${(props) => props.theme.color.background1}, ${(props) => props.theme.color.background2});
 color:#fff;
-font-size:16px;
+font-size:${(props) => props.theme.size.font1};
 font-weight:600;
 cursor:pointer;
 border: 1px solid transparent;
