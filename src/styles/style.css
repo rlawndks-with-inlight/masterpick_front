@@ -95,7 +95,7 @@ div.note>p>img {
 .bar {
     flex: auto;
     border: 1px solid transparent;
-    height: 5px;
+    height: 7px;
     background: linear-gradient(to right, #FFB92B, #FB8200);
 }
 
