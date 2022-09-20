@@ -1,9 +1,13 @@
 import Home from '../pages/User/Home';
+import HowToUse from '../pages/User/HowToUse';
+import MasterList from '../pages/User/MasterList';
+import MasterEvent from '../pages/User/MasterEvent';
+import Yield from '../pages/User/Yield';
+import SubscriptionOnly from '../pages/User/SubscriptionOnly';
 
 import Search from '../pages/User/Search';
 import SelectIssueCategory from '../pages/User/SelectIssueCategory';
 import SelectFeatureCategory from '../pages/User/SelectFeatureCategory';
-import MasterList from '../pages/User/MasterList';
 import ThemeList from '../pages/User/ThemeList';
 import VideoList from '../pages/User/VideoList';
 
@@ -40,6 +44,10 @@ import Notice from '../pages/User/Notice/Notice';
 
 const zRoute = [
     { link: '/', element: <Home /> },
+    { link: '/howtouse', element: <HowToUse /> },
+    { link: '/masterevent', element: <MasterEvent /> },
+    { link: '/yield', element: <Yield /> },
+    { link: '/subscriptiononly', element: <SubscriptionOnly /> },
     { link: '/search', element: <Search /> },
 
     { link: '/selectissuecategory', element: <SelectIssueCategory /> },

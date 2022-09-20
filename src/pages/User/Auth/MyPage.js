@@ -97,7 +97,7 @@ const MyPage = () => {
     return (
         <>
             <Wrappers className="wrapper" style={{ maxWidth: '800px' }}>
-                <Title>마이페이지</Title>
+            <Title>마이페이지</Title>
                 <MdEdit style={{margin:'2rem 0 1rem auto',color:`${theme.color.font2}`,fontSize:'24px',cursor:'pointer'}} onClick={()=>navigate('/editmyinfo')} />
 
                 <MyCard>
@@ -131,9 +131,13 @@ const MyPage = () => {
                         </Content>
                     </Container>
                 </MyCard>
+                <Title>서비스 이용내역</Title>
+                <Title>서비스 만료내역</Title>
+
                 <LogoutButton onClick={onLogout}>
                     로그아웃
                 </LogoutButton>
+
             </Wrappers>
         </>
     )

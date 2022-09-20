@@ -18,7 +18,7 @@ import ThemeCard from '../../components/ThemeCard'
 import VideoCard from '../../components/VideoCard';
 import Loading from '../../components/Loading';
 
-const Home = () => {
+const MasterEvent = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
     const [posts, setPosts] = useState([]);
@@ -84,15 +84,14 @@ const Home = () => {
                     :
                     <>
                         <Content>
-                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
+                            <Title>대가들의 종목</Title>
                         </Content>
-                       
+
+
                     </>}
-                    <Title>이달의 BEST 수익률</Title>
-                    <Title>BEST 투자대가</Title>
 
             </Wrappers>
         </>
     )
 }
-export default Home;
+export default MasterEvent;

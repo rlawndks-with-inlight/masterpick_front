@@ -19,7 +19,6 @@ min-height:58vh;
 @media screen and (max-width:1050px) { 
     margin-top:3.5rem;
 }
-
 `
 
 export const Wrappers = (props) =>{
@@ -46,12 +45,19 @@ font-weight:bold;
 margin-right:16px;
 cursor:pointer;
 `
+export const TitleImg = styled.img`
+height:36px;
+margin:0 8px;
+@media screen and (max-width:1050px) { 
+    margin:0 8px 0 5vw;
+}
+`
 export const Title = (props) =>{
     const navigate = useNavigate();
     return (
         <>
         <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
-        <img src={thumbImg} style={{height:'36px',margin:'0 8px 0 5vw'}}/>
+        <TitleImg src={thumbImg}/>
         <TitleStyle>
             {props?.children??""}
         </TitleStyle>
@@ -60,6 +66,9 @@ export const Title = (props) =>{
         
         </>
     )
+}
+export const ImgTitle = (props) =>{
+
 }
 export const Content = styled.div`
 margin:0 auto 1rem 0;
@@ -87,6 +96,11 @@ background-blend-mode: multiply;
     height: 60vw;
 }
 `
+export const Width90Component = styled.div`
+display:flex;
+width:90%;
+margin: 0 auto;
+`
 export const Card = styled.div`
 width: 48%; 
 margin-bottom:16px;
@@ -109,4 +123,13 @@ display:none;
 @media screen and (max-width:602px) { 
     display:flex;
 }
+`
+export const TransparentButton = styled.button`
+width:90px;
+height:35px;
+background:transparent;
+border-radius:4px;
+border:1px solid ${props=>props.theme.color.background1};
+cursor:pointer;
+font-size:${props=>props.theme.size.font3};
 `

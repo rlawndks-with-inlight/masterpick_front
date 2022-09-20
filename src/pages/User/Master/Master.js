@@ -1,40 +1,29 @@
 import { useEffect, useState } from "react";
-import { Wrappers, Card, Img } from "../../../components/elements/UserContentTemplete";
+import { Wrappers, Title, TransparentButton } from "../../../components/elements/UserContentTemplete";
 import styled from "styled-components";
-import theme from "../../../styles/theme";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import ThemeCard from "../../../components/ThemeCard";
-import { getIframeLinkByLink } from "../../../functions/utils";
 import { backUrl } from "../../../data/Data";
-import VideoCard from "../../../components/VideoCard";
+import MasterSlide from "../../../components/MasterSlide";
+import MasterCard from "../../../components/MasterCard";
+import { stringToHTML } from "../../../functions/utils";
+import $ from 'jquery'
+const Button = styled.button`
+width:364px;
+margin:0 auto;
+height:62px;
+border:none;
+background:linear-gradient(to right, ${(props) => props.theme.color.background1}, ${(props) => props.theme.color.background2});
+color:#fff;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+border: 1px solid transparent;
+border-radius:10px;
+@media (max-width: 600px) {
+width:90%;
+}
 
-const SelectType = styled.div`
-display:flex;
-width:100%;
-z-index:5;
-background:#fff;
-margin-bottom:16px;
-`
-const Type = styled.div`
-width:50%;
-text-align:center;
-padding: 0.75rem 0;
-font-weight:bold;
-cursor:pointer;
-font-size:1rem;
-`
-const Card2 = styled.div`
-width:100%;
-background:${props => props.theme.color.background3};
-text-align:left;
-height:112px;
-margin:6px 0;
-color:${props => props.theme.color.font1};
-font-weight:bold;
-font-size:${props => props.theme.size.font3};
-cursor:pointer;
-position:relative;
 `
 const Master = () => {
     const navigate = useNavigate();
@@ -43,63 +32,50 @@ const Master = () => {
     const [posts, setPosts] = useState([]);
     const [typeNum, setTypeNum] = useState(1)
     const [subTypeNum, setSubTypeNum] = useState(0)
-
-    useEffect(() => {
-        async function fetchPosts() {
-            const { data: response } = await axios.get(`/api/items?table=strategy&user_pk=${params.pk}`);
-            setPosts(response.data)
-        }
-        fetchPosts();
-    }, [])
-
-    const changeType = async (num) => {
-        setTypeNum(num);
-        let str = "";
-        if (num == 1) {
-            str = `/api/items?table=strategy&user_pk=${params.pk}`
-            const { data: response } = await axios.get(str);
-            setPosts(response.data);
-        } else {
-            str = `/api/items?table=video&user_pk=${params.pk}`
-            const { data: response } = await axios.get(str);
-            let list = response.data;
-            for (var i = 0; i < list.length; i++) {
-                list[i].link = getIframeLinkByLink(list[i].link);
+    const [item, setItem] = useState({})
+    useEffect(()=>{
+        console.log(params)
+    },[params])
+    useEffect(()=>{
+        async function fetchPost(){
+            const {data:response} = await axios.get(`/api/item?table=master&pk=${params.pk}`)
+            console.log(response)
+            setItem(response.data)
+            let obj = response.data;
+            if(response.data.investment_principle){
+                $('.principle').html(stringToHTML(obj['investment_principle'], backUrl))
+                $('.principle > img').css("width", "100%")
+            }else{
+                $('.principle').html("");
             }
-            setPosts(list);
+            if(response.data.investment_style){
+                $('.style').html(stringToHTML(obj['investment_style'], backUrl))
+                $('.style > img').css("width", "100%")
+            }else{
+                $('.style').html("");
+            }
+            
         }
-    }
+        fetchPost()
+    },[params])
     return (
         <>
             <Wrappers>
-                <Card2 onClick={() => { }}>
-                    <div style={{ width: '50%', padding: '20px' }}>
-                        <div>{state.nickname}</div>
-                        <div style={{ fontSize: `${theme.size.font5}`, marginTop: '8px', color: `${theme.color.font2}` }}>{state.name} 전문가</div>
-                    </div>
-                    <img style={{ position: 'absolute', bottom: '0', right: '5%', height: '80%' }} src={backUrl + state.img} />
-                </Card2>
-                <SelectType>
-                    <Type style={{ borderBottom: `4px solid ${typeNum == 1 ? theme.color.background1 : '#fff'}`, color: `${typeNum == 1 ? theme.color.background1 : '#ccc'}` }} onClick={() => { changeType(1) }}>전문가칼럼</Type>
-                    <Type style={{ borderBottom: `4px solid ${typeNum == 2 ? theme.color.background1 : '#fff'}`, color: `${typeNum == 2 ? theme.color.background1 : '#ccc'}` }} onClick={() => { changeType(2) }}>핵심비디오</Type>
-                </SelectType>
-                <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                    {posts.map((item, idx) => (
-                        <>
-                            {typeNum == 1 ?
-                                <>
-
-                                    <ThemeCard item={item} category={'strategy'} />
-
-                                </>
-                                :
-                                <>
-                                    <VideoCard item={item} />
-                                </>
-                            }
-                        </>
-                    ))}
+                <MasterSlide/>
+                <Title>대가 프로필</Title>
+                <div style={{margin:'0 2px 0 auto'}}>
+                    <TransparentButton>+ 구독</TransparentButton>
                 </div>
+                <MasterCard item={item} />
+                <Title>대가 투자원칙</Title>
+                <div className="note principle">
+                </div>
+                <Title>대가 투자 스타일</Title>
+                <div className="note style">
+                </div>
+                <Title>투자 섹터 비중</Title>
+
+                <Button>구독하기</Button>
             </Wrappers>
         </>
     )

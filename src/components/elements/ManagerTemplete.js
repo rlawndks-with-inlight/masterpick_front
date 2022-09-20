@@ -21,7 +21,7 @@ margin:12px auto;
 box-shadow:${props=>props.theme.boxShadow};
 border-radius:3px;
 padding: 24px 0;
-min-height:640px;
+min-height:320px;
 `
 export const Title = styled.div`
 margin:12px auto 6px 24px;

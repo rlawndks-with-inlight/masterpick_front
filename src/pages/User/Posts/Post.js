@@ -9,7 +9,7 @@ import $ from 'jquery'
 import styled from "styled-components";
 import { BsFillShareFill } from 'react-icons/bs';
 import logo from '../../../assets/images/test/logo.svg'
-import { commarNumber } from "../../../functions/utils";
+import { commarNumber, stringToHTML } from "../../../functions/utils";
 const Logo = styled.img`
 position: fixed;
 bottom: 0;
@@ -45,7 +45,7 @@ const Post = () => {
             const { data: response } = await axios.get(`/api/item?table=${params.table}&pk=${params.pk}&views=1`)
             let obj = response.data;
 
-            obj.note = stringToHTML(obj.note)
+            obj.note = stringToHTML(obj.note, backUrl)
             $('.note').append(obj.note)
             $('.note > img').css("width", "100%")
             setPost(obj);
@@ -58,14 +58,7 @@ const Post = () => {
             setPercent(per);
         })
     }, [])
-    const stringToHTML = (str) => {
-        let parser = new DOMParser();
-        str = str.replaceAll('http://localhost:8001', backUrl);
-        str = str.replaceAll('http://127.0.0.1:8001', backUrl);
-        str = str.replaceAll('<img', '<img style="width:100%;" ');
-        let doc = parser.parseFromString(str, 'text/html');
-        return doc.body;
-    };
+   
     
     return (
         <>

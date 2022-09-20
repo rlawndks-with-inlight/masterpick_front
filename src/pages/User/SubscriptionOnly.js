@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css";
@@ -17,8 +17,11 @@ import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv } from '../../c
 import ThemeCard from '../../components/ThemeCard'
 import VideoCard from '../../components/VideoCard';
 import Loading from '../../components/Loading';
+import MasterSlide from '../../components/MasterSlide';
+import MasterContentSlide from '../../components/MasterContentSlide';
+import PleaseSelectMaster from '../../components/PleaseSelectMaster';
 
-const Home = () => {
+const SubscriptionOnly = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
     const [posts, setPosts] = useState([]);
@@ -31,6 +34,7 @@ const Home = () => {
     const [videos, setVideos] = useState([]);
     const [strategies, setStrategies] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [typeNum, setTypeNum] = useState(0)
 
 
 
@@ -43,37 +47,10 @@ const Home = () => {
         slidesToScroll: 1,
     };
 
-    useEffect(() => {
-        setPosts(zTalk[0].image_list);
-        async function fetchPost() {
-            //setLoading(true)
 
-            const { data: response } = await axios.get('/api/gethomecontent')
-            setSetting(response.data.setting);
-            setMasters(response.data.masters)
-            setOneWord(response.data.oneWord);
-            setIssues(response.data.issues);
-            setOneEvent(response.data.oneEvent);
-            setThemes(response.data.themes);
-            setStrategies(response.data.strategies)
-            let video_list = response.data?.videos
-            for (var i = 0; i < video_list.length; i++) {
-                video_list[i].link = getIframeLinkByLink(video_list[i].link);
-            }
-            setVideos(video_list);
-            //setTimeout(() => setLoading(false), 1500);
-        }
-        fetchPost();
+    const selectTypeNum = useCallback((num) => {
+        setTypeNum(num)
     }, [])
-    const onChangeStrategyNum = async (num, pk) => {
-        setSubTypeNum(num)
-        let str = `/api/items?table=strategy&limit=3&status=1`;
-        if (pk != 0) {
-            str += `&user_pk=${pk}`;
-        }
-        const { data: response } = await axios.get(str);
-        setStrategies(response?.data)
-    }
     return (
         <>
             <Wrappers className='wrappers'>
@@ -83,16 +60,17 @@ const Home = () => {
                     </>
                     :
                     <>
-                        <Content>
-                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
-                        </Content>
-                       
+                        <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
+                        {typeNum==0?
+                        <>
+                        <PleaseSelectMaster/>
+                        </>
+                        :
+                        <>
+                        </>}
                     </>}
-                    <Title>이달의 BEST 수익률</Title>
-                    <Title>BEST 투자대가</Title>
-
             </Wrappers>
         </>
     )
 }
-export default Home;
+export default SubscriptionOnly;

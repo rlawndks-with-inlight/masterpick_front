@@ -14,6 +14,16 @@ export function sendToRN(num) {
 export function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
+export const stringToHTML = (str,backUrl) => {
+    console.log(str)
+    let strr = str;
+    let parser = new DOMParser();
+    strr = str.replaceAll('http://localhost:8001', backUrl);
+    strr = str.replaceAll('http://127.0.0.1:8001', backUrl);
+    strr = str.replaceAll('<img', '<img style="width:100%;" ');
+    let doc = parser.parseFromString(strr, 'text/html');
+    return doc.body;
+};
 export function range(start, end) {
     let array = [];
     for (let i = start; i <= end; ++i) {
