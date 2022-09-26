@@ -8,7 +8,7 @@ position:fixed;
 right:6px;
 bottom:6rem;
 background:${props => props.theme.color.background2};
-padding:5px 6px 3px 6px;
+padding:7px 8px 5px 8px;
 color:#000;
 border-radius:50%;
 font-size:16px;

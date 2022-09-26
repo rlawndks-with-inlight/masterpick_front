@@ -30,6 +30,9 @@ import Video from '../pages/User/Posts/Video';
 import MLogin from '../pages/Manager/MLogin';
 import MUserEdit from '../pages/Manager/MUserEdit';
 import MMasterEdit from '../pages/Manager/MMasterEdit';
+import MMasterEventEdit from '../pages/Manager/MMasterEventEdit';
+import MMasterSubscribeEdit from '../pages/Manager/MMasterSubscribeEdit';
+import MMasterYieldEdit from '../pages/Manager/MMasterYieldEdit';
 import MSetting from '../pages/Manager/MSetting';
 import MIssueCategoryEdit from '../pages/Manager/MIssueCategoryEdit';
 import MFeatureCategoryEdit from '../pages/Manager/MFeatureCategoryEdit';
@@ -76,6 +79,9 @@ const zRoute = [
     { link: '/manager/login', element: <MLogin /> },
     { link: '/manager/edit/user/:pk', element: <MUserEdit /> },
     { link: '/manager/edit/master/:pk', element: <MMasterEdit /> },
+    { link: '/manager/eventedit/master/:pk', element: <MMasterEventEdit /> },
+    { link: '/manager/subscribeedit/master/:pk', element: <MMasterSubscribeEdit /> },
+    { link: '/manager/yieldedit/master/:pk', element: <MMasterYieldEdit /> },
     { link: '/manager/edit/channel/:pk', element: <MChannelEdit /> },
     { link: '/manager/setting', element: <MSetting /> },
     { link: '/manager/edit/video/:pk', element: <MVideoEdit /> },

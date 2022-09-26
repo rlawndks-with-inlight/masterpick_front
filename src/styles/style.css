@@ -46,7 +46,16 @@ body::-webkit-scrollbar-thumb {
 
 .slick-prev.slick-disabled:before,
 .slick-next.slick-disabled:before {}
-
+#editor{
+    position: relative !important;
+}
+.emoji-picker-react{
+    position: absolute !important;
+    z-index: 100;
+    top: 56px;
+    right: 36px;
+    display: none !important;
+}
 .menu-icon {
     width: 2rem;
     height: 1.5rem;

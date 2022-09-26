@@ -5,19 +5,13 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import theme from '../../styles/theme';
-import SelectSubType from '../../components/elements/SelectSubType';
 import { zTalk, zTheme } from '../../data/TestData';
-import SubType from '../../components/elements/SubType';
-import testImg from '../../assets/images/test/test5.jpg';
 import axios from 'axios';
 import { backUrl, slideSetting } from '../../data/Data';
 import { getIframeLinkByLink } from '../../functions/utils';
-import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv } from '../../components/elements/UserContentTemplete';
-import ThemeCard from '../../components/ThemeCard'
-import VideoCard from '../../components/VideoCard';
+import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv, ImgTitle } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
-
+import megaphoneIcon from '../../assets/images/icon/megaphone.svg';
 const Home = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
@@ -46,7 +40,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            //setLoading(true)
+            setLoading(true)
 
             const { data: response } = await axios.get('/api/gethomecontent')
             setSetting(response.data.setting);
@@ -61,7 +55,7 @@ const Home = () => {
                 video_list[i].link = getIframeLinkByLink(video_list[i].link);
             }
             setVideos(video_list);
-            //setTimeout(() => setLoading(false), 1500);
+            setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])
@@ -90,7 +84,8 @@ const Home = () => {
                     </>}
                     <Title>이달의 BEST 수익률</Title>
                     <Title>BEST 투자대가</Title>
-
+                    <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
+                    <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
             </Wrappers>
         </>
     )

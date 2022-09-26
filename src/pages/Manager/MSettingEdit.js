@@ -22,6 +22,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import Picker from 'emoji-picker-react';
 const ImageContainer = styled.label`
 border: 2px dashed ${props => props.theme.color.manager.font3};
 margin:12px auto 6px 24px;
@@ -69,7 +70,16 @@ const MSettingEdit = () => {
                 mustReadRef.current.getInstance().setHTML(response.data.must_read.replaceAll('http://localhost:8001', backUrl));
             }
         }
+        $('div.toastui-editor-defaultUI-toolbar > div:nth-child(4)').append(`<button type="button" class='emoji' aria-label='이모티콘' style='font-size:18px;'>🙂</button>`);
         fetchPost();
+    }, [])
+    useEffect(() => {
+        $('button.emoji').on('click', function () {
+            $('.emoji-picker-react').attr('style', 'display: flex !important')
+        })
+        $('.toastui-editor-toolbar-icons').on('click', function () {
+            $('.emoji-picker-react').attr('style', 'display: none !important')
+        })
     }, [])
     const editSetting = async () => {
         if (!url && !content) {
@@ -80,6 +90,7 @@ const MSettingEdit = () => {
             formData.append('introduce', introduceRef.current.getInstance().getHTML());
             formData.append('howToUse', howToUseRef.current.getInstance().getHTML());
             formData.append('mustRead', mustReadRef.current.getInstance().getHTML());
+
             if (setting.main_img) {
                 if (window.confirm("정말 수정하시겠습니까?")) {
                     formData.append('pk', setting?.pk);
@@ -104,6 +115,11 @@ const MSettingEdit = () => {
             setContent(e.target.files[0]);
             setUrl(URL.createObjectURL(e.target.files[0]))
         }
+    };
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        introduceRef.current.getInstance().insertText(emojiObject.emoji)
     };
     return (
         <>
@@ -136,8 +152,8 @@ const MSettingEdit = () => {
                         <Row>
                             <Col>
                                 <Title>소개</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                <div id="editor" className='editor1'>
+                                    <Picker onEmojiClick={onEmojiClick} />
                                     <Editor
                                         placeholder="내용을 입력해주세요."
                                         previewStyle="vertical"
@@ -170,7 +186,7 @@ const MSettingEdit = () => {
                         <Row>
                             <Col>
                                 <Title>활용법</Title>
-                                <div id="editor">
+                                <div id="editor" className='editor2'>
                                     {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                     <Editor
                                         placeholder="내용을 입력해주세요."
@@ -204,7 +220,7 @@ const MSettingEdit = () => {
                         <Row>
                             <Col>
                                 <Title>필독사항</Title>
-                                <div id="editor">
+                                <div id="editor" className='editor3'>
                                     {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                     <Editor
                                         placeholder="내용을 입력해주세요."

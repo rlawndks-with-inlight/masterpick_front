@@ -68,7 +68,19 @@ export const Title = (props) =>{
     )
 }
 export const ImgTitle = (props) =>{
-
+    const navigate = useNavigate();
+    return (
+        <>
+        <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
+        <TitleImg src={props.img}/>
+        <TitleStyle>
+            {props?.children??""}
+        </TitleStyle>
+        <hr className="bar"/>
+        </div>
+        
+        </>
+    )
 }
 export const Content = styled.div`
 margin:0 auto 1rem 0;

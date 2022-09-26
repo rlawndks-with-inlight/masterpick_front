@@ -22,11 +22,12 @@ const theme = {
     font1: "#2c2c2c",
     font2: "#71706F",
     font3: "#E4E4E4",
-    cardColor:[
-      {font:'#fff',background:'#024643'},
-      {font:'#fff',background:'#31125A'},
-      {font:'#fff',background:'#4A02CC'},
-      {font:'#000',background:'#f5f6f8'},
+    font4: "#dadde6",
+    cardColor: [
+      { font: '#fff', background: '#024643' },
+      { font: '#fff', background: '#31125A' },
+      { font: '#fff', background: '#4A02CC' },
+      { font: '#000', background: '#f5f6f8' },
     ],
     manager: {
       background1: "#FB8200",
@@ -38,11 +39,11 @@ const theme = {
     }
   },
   size: {
-    font1:'20px',
-    font2:'17px',
-    font3:'15px',
-    font4:'12px',
-    font5:'10px',
+    font1: '20px',
+    font2: '17px',
+    font3: '15px',
+    font4: '12px',
+    font5: '10px',
     mobileS: `(max-width: ${size.mobileS})`,
     mobileL: `(max-width: ${size.mobileL})`,
     tabletS: `(max-width: ${size.tabletS})`,

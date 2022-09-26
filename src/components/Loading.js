@@ -1,17 +1,17 @@
 import { Circles } from 'react-loader-spinner';
 import styled from 'styled-components';
 import theme from '../styles/theme';
-import loadingGif from '../assets/images/test/logo.svg'
+import loadingGif from '../assets/images/icon/logo.gif'
 const LoadingContainer = styled.div`
 margin: 15vw auto;
 @media (max-width: 1000px) {
-    margin: 25vw auto;
+    margin: 20vw auto;
 }
 @media (max-width: 650px) {
-    margin: 40vh auto;
+    margin: 35vh auto;
 }
 @media (max-width: 375px) {
-    margin: 30vh auto;
+    margin: 25vh auto;
 }
 `
 const Loading = () => {

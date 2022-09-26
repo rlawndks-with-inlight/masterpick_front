@@ -1,8 +1,3 @@
-import { IoCaretForwardCircleOutline, IoAlbumsOutline } from "react-icons/io5"
-import { HiOutlineLightBulb } from 'react-icons/hi'
-import { FaRegThumbsUp } from 'react-icons/fa'
-import { TbMessageDots } from 'react-icons/tb'
-import { MdOutlineFeaturedPlayList } from 'react-icons/md'
 import bottomMenuImg1 from '../assets/images/icon/bottommenu1.svg';
 import bottomMenuActiveImg1 from '../assets/images/icon/bottommenu1-active.svg';
 import bottomMenuImg2 from '../assets/images/icon/bottommenu2.svg';
@@ -15,7 +10,7 @@ import bottomMenuImg5 from '../assets/images/icon/bottommenu5.svg';
 import bottomMenuActiveImg5 from '../assets/images/icon/bottommenu5-active.svg';
 import logo from '../assets/images/test/logo.svg'
 import { EditorState } from "draft-js"
-export const backUrl = "http://masterpick.co.kr:8001";
+export const backUrl = "http://localhost:8001";
 export const logoSrc = logo;
 //http://masterpick.com:8001
 export const editorState = {
@@ -57,11 +52,14 @@ export const objManagerListContent = {
         breadcrumb: '거장',
         schema: 'master',
         zColumn: [
-            { name: '프로필이미지', width: 24, type: 'img', column: 'profile_img' },
-            { name: '이름', width: 24, type: 'text', column: 'name' },
-            { name: '생성시간', width: 28, type: 'text', column: 'date' },
+            { name: '프로필이미지', width: 15, type: 'img', column: 'profile_img' },
+            { name: '이름', width: 15, type: 'text', column: 'name' },
+            { name: '생성시간', width: 14, type: 'text', column: 'date' },
             { name: '맨위로', width: 8, type: 'top', column: '' },
-            { name: '수정', width: 8, type: 'edit', column: 'edit' },
+            { name: '정보수정', width: 10, type: 'edit', column: 'edit' },
+            { name: '종목수정', width: 10, type: 'event_edit', column: 'edit' },
+            { name: '수익률수정', width: 10, type: 'yield_edit', column: 'edit' },
+            { name: '구독전용수정', width: 10, type: 'subscribe_edit', column: 'edit' },
             { name: '삭제', width: 8, type: 'delete', column: 'delete' }
         ],
     },

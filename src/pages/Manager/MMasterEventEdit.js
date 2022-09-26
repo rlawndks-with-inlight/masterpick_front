@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import ManagerWrappers from '../../components/elements/ManagerWrappers';
 import SideBar from '../../common/manager/SideBar';
@@ -22,42 +22,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
-import { RiDeleteBinLine } from 'react-icons/ri'
-const Container = styled.div`
-margin:12px auto 6px 24px;
-width:90%;
-color:${props => props.theme.color.manager.font2};
-font-weight:bold;
-margin-top:32px;
-`
-const SectorInput = styled.input`
-width:90%;
-outline:none;
-border:none;
-`
-const Table = styled.table`
-width:260px;
-text-align:center;
-border-spacing: 0px;
-border-style: none;
-padding: 0px;
-background:#fff;
-`
-const Tr = styled.tr`
-display:flex;
-`
-const Td = styled.td`
-border:1px solid ${props => props.theme.color.font4};
-width:40%;
-`
-const SectorAddButton = styled.button`
-width:260px;
-border:1px solid ${props => props.theme.color.font4};
-background:#fff;
-cursor:pointer;
-height:36px;
-`
-const MMasterEdit = () => {
+const MMasterEventEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
 
@@ -71,7 +36,6 @@ const MMasterEdit = () => {
     const [channelContent, setChannelContent] = useState(undefined)
     const [formData] = useState(new FormData())
     const [noteFormData] = useState(new FormData());
-    const [sectorList, setSectorList] = useState([])
     useEffect(() => {
         async function fetchPost() {
             if (params.pk > 0) {
@@ -82,14 +46,6 @@ const MMasterEdit = () => {
                 $('.motto').val(response.data.motto)
                 principleRef.current.getInstance().setHTML(response.data.investment_principle.replaceAll('http://localhost:8001', backUrl));
                 styleRef.current.getInstance().setHTML(response.data.investment_style.replaceAll('http://localhost:8001', backUrl));
-                let sector_list = JSON.parse(response.data.sector_list);
-                setSectorList(sector_list);
-                await new Promise((r) => setTimeout(r, 1000));
-                for (var i = 0; i < sector_list.length; i++) {
-                    $(`.sector-td-1-${i}`).val(sector_list[i]?.title);
-                    $(`.sector-td-2-${i}`).val(sector_list[i]?.percent);
-                }
-                
             } else {
                 $('.background-color').val(theme.color.background1);
 
@@ -98,20 +54,6 @@ const MMasterEdit = () => {
         fetchPost();
     }, [])
     const editMaster = async () => {
-        let sector_list = [];
-        for (var i = 0; i < sectorList.length; i++) {
-            if ($(`.sector-tr-${i}`).css('display') != 'none') {
-                console.log($(`.sector-td-2-${i}`).val())
-                if (isNaN(parseFloat($(`.sector-td-2-${i}`).val()))) {
-                    alert('투자섹터비중 퍼센트 부분에 숫자가 아닌 부분이 들어 있습니다.');
-                    return;
-                } else {
-                    sector_list.push(
-                        { title: $(`.sector-td-1-${i}`).val(), percent: parseFloat($(`.sector-td-2-${i}`).val()) }
-                    )
-                }
-            }
-        }
         if ((!$(`.name`).val() || !content) && params.pk == 0) {
             alert('필요값이 비어있습니다.');
         } else {
@@ -120,7 +62,7 @@ const MMasterEdit = () => {
             formData.append("backgroundColor", $(`.background-color`).val());
             formData.append("motto", $(`.motto`).val());
             formData.append("master", content);
-            formData.append("sectorList", JSON.stringify(sector_list));
+
             formData.append('principle', principleRef.current.getInstance().getHTML());//투자원칙
             formData.append('style', styleRef.current.getInstance().getHTML());//투자스타일
 
@@ -154,13 +96,12 @@ const MMasterEdit = () => {
         }
     };
 
-
     return (
         <>
             <ManagerWrappers>
                 <SideBar />
                 <ManagerContentWrappers>
-                    <Breadcrumb title={params.pk == 0 ? '거장 추가' : '거장 수정'} nickname={myNick} />
+                    <Breadcrumb title={params.pk == 0 ? '거장종목추가' : '거장종목수정'} nickname={myNick} />
                     <Card>
                         {/* <Row>
                             <Col>
@@ -178,10 +119,10 @@ const MMasterEdit = () => {
                                 <Title>이름</Title>
                                 <Input className='name' />
                             </Col>
-                            <Col>
+                             <Col>
                                 <Title>좌우명</Title>
                                 <Input className='motto' />
-                            </Col>
+                            </Col> 
                         </Row>
                         <Row>
                             <Col>
@@ -281,32 +222,9 @@ const MMasterEdit = () => {
                                 </div>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
-                                <Title>투자 섹터 비중</Title>
-                                <Container>
-                                    <Table>
-                                        <Tr>
-                                            <Td>종류</Td>
-                                            <Td>퍼센트</Td>
-                                            <Td style={{ width: '20%' }}>삭제</Td>
-                                        </Tr>
-                                        {sectorList && sectorList.map((item, idx) => (
-                                            <>
-                                                <Tr className={`sector-tr-${idx}`}>
-                                                    <Td ><SectorInput className={`sector-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} /> </Td>
-                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.sector-tr-${idx}`).css('display', 'none') }} /></Td>
-                                                </Tr>
-                                            </>
-                                        ))}
-                                    </Table>
-                                    <SectorAddButton onClick={() => { setSectorList([...sectorList, ...[{}]]) }}>+추가</SectorAddButton>
-                                </Container>
-                            </Col>
-                        </Row>
+                        
                     </Card>
-
+                    
                     <ButtonContainer>
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
                         <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '수정'}</AddButton>
@@ -316,4 +234,4 @@ const MMasterEdit = () => {
         </>
     )
 }
-export default MMasterEdit;
+export default MMasterEventEdit;
