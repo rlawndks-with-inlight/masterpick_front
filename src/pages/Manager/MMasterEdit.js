@@ -13,7 +13,7 @@ import AddButton from '../../components/elements/button/AddButton';
 import CancelButton from '../../components/elements/button/CancelButton';
 import $ from 'jquery';
 import { addItem, updateItem } from '../../functions/utils';
-import { Card, Title, Input, Select, Row, Col, ImageContainer } from '../../components/elements/ManagerTemplete';
+import { Card, Title, Input, Select, Row, Col, ImageContainer, Table, Tr, Td, SectorInput, SectorAddButton, Container } from '../../components/elements/ManagerTemplete';
 import { backUrl } from '../../data/Data';
 import theme from '../../styles/theme';
 import { Editor } from '@toast-ui/react-editor';
@@ -23,40 +23,7 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { RiDeleteBinLine } from 'react-icons/ri'
-const Container = styled.div`
-margin:12px auto 6px 24px;
-width:90%;
-color:${props => props.theme.color.manager.font2};
-font-weight:bold;
-margin-top:32px;
-`
-const SectorInput = styled.input`
-width:90%;
-outline:none;
-border:none;
-`
-const Table = styled.table`
-width:260px;
-text-align:center;
-border-spacing: 0px;
-border-style: none;
-padding: 0px;
-background:#fff;
-`
-const Tr = styled.tr`
-display:flex;
-`
-const Td = styled.td`
-border:1px solid ${props => props.theme.color.font4};
-width:40%;
-`
-const SectorAddButton = styled.button`
-width:260px;
-border:1px solid ${props => props.theme.color.font4};
-background:#fff;
-cursor:pointer;
-height:36px;
-`
+
 const MMasterEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -84,12 +51,12 @@ const MMasterEdit = () => {
                 styleRef.current.getInstance().setHTML(response.data.investment_style.replaceAll('http://localhost:8001', backUrl));
                 let sector_list = JSON.parse(response.data.sector_list);
                 setSectorList(sector_list);
-                await new Promise((r) => setTimeout(r, 1000));
+                await new Promise((r) => setTimeout(r, 500));
                 for (var i = 0; i < sector_list.length; i++) {
                     $(`.sector-td-1-${i}`).val(sector_list[i]?.title);
                     $(`.sector-td-2-${i}`).val(sector_list[i]?.percent);
                 }
-                
+
             } else {
                 $('.background-color').val(theme.color.background1);
 
@@ -295,7 +262,7 @@ const MMasterEdit = () => {
                                             <>
                                                 <Tr className={`sector-tr-${idx}`}>
                                                     <Td ><SectorInput className={`sector-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} placeholder={'only number'} /> </Td>
                                                     <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.sector-tr-${idx}`).css('display', 'none') }} /></Td>
                                                 </Tr>
                                             </>

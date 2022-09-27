@@ -80,12 +80,13 @@ const Home = () => {
                         <Content>
                             <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                         </Content>
-                       
+
+                        <Title>이달의 BEST 수익률</Title>
+                        <Title>BEST 투자대가</Title>
+                        <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
+                        <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
                     </>}
-                    <Title>이달의 BEST 수익률</Title>
-                    <Title>BEST 투자대가</Title>
-                    <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
-                    <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
+
             </Wrappers>
         </>
     )

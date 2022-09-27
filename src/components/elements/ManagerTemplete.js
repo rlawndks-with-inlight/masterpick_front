@@ -61,3 +61,44 @@ text-align:center;
     width:90%;
 }
 `
+export const Container = styled.div`
+margin:12px auto 6px 24px;
+width:90%;
+color:${props => props.theme.color.manager.font2};
+font-weight:bold;
+margin-top:32px;
+@media screen and (max-width:650px) {
+    overflow-x:auto;
+}
+`
+export const SectorInput = styled.input`
+width:90%;
+outline:none;
+border:none;
+::placeholder {
+    color: #cccccc;
+}
+`
+export const Table = styled.table`
+width:560px;
+text-align:center;
+border-spacing: 0px;
+border-style: none;
+padding: 0px;
+background:#fff;
+
+`
+export const Tr = styled.tr`
+display:flex;
+`
+export const Td = styled.td`
+border:1px solid ${props => props.theme.color.font4};
+width:40%;
+`
+export const SectorAddButton = styled.button`
+width:560px;
+border:1px solid ${props => props.theme.color.font4};
+background:#fff;
+cursor:pointer;
+height:36px;
+`
