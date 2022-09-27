@@ -11,7 +11,6 @@ import axios from 'axios'
 import { useState } from 'react'
 import { GrLinkTop } from 'react-icons/gr'
 import { BsGraphUp } from 'react-icons/bs'
-import { SiYoutubemusic } from 'react-icons/si'
 import { AiOutlineUnorderedList } from 'react-icons/ai'
 const Tr = styled.tr`
 box-shadow:1px 1px 1px #00000029;
@@ -185,15 +184,7 @@ const DataTr = ({ id, data, index, moveCard, column, schema, list, sort, opTheTo
                             :
                             <>
                             </>}
-                        {col.type == 'subscribe_edit' ?//구독수정
-                            <>
-                                <Td style={{ width: `${col.width}%`, fontSize: '20px' }}>
-                                    <SiYoutubemusic style={{ cursor: 'pointer', color: '#546de5' }} onClick={() => navigate(`/manager/subscribeedit/${schema}/${data.pk}`)} />
-                                </Td>
-                            </>
-                            :
-                            <>
-                            </>}
+                        
                         {col.type == 'yield_edit' ?//수익률수정
                             <>
                                 <Td style={{ width: `${col.width}%`, fontSize: '20px' }}>

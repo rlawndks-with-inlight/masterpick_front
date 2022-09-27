@@ -6,13 +6,10 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import logo from '../../assets/images/test/logo.svg'
 import { BiRadioCircle } from 'react-icons/bi'
 import { BsPerson, BsCameraVideo } from 'react-icons/bs'
-import { MdOutlineAccessTime, MdNotificationImportant, MdOutlineFeaturedPlayList } from 'react-icons/md'
-import { IoStatsChartSharp, IoLogoReact } from 'react-icons/io5'
 import { FaChalkboardTeacher } from 'react-icons/fa'
-import { FiSettings } from 'react-icons/fi'
 import { AiOutlineQuestionCircle, AiOutlineRotateLeft } from 'react-icons/ai'
-import { WiDayHaze } from 'react-icons/wi'
-import { SiMicrostrategy } from 'react-icons/si'
+import { SiYoutubemusic } from 'react-icons/si'
+
 import axios from 'axios';
 const Wrappers = styled.div`
 display:flex;
@@ -97,13 +94,17 @@ const SideBar = () => {
     const [zIssueCategory, setZIssueCategory] = useState([])
     const [issueCategoryDisplay, setIssueCategoryDisplay] = useState(false);
     const [zFeatureCategory, setZFeatureCategory] = useState([])
+    const [zMaster, setZMaster] = useState([])
+    const [issueMasterDisplay, setIssueMasterDisplay] = useState(false);
+
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
-    const  zSidebar = [
+    const zSidebar = [
         { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
         //{ name: '접속자현황', link: '/manager/list/user', icon: <MdOutlineAccessTime /> },
         //{ name: '회원통계', link: '/manager/list/user', icon: <IoStatsChartSharp /> },
         { name: '환경설정', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
         { name: '거장관리', link: '/manager/list/master', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/master'] },
+        { name: '구독전용', link: '/manager/list/master_subscribe', icon: <SiYoutubemusic />, level: 40, allow_list: ['/manager/list/master_subscribe'] },
         //{ name: '채널관리', link: '/manager/list/channel', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/channel'] },
         // { name: '하루1단어', link: '/manager/list/oneword', icon: <WiDayHaze />, level: 40, allow_list: ['/manager/list/oneword'] },
         // { name: '하루1종목', link: '/manager/list/oneevent', icon: <WiDayHaze />, level: 40, allow_list: ['/manager/list/oneevent'] },
@@ -123,10 +124,8 @@ const SideBar = () => {
     }, [location]);
     useEffect(() => {
         async function fetchPost() {
-            const { data: response } = await axios.get('/api/items?table=issue_category')
-            setZIssueCategory(response?.data);
-            const { data: response2 } = await axios.get('/api/items?table=feature_category')
-            setZFeatureCategory(response2?.data);
+            const { data: response } = await axios.get('/api/items?table=master')
+            setZMaster(response?.data);
         }
         fetchPost()
     }, [])
@@ -135,6 +134,8 @@ const SideBar = () => {
             changeIssueCategoryDisplay();
         } else if (link == '/manager/list/feature') {
             changeFeatureCategoryDisplay();
+        } else if (link == '/manager/list/master_subscribe') {
+            changeMasterDisplay();
         } else {
             navigate(link);
         }
@@ -145,8 +146,10 @@ const SideBar = () => {
     const changeFeatureCategoryDisplay = () => {
         setFeatureCategoryDisplay(!featureCategoryDisplay);
     }
+    const changeMasterDisplay = () => {
+        setIssueMasterDisplay(!issueMasterDisplay);
+    }
 
- 
     return (
         <>
             <HambergurContainer onClick={() => { setDisplay('flex') }}>
@@ -157,12 +160,12 @@ const SideBar = () => {
                     <GiHamburgerMenu />
                 </HambergurContainer>
                 <LogoWrappers>
-                    <img src={logo} style={{ height: '40px', width: 'auto' }}/>
+                    <img src={logo} style={{ height: '40px', width: 'auto' }} />
                 </LogoWrappers>
-                <div style={{ maxHeight: '80vh',paddingBottom:'32px' }}>
+                <div style={{ maxHeight: '80vh', paddingBottom: '32px' }}>
                     {zSidebar.map((item, index) => (
                         <>
-                            {JSON.parse(localStorage.getItem('auth'))?.level??0 >= item.level ?
+                            {JSON.parse(localStorage.getItem('auth'))?.level ?? 0 >= item.level ?
                                 <>
                                     {item.allow_list.includes(location.pathname) ?
                                         <>
@@ -187,6 +190,19 @@ const SideBar = () => {
 
                         </>
                     ))}
+                    {issueMasterDisplay ?
+                        <>
+                            {zMaster.map((item, idx) => (
+                                <>
+                                    <MenuContent key={idx} onClick={() => { navigate(`/manager/list/master_subscribe/${item.pk}`) }} style={{ color: `${location.pathname == `/manager/list/master_subscribe/${item.pk}` ? '#000' : ''}` }}>
+                                        <MenuText style={{ marginLeft: '15px' }}>{item.name}</MenuText>
+                                    </MenuContent>
+                                </>
+                            ))}
+                        </>
+                        :
+                        <>
+                        </>}
                     {/* {issueCategoryDisplay ?
                         <>
                             {zIssueCategory.map((item, idx) => (
@@ -302,7 +318,7 @@ const SideBar = () => {
                         <>
                         </>
                     } */}
-                    <div style={{paddingBottom:'36px'}} />
+                    <div style={{ paddingBottom: '36px' }} />
                 </div>
             </Wrappers>
         </>

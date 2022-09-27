@@ -54,12 +54,24 @@ export const objManagerListContent = {
         zColumn: [
             { name: '프로필이미지', width: 15, type: 'img', column: 'profile_img' },
             { name: '이름', width: 15, type: 'text', column: 'name' },
-            { name: '생성시간', width: 14, type: 'text', column: 'date' },
-            { name: '맨위로', width: 8, type: 'top', column: '' },
+            { name: '생성시간', width: 20, type: 'text', column: 'date' },
+            { name: '맨위로', width: 10, type: 'top', column: '' },
             { name: '정보수정', width: 10, type: 'edit', column: 'edit' },
             { name: '종목수정', width: 10, type: 'event_edit', column: 'edit' },
             { name: '수익률수정', width: 10, type: 'yield_edit', column: 'edit' },
-            { name: '구독전용수정', width: 10, type: 'subscribe_edit', column: 'edit' },
+            { name: '삭제', width: 10, type: 'delete', column: 'delete' }
+        ],
+    },
+    master_subscribe: {
+        breadcrumb: '구독전용',
+        schema: 'master_subscribe',
+        zColumn: [
+            { name: '종목명', width: 15, type: 'img', column: 'profile_img' },
+            { name: '기준가', width: 15, type: 'text', column: 'name' },
+            { name: '포착일시', width: 23, type: 'text', column: 'date' },
+            { name: '생성시간', width: 23, type: 'text', column: 'date' },
+            { name: '맨위로', width: 8, type: 'top', column: '' },
+            { name: '수정', width: 8, type: 'edit', column: 'edit' },
             { name: '삭제', width: 8, type: 'delete', column: 'delete' }
         ],
     },

@@ -80,7 +80,7 @@ const zRoute = [
     { link: '/manager/edit/user/:pk', element: <MUserEdit /> },
     { link: '/manager/edit/master/:pk', element: <MMasterEdit /> },
     { link: '/manager/eventedit/master/:pk', element: <MMasterEventEdit /> },
-    { link: '/manager/subscribeedit/master/:pk', element: <MMasterSubscribeEdit /> },
+    { link: '/manager/edit/master_subscribe/:pk', element: <MMasterSubscribeEdit /> },
     { link: '/manager/yieldedit/master/:pk', element: <MMasterYieldEdit /> },
     { link: '/manager/edit/channel/:pk', element: <MChannelEdit /> },
     { link: '/manager/setting', element: <MSetting /> },

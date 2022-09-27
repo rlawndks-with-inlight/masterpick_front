@@ -61,6 +61,9 @@ const MItemList = () => {
             let str = '';
             let auth = JSON.parse(localStorage.getItem('auth'))
             str = `/api/items?table=${params.table}&page=1`
+            if(params.table=='master_subscribe'){
+                str += `&master_pk=${params.pk}`
+            }
             if (auth?.level < 40) {
                 str += `&user_pk=${auth.pk}`
             }
@@ -77,6 +80,9 @@ const MItemList = () => {
         let str = '';
         str = `/api/items?table=${params.table}&page=${num}`
         str += `&page_cut=${parseInt($('.page-cut').val())}`;
+        if(params.table=='master_subscribe'){
+            str += `&master_pk=${params.pk}`
+        }
         const { data: response } = await axios.get(str)
         setPosts(response.data.data)
         setPageList(range(1, response.data.maxPage))
