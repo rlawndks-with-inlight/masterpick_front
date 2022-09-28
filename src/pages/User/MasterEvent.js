@@ -1,35 +1,31 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import theme from '../../styles/theme';
-import SelectSubType from '../../components/elements/SelectSubType';
-import { zTalk, zTheme } from '../../data/TestData';
-import SubType from '../../components/elements/SubType';
-import testImg from '../../assets/images/test/test5.jpg';
 import axios from 'axios';
-import { backUrl, slideSetting } from '../../data/Data';
-import { getIframeLinkByLink } from '../../functions/utils';
-import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv } from '../../components/elements/UserContentTemplete';
-import ThemeCard from '../../components/ThemeCard'
-import VideoCard from '../../components/VideoCard';
+import { Wrappers, Title, Content } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
+import ContentTable from '../../components/ContentTable';
+import styled from 'styled-components';
 
+const ScreenDiv = styled.div`
+width:90%;
+height:134px;
+position:absolute;
+background:linear-gradient(to left, #FFB92B, #FB8200);
+opacity:0.97;
+left:5%;
+top:30px;
+font-size:${props=>props.theme.size.font1};
+font-weight:bold;
+color:#fff;
+display:flex;
+cursor:pointer;
+`
 const MasterEvent = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
     const [posts, setPosts] = useState([]);
-    const [setting, setSetting] = useState({});
-    const [masters, setMasters] = useState([])
-    const [oneWord, setOneWord] = useState({});
-    const [issues, setIssues] = useState([]);
-    const [oneEvent, setOneEvent] = useState({});
-    const [themes, setThemes] = useState([]);
-    const [videos, setVideos] = useState([]);
-    const [strategies, setStrategies] = useState([]);
+
     const [loading, setLoading] = useState(false);
 
 
@@ -44,36 +40,17 @@ const MasterEvent = () => {
     };
 
     useEffect(() => {
-        setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            //setLoading(true)
+            setLoading(true)
 
-            const { data: response } = await axios.get('/api/gethomecontent')
-            setSetting(response.data.setting);
-            setMasters(response.data.masters)
-            setOneWord(response.data.oneWord);
-            setIssues(response.data.issues);
-            setOneEvent(response.data.oneEvent);
-            setThemes(response.data.themes);
-            setStrategies(response.data.strategies)
-            let video_list = response.data?.videos
-            for (var i = 0; i < video_list.length; i++) {
-                video_list[i].link = getIframeLinkByLink(video_list[i].link);
-            }
-            setVideos(video_list);
-            //setTimeout(() => setLoading(false), 1500);
+            const { data: response } = await axios.get('/api/getmastercontents?table=master_event&order=level')
+            console.log(response)
+            setPosts(response.data)
+            setTimeout(() => setLoading(false), 1000);
         }
         fetchPost();
     }, [])
-    const onChangeStrategyNum = async (num, pk) => {
-        setSubTypeNum(num)
-        let str = `/api/items?table=strategy&limit=3&status=1`;
-        if (pk != 0) {
-            str += `&user_pk=${pk}`;
-        }
-        const { data: response } = await axios.get(str);
-        setStrategies(response?.data)
-    }
+
     return (
         <>
             <Wrappers className='wrappers'>
@@ -87,8 +64,19 @@ const MasterEvent = () => {
                             <Title>대가들의 종목</Title>
                         </Content>
 
-
-                    </>}
+                        <div style={{ position: 'relative' }}>
+                            <ScreenDiv onClick={()=>navigate('/masterlist')}>
+                                <p style={{margin:'auto'}}>TOP 5 보러가기</p>
+                            </ScreenDiv>
+                            <ContentTable columns={[
+                                { name: "대가이름", column: "master_name", width: 25, type: 'text'  },
+                                { name: "종목명", column: "name", width: 50, type: 'text'  },
+                                { name: "등급", column: "level", width: 25, type: 'text'  }
+                            ]}
+                                data={posts} />
+                        </div>
+                    </>
+                }
 
             </Wrappers>
         </>

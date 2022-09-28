@@ -20,54 +20,55 @@ import Loading from '../../components/Loading';
 import MasterSlide from '../../components/MasterSlide';
 import MasterContentSlide from '../../components/MasterContentSlide';
 import PleaseSelectMaster from '../../components/PleaseSelectMaster';
+import ContentTable from '../../components/ContentTable';
 
 const Yield = () => {
     const navigate = useNavigate();
-    const [subTypeNum, setSubTypeNum] = useState(0)
+
     const [posts, setPosts] = useState([]);
-    const [setting, setSetting] = useState({});
-    const [masters, setMasters] = useState([])
-    const [oneWord, setOneWord] = useState({});
-    const [issues, setIssues] = useState([]);
-    const [oneEvent, setOneEvent] = useState({});
-    const [themes, setThemes] = useState([]);
-    const [videos, setVideos] = useState([]);
-    const [strategies, setStrategies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [typeNum, setTypeNum] = useState(0)
 
+    useEffect(() => {
+        async function fetchPost() {
+            setLoading(true)
 
+            const { data: response } = await axios.get('/api/getmastercontents?table=master_yield&order=yield&desc=true')
+            console.log(response)
+            setPosts(response.data)
+            setTimeout(() => setLoading(false), 1000);
+        }
+        fetchPost();
+    }, [])
 
-    const settings = {
-        infinite: true,
-        speed: 500,
-        autoplay: false,
-        autoplaySpeed: 2500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-
-
-    const selectTypeNum = useCallback((num) => {
+    const selectTypeNum = useCallback(async (num) => {
+        setLoading(true)
         setTypeNum(num)
+        const { data: response } = await axios.get(`/api/getmastercontents?table=master_yield&order=yield&desc=true&pk=${num}`)
+        console.log(response)
+        setPosts(response.data)
+        setTimeout(() => setLoading(false), 1000);
     }, [])
     return (
         <>
             <Wrappers className='wrappers'>
+                <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
                 {loading ?
                     <>
                         <Loading />
                     </>
                     :
                     <>
-                        <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
-                        {typeNum==0?
-                        <>
-                        <PleaseSelectMaster/>
-                        </>
-                        :
-                        <>
-                        </>}
+                        <div style={{ position: 'relative' }}>
+                            <ContentTable columns={[
+                                { name: "대가명", column: "master_name", width: 30, type: 'text' },
+                                { name: "종목명", column: "name", width: 30, type: 'text' },
+                                { name: "매수가", column: "purchase_price", width: 30, type: 'number' },
+                                { name: "수익률", column: "yield", width: 30, type: 'percent' },
+                                { name: "보유기간", column: "period", width: 30, type: 'day' }
+                            ]}
+                                data={posts} />
+                        </div>
                     </>}
             </Wrappers>
         </>

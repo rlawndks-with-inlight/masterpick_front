@@ -25,45 +25,95 @@ width:90%;
 }
 
 `
+const SectorContainer = styled.div`
+width:90%;
+max-width:700px;
+margin:0 auto;
+margin-bottom:20px;
+font-size:${(props) => props.theme.size.font5};
+`
+const Progress = styled.progress`
+
+appearance: none;
+width: 100%;
+height:8px;
+color:red;
+background: #red;
+
+::-webkit-progress-bar {
+    background: #fff;
+    border-radius: 0;
+}
+::-webkit-progress-value{
+    background: #3BBAD5;
+
+}
+`
 const Master = () => {
     const navigate = useNavigate();
     const params = useParams();
     const { state } = useLocation();
-    const [posts, setPosts] = useState([]);
-    const [typeNum, setTypeNum] = useState(1)
-    const [subTypeNum, setSubTypeNum] = useState(0)
     const [item, setItem] = useState({})
-    useEffect(()=>{
+    const [sectorList, setSectorList] = useState([])
+    const [sectorMax, setSectorMax] = useState(0)
+    useEffect(() => {
         console.log(params)
-    },[params])
-    useEffect(()=>{
-        async function fetchPost(){
-            const {data:response} = await axios.get(`/api/item?table=master&pk=${params.pk}`)
+    }, [params])
+    useEffect(() => {
+        async function fetchPost() {
+            const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
+            console.log(response)
             setItem(response.data)
             let obj = response.data;
-            if(response.data.investment_principle){
+            if (response.data.investment_principle) {
                 $('.principle').html(stringToHTML(obj['investment_principle'], backUrl))
-                $('.principle > img').css({"width": "100%","max-width":"700px"});
-            }else{
+                $('.principle > img').css({ "width": "100%", "max-width": "700px" });
+            } else {
                 $('.principle').html("");
             }
-            if(response.data.investment_style){
+            if (response.data.investment_style) {
                 $('.style').html(stringToHTML(obj['investment_style'], backUrl))
-                $('.style > img').css({"width": "100%","max-width":"700px"});
-            }else{
+                $('.style > img').css({ "width": "100%", "max-width": "700px" });
+            } else {
                 $('.style').html("");
             }
-            
+            let sector_list = JSON.parse(response.data?.sector_list);
+            sector_list = sector_list.sort(function (a, b) {
+                return b.percent - a.percent
+            })
+            let max = 0;
+            for (var i = 0; i < sector_list.length; i++) {
+                if (sector_list[i].percent > max) {
+                    max = sector_list[i].percent;
+                }
+            }
+            setSectorMax(max)
+            setSectorList(sector_list)
         }
-        fetchPost()
-    },[params])
+        fetchPost();
+    }, [params])
+    const addSubscribeMaster = async () => {
+        if (localStorage.getItem('auth')) {
+            if (window.confirm('구독 하시겠습니까?')) {
+                const { data: response } = await axios.post('/api/addsubscribemaster', {
+                    user_pk: JSON.parse(localStorage.getItem('auth'))?.pk,
+                    master_pk: params.pk
+                })
+                console.log(response)
+            }
+        } else {
+            alert('로그인을 해주세요.');
+            navigate('/login');
+            return;
+        }
+    }
     return (
         <>
             <Wrappers>
-                <MasterSlide/>
+                <MasterSlide />
                 <Title>대가 프로필</Title>
-                <div style={{margin:'0 2px 0 auto'}}>
-                    <TransparentButton>+ 구독</TransparentButton>
+                <div style={{ margin: '0 2px 0 auto' }}>
+                    <TransparentButton onClick={addSubscribeMaster}>+ 구독</TransparentButton>
                 </div>
                 <MasterCard item={item} />
                 <Title>대가 투자원칙</Title>
@@ -72,9 +122,26 @@ const Master = () => {
                 <Title>대가 투자 스타일</Title>
                 <div className="note style">
                 </div>
-                <Title>투자 섹터 비중</Title>
+                {sectorList && sectorList.length > 0 ?
+                    <>
+                        <Title>투자 섹터 비중</Title>
+                        <SectorContainer>
+                            {sectorList.map((itm, idx) => (
+                                <>
+                                    <div style={{ display: 'flex', marginBottom: '4px' }}>
+                                        <div style={{ color: '#2F2F6E', width: '15%', textAlign: 'end' }}>{itm.title}</div>
+                                        <div style={{ display: 'flex', alignItems: 'center', width: '10%', textAlign: 'left', marginLeft: '8px' }}>{itm.percent}</div>
+                                        <div style={{ display: 'flex', alignItems: 'center', width: '80%' }}><Progress value={`${itm.percent}`} max={sectorMax} /></div>
+                                    </div>
+                                </>
+                            ))}
+                        </SectorContainer>
+                    </>
+                    :
+                    <>
+                    </>}
 
-                <Button>구독하기</Button>
+                <Button onClick={addSubscribeMaster}>구독하기</Button>
             </Wrappers>
         </>
     )
