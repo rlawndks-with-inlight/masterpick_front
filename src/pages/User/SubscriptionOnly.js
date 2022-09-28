@@ -49,18 +49,19 @@ const SubscriptionOnly = () => {
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&pk=${num}`)
         console.log(response)
         setPosts(response.data)
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 500);
     }, [])
     return (
         <>
             <Wrappers className='wrappers'>
+                <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
+
                 {loading ?
                     <>
                         <Loading />
                     </>
                     :
                     <>
-                        <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
                         <div style={{ position: 'relative' }}>
                             <ContentTable columns={[
                                 { name: "대가명", column: "master_name", width: 25, type: 'text' },
