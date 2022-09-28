@@ -43,15 +43,13 @@ const HowToUse = () => {
 
     useEffect(() => {
         async function fetchPost() {
-            setLoading(true)
             const { data: response } = await axios.get('/api/setting')
+            console.log(response)
             let obj = response.data;
             setSetting(response.data);
             obj.note = stringToHTML(obj[zMenu[typeNum]['column']], backUrl)
             $('.note').html(obj.note)
             $('.note > img').css("width", "100%")
-            setLoading(false)
-
         }
         fetchPost();
     }, [])
@@ -74,15 +72,15 @@ const HowToUse = () => {
                         <Content>
                             <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                         </Content>
-                        <Width90Component>
-                            <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
-                        </Width90Component>
-                        <Width90Component style={{ minHeight: '128px', background: `${theme.color.background3}` }}>
-                            <div style={{ padding: '16px' }} className="note">
-                            </div>
-                        </Width90Component>
-                    </>}
 
+                    </>}
+                <Width90Component>
+                    <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
+                </Width90Component>
+                <Width90Component style={{ minHeight: '128px', background: `${theme.color.background3}` }}>
+                    <div style={{ padding: '16px' }} className="note">
+                    </div>
+                </Width90Component>
 
             </Wrappers>
         </>
