@@ -39,18 +39,17 @@ const Master = () => {
     useEffect(()=>{
         async function fetchPost(){
             const {data:response} = await axios.get(`/api/item?table=master&pk=${params.pk}`)
-            console.log(response)
             setItem(response.data)
             let obj = response.data;
             if(response.data.investment_principle){
                 $('.principle').html(stringToHTML(obj['investment_principle'], backUrl))
-                $('.principle > img').css("width", "100%")
+                $('.principle > img').css({"width": "100%","max-width":"700px"});
             }else{
                 $('.principle').html("");
             }
             if(response.data.investment_style){
                 $('.style').html(stringToHTML(obj['investment_style'], backUrl))
-                $('.style > img').css("width", "100%")
+                $('.style > img').css({"width": "100%","max-width":"700px"});
             }else{
                 $('.style').html("");
             }

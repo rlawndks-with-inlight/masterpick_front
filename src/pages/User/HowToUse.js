@@ -59,6 +59,7 @@ const HowToUse = () => {
         obj.note = stringToHTML(obj[zMenu[num]['column']], backUrl)
         $('.note').html(obj.note)
         $('.note > img').css("width", "100%")
+        $('.note > img').css("max-width", "700px")
     }, [setting])
     return (
         <>

@@ -15,7 +15,6 @@ export function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 export const stringToHTML = (str,backUrl) => {
-    console.log(str)
     let strr = str;
     let parser = new DOMParser();
     strr = str.replaceAll('http://localhost:8001', backUrl);
