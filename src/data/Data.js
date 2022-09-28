@@ -66,9 +66,9 @@ export const objManagerListContent = {
         breadcrumb: '구독전용',
         schema: 'master_subscribe',
         zColumn: [
-            { name: '종목명', width: 15, type: 'img', column: 'profile_img' },
-            { name: '기준가', width: 15, type: 'text', column: 'name' },
-            { name: '포착일시', width: 23, type: 'text', column: 'date' },
+            { name: '종목명', width: 15, type: 'text', column: 'name' },
+            { name: '기준가', width: 15, type: 'text', column: 'base_price' },
+            { name: '포착일시', width: 23, type: 'text', column: 'capture_date' },
             { name: '생성시간', width: 23, type: 'text', column: 'date' },
             { name: '맨위로', width: 8, type: 'top', column: '' },
             { name: '수정', width: 8, type: 'edit', column: 'edit' },
