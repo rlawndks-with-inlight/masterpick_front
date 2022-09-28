@@ -23,6 +23,7 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { RiDeleteBinLine } from 'react-icons/ri'
+import Loading from '../../components/Loading';
 
 const MMasterSubscribeEdit = () => {
     const params = useParams();
@@ -30,7 +31,7 @@ const MMasterSubscribeEdit = () => {
 
     const [myNick, setMyNick] = useState("")
     const [masterList, setMasterList] = useState([])
-
+    const [loading, setLoading] = useState(false)
     //표-start
     const [sectorList, setSectorList] = useState([])
     const [takeList, setTakeList] = useState([])//매출액
@@ -65,18 +66,59 @@ const MMasterSubscribeEdit = () => {
     useEffect(() => {
         async function fetchPost() {
             const { data: masterresponse } = await axios.get('/api/items?table=master')
-            console.log(masterresponse)
             setMasterList(masterresponse?.data ?? []);
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/item?table=master_subscribe&pk=${params.pk}`);
-                console.log(response)
-                let sector_list = response.data;
-                setSectorList(sector_list);
+                $('.name').val(response?.data?.name);
+                $('.base_price').val(response?.data?.base_price);
+                $('.capture_date').val(response?.data?.capture_date);
+                $('.score').val(response?.data?.score);
+                $('.weather').val(response?.data?.weather);
+                $('.master_pk').val(response?.data?.master_pk);
+                $('.major_bussiness_text').val(response?.data?.major_bussiness_text);
+                $('.capital_change_text').val(response?.data?.capital_change_text);
+                let take_list = JSON.parse(response?.data?.take_list);
+                setTakeList(take_list);
                 await new Promise((r) => setTimeout(r, 100));
-                for (var i = 0; i < sector_list.length; i++) {
-                    $(`.sector-td-1-${i}`).val(sector_list[i]?.name);
-                    $(`.sector-td-2-${i}`).val(sector_list[i]?.level);
+                for (var i = 0; i < take_list.length; i++) {
+                    $(`.take-td-1-${i}`).val(take_list[i]?.year);
+                    $(`.take-td-2-${i}`).val(take_list[i]?.price);
                 }
+                let operating_profit_list = JSON.parse(response?.data?.operating_profit_list);
+                setOperatingProfitList(operating_profit_list);
+                await new Promise((r) => setTimeout(r, 100));
+                for (var i = 0; i < operating_profit_list.length; i++) {
+                    $(`.operatingProfit-td-1-${i}`).val(operating_profit_list[i]?.year);
+                    $(`.operatingProfit-td-2-${i}`).val(operating_profit_list[i]?.price);
+                }
+                let investment_point_list = JSON.parse(response?.data?.investment_point_list);
+                setInvestmentPointList(investment_point_list);
+                await new Promise((r) => setTimeout(r, 100));
+                for (var i = 0; i < investment_point_list.length; i++) {
+                    $(`.investmentPoint-td-1-${i}`).val(investment_point_list[i]?.element);
+                    $(`.investmentPoint-td-2-${i}`).val(investment_point_list[i]?.score);
+                    $(`.investmentPoint-td-3-${i}`).val(investment_point_list[i]?.sub_title);
+                }
+                let major_bussiness_list = JSON.parse(response?.data?.major_bussiness_list);
+                setMajorBussinessList(major_bussiness_list);
+                await new Promise((r) => setTimeout(r, 100));
+                for (var i = 0; i < major_bussiness_list.length; i++) {
+                    $(`.majorBussiness-td-1-${i}`).val(major_bussiness_list[i]?.element);
+                    $(`.majorBussiness-td-2-${i}`).val(major_bussiness_list[i]?.price);
+                    $(`.majorBussiness-td-3-${i}`).val(major_bussiness_list[i]?.percent);
+                }
+                setUrl(backUrl + response.data?.major_bussiness_img);
+                setUrl2(backUrl + response.data?.capital_change_img);
+                setUrl3(backUrl + response.data?.investment_indicator_img);
+                mainRef.current.getInstance().setHTML(response.data?.main_note.replaceAll('http://localhost:8001', backUrl));
+                companyOverviewRef.current.getInstance().setHTML(response.data?.company_overview_note.replaceAll('http://localhost:8001', backUrl));
+                investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
+                majorBussinessRef.current.getInstance().setHTML(response.data?.major_bussiness_note.replaceAll('http://localhost:8001', backUrl));
+                shareRef.current.getInstance().setHTML(response.data?.share_note.replaceAll('http://localhost:8001', backUrl));
+                capitalChangeRef.current.getInstance().setHTML(response.data?.capital_change_note.replaceAll('http://localhost:8001', backUrl));
+                investmentIndicatorRef.current.getInstance().setHTML(response.data?.investment_indicator_note.replaceAll('http://localhost:8001', backUrl));
+                etcRef.current.getInstance().setHTML(response.data?.etc_note.replaceAll('http://localhost:8001', backUrl));
+                
             } else {
 
             }
@@ -144,10 +186,20 @@ const MMasterSubscribeEdit = () => {
             if (params.pk > 0) {
                 formData.append('pk', params.pk);
                 const { data: response } = await axios.post('/api/updatesubscribecontent', formData);
-                console.log(response)
+                if(response.result>0){
+                    alert('성공적으로 저장되었습니다.');
+                    navigate(-1);
+                }else{
+                    alert(response.message);
+                }
             } else if (params.pk == 0) {
                 const { data: response } = await axios.post('/api/addsubscribecontent', formData);
-                console.log(response)
+                if(response.result>0){
+                    alert('성공적으로 저장되었습니다.');
+                    navigate(-1);
+                }else{
+                    alert(response.message);
+                }
             } else {
                 return;
             }
@@ -177,479 +229,488 @@ const MMasterSubscribeEdit = () => {
             <ManagerWrappers>
                 <SideBar />
                 <ManagerContentWrappers>
-                    <Breadcrumb title={params.pk == 0 ? '거장구독컨텐츠 추가' : '거장구독컨텐츠 수정'} nickname={myNick} />
-                    <Card>
-                        <Row>
-                            <Col>
-                                <Title>종목명</Title>
-                                <Input className='name' placeholder='종목명을 입력해주세요.' />
-                            </Col>
-                            <Col>
-                                <Title>기준가</Title>
-                                <Input className='base_price' placeholder='숫자를 입력해주세요.' />
-                            </Col>
-                            <Col>
-                                <Title>포착일시</Title>
-                                <Input className='capture_date' type={'date'} />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>투자점수</Title>
-                                <Input className='score' placeholder='100 이하 숫자를 입력해주세요.' />
-                            </Col>
-                            <Col>
-                                <Title>투자날씨</Title>
-                                <Select className='weather'>
-                                    <option value={0}>맑음 : 강력매수</option>
-                                    <option value={1}>구름 조금 : 매수</option>
-                                    <option value={2}>흐림 : 중립</option>
-                                    <option value={3}>약한비 : 매도</option>
-                                    <option value={4}>비 : 강력매도</option>
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Title>대가명</Title>
-                                <Select className='master_pk'>
-                                    {masterList.map((item, idx) => (
-                                        <>
-                                            <option value={item.pk}>{item.name}</option>
-                                        </>
-                                    ))}
-                                </Select>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>메인 콘텐츠</Title>
-                                <Title>&nbsp;&nbsp;&nbsp;(1) 메인 이미지 및 텍스트</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={mainRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                    {loading ?
+                        <>
+                            <Loading />
+                        </>
+                        :
+                        <>
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>매출액</Title>
-                                <Container>
-                                    <Table>
-                                        <Tr>
-                                            <Td>연도</Td>
-                                            <Td>매출액</Td>
-                                            <Td style={{ width: '20%' }}>삭제</Td>
-                                        </Tr>
-                                        {takeList && takeList.map((item, idx) => (
-                                            <>
-                                                <Tr className={`take-tr-${idx}`}>
-                                                    <Td ><SectorInput className={`take-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`take-td-2-${idx}`} /> </Td>
-                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.take-tr-${idx}`).css('display', 'none') }} /></Td>
+                            <Breadcrumb title={params.pk == 0 ? '거장구독컨텐츠 추가' : '거장구독컨텐츠 수정'} nickname={myNick} />
+                            <Card>
+                                <Row>
+                                    <Col>
+                                        <Title>종목명</Title>
+                                        <Input className='name' placeholder='종목명을 입력해주세요.' />
+                                    </Col>
+                                    <Col>
+                                        <Title>기준가</Title>
+                                        <Input className='base_price' placeholder='숫자를 입력해주세요.' />
+                                    </Col>
+                                    <Col>
+                                        <Title>포착일시</Title>
+                                        <Input className='capture_date' type={'date'} />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>투자점수</Title>
+                                        <Input className='score' placeholder='100 이하 숫자를 입력해주세요.' />
+                                    </Col>
+                                    <Col>
+                                        <Title>투자날씨</Title>
+                                        <Select className='weather'>
+                                            <option value={0}>맑음 : 강력매수</option>
+                                            <option value={1}>구름 조금 : 매수</option>
+                                            <option value={2}>흐림 : 중립</option>
+                                            <option value={3}>약한비 : 매도</option>
+                                            <option value={4}>비 : 강력매도</option>
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <Title>대가명</Title>
+                                        <Select className='master_pk'>
+                                            {masterList.map((item, idx) => (
+                                                <>
+                                                    <option value={item.pk}>{item.name}</option>
+                                                </>
+                                            ))}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>메인 콘텐츠</Title>
+                                        <Title>&nbsp;&nbsp;&nbsp;(1) 메인 이미지 및 텍스트</Title>
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={mainRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
+
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>매출액</Title>
+                                        <Container>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>연도</Td>
+                                                    <Td>매출액</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
                                                 </Tr>
-                                            </>
-                                        ))}
-                                    </Table>
-                                    <SectorAddButton onClick={() => { setTakeList([...takeList, ...[{}]]) }}>+추가</SectorAddButton>
-                                </Container>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>영업이익</Title>
-                                <Container>
-                                    <Table>
-                                        <Tr>
-                                            <Td>연도</Td>
-                                            <Td>매출액</Td>
-                                            <Td style={{ width: '20%' }}>삭제</Td>
-                                        </Tr>
-                                        {operatingProfitList && operatingProfitList.map((item, idx) => (
-                                            <>
-                                                <Tr className={`operatingProfit-tr-${idx}`}>
-                                                    <Td ><SectorInput className={`operatingProfit-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`operatingProfit-td-2-${idx}`} /> </Td>
-                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.operatingProfit-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                {takeList && takeList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`take-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`take-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`take-td-2-${idx}`} /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.take-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setTakeList([...takeList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>영업이익</Title>
+                                        <Container>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>연도</Td>
+                                                    <Td>매출액</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
                                                 </Tr>
-                                            </>
-                                        ))}
-                                    </Table>
-                                    <SectorAddButton onClick={() => { setOperatingProfitList([...operatingProfitList, ...[{}]]) }}>+추가</SectorAddButton>
-                                </Container>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>1. 기업개요</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={companyOverviewRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                                {operatingProfitList && operatingProfitList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`operatingProfit-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`operatingProfit-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`operatingProfit-td-2-${idx}`} /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.operatingProfit-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setOperatingProfitList([...operatingProfitList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>1. 기업개요</Title>
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={companyOverviewRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>2. 투자 포인트</Title>
-                                <Title>&nbsp;&nbsp;&nbsp;(1) 막대 그래프</Title>
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>2. 투자 포인트</Title>
+                                        <Title>&nbsp;&nbsp;&nbsp;(1) 막대 그래프</Title>
 
-                                <Container>
-                                    <Table>
-                                        <Tr>
-                                            <Td>요소</Td>
-                                            <Td>점수</Td>
-                                            <Td>부제목</Td>
-                                            <Td style={{ width: '20%' }}>삭제</Td>
-                                        </Tr>
-                                        {investmentPointList && investmentPointList.map((item, idx) => (
-                                            <>
-                                                <Tr className={`investmentPoint-tr-${idx}`}>
-                                                    <Td ><SectorInput className={`investmentPoint-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`investmentPoint-td-2-${idx}`} /> </Td>
-                                                    <Td ><SectorInput className={`investmentPoint-td-3-${idx}`} /> </Td>
-                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.investmentPoint-tr-${idx}`).css('display', 'none') }} /></Td>
+                                        <Container>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>요소</Td>
+                                                    <Td>점수</Td>
+                                                    <Td>부제목</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
                                                 </Tr>
-                                            </>
-                                        ))}
-                                    </Table>
-                                    <SectorAddButton onClick={() => { setInvestmentPointList([...investmentPointList, ...[{}]]) }}>+추가</SectorAddButton>
-                                </Container>
-                                <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
+                                                {investmentPointList && investmentPointList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`investmentPoint-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`investmentPoint-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`investmentPoint-td-2-${idx}`} /> </Td>
+                                                            <Td ><SectorInput className={`investmentPoint-td-3-${idx}`} /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.investmentPoint-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setInvestmentPointList([...investmentPointList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+                                        <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
 
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={investmentPointRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={investmentPointRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>3. 주요 사업</Title>
-                                <Title>&nbsp;&nbsp;&nbsp;(1) 원형 그래프</Title>
-                                <Container>
-                                    <Table>
-                                        <Tr>
-                                            <Td>부문</Td>
-                                            <Td>매출액</Td>
-                                            <Td>퍼센트</Td>
-                                            <Td style={{ width: '20%' }}>삭제</Td>
-                                        </Tr>
-                                        {majorBussinessList && majorBussinessList.map((item, idx) => (
-                                            <>
-                                                <Tr className={`majorBussiness-tr-${idx}`}>
-                                                    <Td ><SectorInput className={`majorBussiness-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`majorBussiness-td-2-${idx}`} /> </Td>
-                                                    <Td ><SectorInput className={`majorBussiness-td-3-${idx}`} /> </Td>
-                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.majorBussiness-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>3. 주요 사업</Title>
+                                        <Title>&nbsp;&nbsp;&nbsp;(1) 원형 그래프</Title>
+                                        <Container>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>부문</Td>
+                                                    <Td>매출액</Td>
+                                                    <Td>퍼센트</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
                                                 </Tr>
-                                            </>
-                                        ))}
-                                    </Table>
-                                    <SectorAddButton onClick={() => { setMajorBussinessList([...majorBussinessList, ...[{}]]) }}>+추가</SectorAddButton>
-                                </Container>
-                                <Title>&nbsp;&nbsp;&nbsp;(2) 표 이미지</Title>
-                                <ImageContainer for="file1">
+                                                {majorBussinessList && majorBussinessList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`majorBussiness-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`majorBussiness-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`majorBussiness-td-2-${idx}`} /> </Td>
+                                                            <Td ><SectorInput className={`majorBussiness-td-3-${idx}`} /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.majorBussiness-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setMajorBussinessList([...majorBussinessList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+                                        <Title>&nbsp;&nbsp;&nbsp;(2) 표 이미지</Title>
+                                        <ImageContainer for="file1">
 
-                                    {url ?
-                                        <>
-                                            <img src={url} alt="#"
-                                                style={{
-                                                    width: 'auto', height: '8rem',
-                                                    margin: '2rem'
-                                                }} />
-                                        </>
-                                        :
-                                        <>
-                                            <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                        </>}
-                                </ImageContainer>
-                                <div>
-                                    <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
-                                </div>
-                                <Input className='major_bussiness_text' />
-                                <Title>&nbsp;&nbsp;&nbsp;(3) 설명</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={majorBussinessRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                            {url ?
+                                                <>
+                                                    <img src={url} alt="#"
+                                                        style={{
+                                                            width: 'auto', height: '8rem',
+                                                            margin: '2rem'
+                                                        }} />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
+                                        </div>
+                                        <Input className='major_bussiness_text' />
+                                        <Title>&nbsp;&nbsp;&nbsp;(3) 설명</Title>
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={majorBussinessRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>4. 지배구조, 자본금 변동사항</Title>
-                                <Title>&nbsp;&nbsp;&nbsp;(1) 최대주주 및 특수관계인 지분</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={shareRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>4. 지배구조, 자본금 변동사항</Title>
+                                        <Title>&nbsp;&nbsp;&nbsp;(1) 최대주주 및 특수관계인 지분</Title>
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={shareRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                                <Title>&nbsp;&nbsp;&nbsp;(2) 자본금 변동사항</Title>
-                                <ImageContainer for="file2">
-                                    {url2 ?
-                                        <>
-                                            <img src={url2} alt="#"
-                                                style={{
-                                                    width: 'auto', height: '8rem',
-                                                    margin: '2rem'
-                                                }} />
-                                        </>
-                                        :
-                                        <>
-                                            <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                        </>}
-                                </ImageContainer>
-                                <div>
-                                    <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
-                                </div>
-                                <Input className='capital_change_text' />
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={capitalChangeRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                        <Title>&nbsp;&nbsp;&nbsp;(2) 자본금 변동사항</Title>
+                                        <ImageContainer for="file2">
+                                            {url2 ?
+                                                <>
+                                                    <img src={url2} alt="#"
+                                                        style={{
+                                                            width: 'auto', height: '8rem',
+                                                            margin: '2rem'
+                                                        }} />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
+                                        </div>
+                                        <Input className='capital_change_text' />
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={capitalChangeRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>5. 투자 지표</Title>
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>5. 투자 지표</Title>
 
-                                <Title>&nbsp;&nbsp;&nbsp;(1) 표 이미지</Title>
-                                <ImageContainer for="file3">
-                                    {url3 ?
-                                        <>
-                                            <img src={url3} alt="#"
-                                                style={{
-                                                    width: 'auto', height: '8rem',
-                                                    margin: '2rem'
-                                                }} />
-                                        </>
-                                        :
-                                        <>
-                                            <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                        </>}
-                                </ImageContainer>
-                                <div>
-                                    <input type="file" id="file3" onChange={addFile3} style={{ display: 'none' }} />
-                                </div>
-                                <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
+                                        <Title>&nbsp;&nbsp;&nbsp;(1) 표 이미지</Title>
+                                        <ImageContainer for="file3">
+                                            {url3 ?
+                                                <>
+                                                    <img src={url3} alt="#"
+                                                        style={{
+                                                            width: 'auto', height: '8rem',
+                                                            margin: '2rem'
+                                                        }} />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '4rem', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file3" onChange={addFile3} style={{ display: 'none' }} />
+                                        </div>
+                                        <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
 
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={investmentIndicatorRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={investmentIndicatorRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>6. 추가 내용들</Title>
-                                <div id="editor">
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={etcRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>6. 추가 내용들</Title>
+                                        <div id="editor">
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={etcRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                    </Card>
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Card>
 
-                    <ButtonContainer>
-                        <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
-                        <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '저장'}</AddButton>
-                    </ButtonContainer>
+                            <ButtonContainer>
+                                <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
+                                <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '저장'}</AddButton>
+                            </ButtonContainer>
+                        </>
+                    }
                 </ManagerContentWrappers>
             </ManagerWrappers>
         </>

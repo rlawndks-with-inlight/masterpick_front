@@ -72,7 +72,7 @@ const MItemEdit = () => {
                 }
                 editorRef.current.getInstance().setHTML(response.data.note.replaceAll('http://localhost:8001', backUrl));
                 setUrl(backUrl + response.data.main_img);
-                setItem(response.data)
+                setItem(response.data);
             } else {
 
                 $('.font-color').val(cardDefaultColor.font)
@@ -99,10 +99,8 @@ const MItemEdit = () => {
             }
             formData.append('user_pk', auth.level >= 40 && params.table == 'strategy' ? $('.channel').val() : auth.pk)
             formData.append('note', editorRef.current.getInstance().getHTML());
-            console.log(auth.level >= 40 && params.table == 'strategy')
             if (params.table == 'issue' || params.table == 'feature') formData.append('category_pk', $('.category').val())
             if (params.pk > 0) formData.append('pk', params.pk);
-            console.log(formData)
             if (window.confirm(`저장하시겠습니까?`)) {
 
                 formData.append('font_color', $('.font-color').val());
@@ -139,7 +137,6 @@ const MItemEdit = () => {
 
     const onEmojiClick = (event, emojiObject) => {
         setChosenEmoji(emojiObject);
-        console.log(emojiObject)
     };
     return (
         <>

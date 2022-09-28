@@ -34,7 +34,6 @@ const MMasterEventEdit = () => {
         async function fetchPost() {
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&pk=${params.pk}`);
-                console.log(response)
                 let sector_list = response.data;
                 setSectorList(sector_list);
                 await new Promise((r) => setTimeout(r, 100));
@@ -53,7 +52,6 @@ const MMasterEventEdit = () => {
             let sector_list = [];
             for (var i = 0; i < sectorList.length; i++) {
                 if ($(`.sector-tr-${i}`).css('display') != 'none') {
-                    console.log($(`.sector-td-2-${i}`).val())
                     sector_list.push(
                         [$(`.sector-td-1-${i}`).val(), $(`.sector-td-2-${i}`).val(), params.pk]
                     )
