@@ -100,9 +100,10 @@ const SideBar = () => {
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
     const zSidebar = [
         { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
+        { name: '메인페이지', link: '/manager/edit/main', icon: <BsPerson />, level: 40, allow_list: ['/manager/edit/main'] },
         //{ name: '접속자현황', link: '/manager/list/user', icon: <MdOutlineAccessTime /> },
         //{ name: '회원통계', link: '/manager/list/user', icon: <IoStatsChartSharp /> },
-        { name: '환경설정', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
+        { name: '필독!활용법', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
         { name: '거장관리', link: '/manager/list/master', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/master'] },
         { name: '구독전용', link: '/manager/list/master_subscribe', icon: <SiYoutubemusic />, level: 40, allow_list: ['/manager/list/master_subscribe'] },
         //{ name: '채널관리', link: '/manager/list/channel', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/channel'] },

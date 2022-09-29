@@ -6,7 +6,7 @@ import { Wrappers, Title, Content } from '../../components/elements/UserContentT
 import Loading from '../../components/Loading';
 import ContentTable from '../../components/ContentTable';
 import styled from 'styled-components';
-
+import $ from 'jquery'
 const ScreenDiv = styled.div`
 width:90%;
 height:134px;
@@ -15,7 +15,7 @@ background:linear-gradient(to left, #FFB92B, #FB8200);
 opacity:0.97;
 left:5%;
 top:30px;
-font-size:${props=>props.theme.size.font1};
+font-size:${props => props.theme.size.font1};
 font-weight:bold;
 color:#fff;
 display:flex;
@@ -40,6 +40,7 @@ const MasterEvent = () => {
     };
 
     useEffect(() => {
+
         async function fetchPost() {
             setLoading(true)
 
@@ -65,13 +66,13 @@ const MasterEvent = () => {
                         </Content>
 
                         <div style={{ position: 'relative' }}>
-                            <ScreenDiv onClick={()=>navigate('/masterlist')}>
-                                <p style={{margin:'auto'}}>TOP 5 보러가기</p>
+                            <ScreenDiv onClick={() => navigate('/masterlist')}>
+                                <p style={{ margin: 'auto' }}>TOP 5 보러가기</p>
                             </ScreenDiv>
                             <ContentTable columns={[
-                                { name: "대가이름", column: "master_name", width: 25, type: 'text'  },
-                                { name: "종목명", column: "name", width: 50, type: 'text'  },
-                                { name: "등급", column: "level", width: 25, type: 'text'  }
+                                { name: "대가이름", column: "master_name", width: 25, type: 'text' },
+                                { name: "종목명", column: "name", width: 50, type: 'text' },
+                                { name: "등급", column: "level", width: 25, type: 'text' }
                             ]}
                                 data={posts} />
                         </div>

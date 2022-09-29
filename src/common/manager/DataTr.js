@@ -165,7 +165,17 @@ const DataTr = ({ id, data, index, moveCard, column, schema, list, sort, opTheTo
                             :
                             <>
                             </>}
-
+                        {col.type == 'paid' ?
+                            <>
+                                <Td style={{ width: `${col.width}%` }}>
+                                    {data.is_paid > 0 ?
+                                        '유료회원' :
+                                        '무료회원'}
+                                </Td>
+                            </>
+                            :
+                            <>
+                            </>}
                         {col.type == 'edit' ?
                             <>
                                 <Td style={{ width: `${col.width}%`, fontSize: '20px' }}>
@@ -184,7 +194,7 @@ const DataTr = ({ id, data, index, moveCard, column, schema, list, sort, opTheTo
                             :
                             <>
                             </>}
-                        
+
                         {col.type == 'yield_edit' ?//수익률수정
                             <>
                                 <Td style={{ width: `${col.width}%`, fontSize: '20px' }}>

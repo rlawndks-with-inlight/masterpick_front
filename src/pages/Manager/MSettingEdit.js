@@ -37,7 +37,7 @@ min-width:10rem;
 }
 `
 const Img = styled.img`
-width: 16rem; 
+width: auto; 
 height: 12rem;
 margin: 24px;
 @media screen and (max-width:700px) {
@@ -126,7 +126,7 @@ const MSettingEdit = () => {
             <ManagerWrappers>
                 <SideBar />
                 <ManagerContentWrappers>
-                    <Breadcrumb title={'환경설정'} nickname={myNick} />
+                    <Breadcrumb title={'필독!활용법'} nickname={myNick} />
                     <Card>
 
                         <Row>

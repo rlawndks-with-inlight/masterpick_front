@@ -33,7 +33,6 @@ import MMasterEdit from '../pages/Manager/MMasterEdit';
 import MMasterEventEdit from '../pages/Manager/MMasterEventEdit';
 import MMasterSubscribeEdit from '../pages/Manager/MMasterSubscribeEdit';
 import MMasterYieldEdit from '../pages/Manager/MMasterYieldEdit';
-import MSetting from '../pages/Manager/MSetting';
 import MIssueCategoryEdit from '../pages/Manager/MIssueCategoryEdit';
 import MFeatureCategoryEdit from '../pages/Manager/MFeatureCategoryEdit';
 import MVideoEdit from '../pages/Manager/MVideoEdit';
@@ -44,6 +43,7 @@ import MItemEdit from '../pages/Manager/MItemEdit';
 import MItemList from '../pages/Manager/MItemList';
 import MChannelEdit from '../pages/Manager/MChannelEdit';
 import Notice from '../pages/User/Notice/Notice';
+import MMainEdit from '../pages/Manager/MMainEdit';
 
 const zRoute = [
     { link: '/', element: <Home /> },
@@ -83,12 +83,13 @@ const zRoute = [
     { link: '/manager/edit/master_subscribe/:pk', element: <MMasterSubscribeEdit /> },
     { link: '/manager/yieldedit/master/:pk', element: <MMasterYieldEdit /> },
     { link: '/manager/edit/channel/:pk', element: <MChannelEdit /> },
-    { link: '/manager/setting', element: <MSetting /> },
+    // { link: '/manager/setting', element: <MSetting /> },
     { link: '/manager/edit/video/:pk', element: <MVideoEdit /> },
     { link: '/manager/edit/notice/:pk', element: <MNoticeEdit /> },
     { link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit /> },
     { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit /> },
     { link: '/manager/edit/setting', element: <MSettingEdit /> },
+    { link: '/manager/edit/main', element: <MMainEdit /> },
     { link: '/manager/edit/:table/:pk', element: <MItemEdit /> },
     { link: '/manager/list/:table/:pk', element: <MItemList /> },
     { link: '/manager/list/:table', element: <MItemList /> },

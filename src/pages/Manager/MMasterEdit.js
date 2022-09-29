@@ -159,7 +159,7 @@ const MMasterEdit = () => {
                                         <>
                                             <img src={url} alt="#"
                                                 style={{
-                                                    width: '200px', height: '150px',
+                                                    width: 'auto', height: '150px',
                                                     margin: '24px'
                                                 }} />
                                         </>

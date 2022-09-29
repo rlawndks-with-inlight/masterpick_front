@@ -7,6 +7,7 @@ import theme from '../styles/theme';
 import axios from 'axios';
 
 const MasterSlide = (props) => {
+    let { onClickMaster } = props;
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const params = useParams();
@@ -23,7 +24,7 @@ const MasterSlide = (props) => {
             <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
                 {masterList.map((item, index) => (
                     <>
-                        <SubType style={{ color: `${theme.color.font1}`, background: `${params.pk == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { navigate(`/master/${item.pk}`) }}>
+                        <SubType style={{ color: `${theme.color.font1}`, background: `${params.pk == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }}>
                             {item.name}
                         </SubType>
                     </>
