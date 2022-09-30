@@ -180,32 +180,42 @@ const Post = () => {
             setDonutObj(donut_obj)
             //note
             obj.main_note = stringToHTML(obj.main_note, backUrl)
-            $('.main_note').append(obj.main_note)
-            $('.main_note > img').css("width", "100%")
+            
             obj.company_overview_note = stringToHTML(obj.company_overview_note, backUrl)
-            $('.company_overview_note').append(obj.company_overview_note)
-            $('.company_overview_note > img').css("width", "100%")
+            
             obj.investment_point_note = stringToHTML(obj.investment_point_note, backUrl)
-            $('.investment_point_note').append(obj.investment_point_note)
-            $('.investment_point_note > img').css("width", "100%")
+            
             obj.major_bussiness_note = stringToHTML(obj.major_bussiness_note, backUrl)
-            $('.major_bussiness_note').append(obj.major_bussiness_note)
-            $('.major_bussiness_note > img').css("width", "100%")
+            
             obj.share_note = stringToHTML(obj.share_note, backUrl)
-            $('.share_note').append(obj.share_note)
-            $('.share_note > img').css("width", "100%")
+            
             obj.capital_change_note = stringToHTML(obj.capital_change_note, backUrl)
-            $('.capital_change_note').append(obj.capital_change_note)
-            $('.capital_change_note > img').css("width", "100%")
+            
             obj.investment_indicator_note = stringToHTML(obj.investment_indicator_note, backUrl)
-            $('.investment_indicator_note').append(obj.investment_indicator_note)
-            $('.investment_indicator_note > img').css("width", "100%")
+            
             obj.etc_note = stringToHTML(obj.etc_note, backUrl)
-            $('.etc_note').append(obj.etc_note)
-            $('.etc_note > img').css("width", "100%")
+            
+            console.log(obj)
             $('.note > body').css('margin', '0');
             setItem(obj);
             setLoading(false)
+            await new Promise((r) => setTimeout(r, 100));
+            $('.main_note').append(obj.main_note)
+            $('.main_note > img').css("width", "100%")
+            $('.company_overview_note').append(obj.company_overview_note)
+            $('.company_overview_note > img').css("width", "100%")
+            $('.investment_point_note').append(obj.investment_point_note)
+            $('.investment_point_note > img').css("width", "100%")
+            $('.major_bussiness_note').append(obj.major_bussiness_note)
+            $('.major_bussiness_note > img').css("width", "100%")
+            $('.share_note').append(obj.share_note)
+            $('.share_note > img').css("width", "100%")
+            $('.capital_change_note').append(obj.capital_change_note)
+            $('.capital_change_note > img').css("width", "100%")
+            $('.investment_indicator_note').append(obj.investment_indicator_note)
+            $('.investment_indicator_note > img').css("width", "100%")
+            $('.etc_note').append(obj.etc_note)
+            $('.etc_note > img').css("width", "100%")
         }
         fetchPost();
 
