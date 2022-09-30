@@ -9,7 +9,7 @@ import { BsPerson, BsCameraVideo } from 'react-icons/bs'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { AiOutlineQuestionCircle, AiOutlineRotateLeft } from 'react-icons/ai'
 import { SiYoutubemusic } from 'react-icons/si'
-
+import {RiPagesLine} from 'react-icons/ri'
 import axios from 'axios';
 const Wrappers = styled.div`
 display:flex;
@@ -100,7 +100,8 @@ const SideBar = () => {
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
     const zSidebar = [
         { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
-        { name: '메인페이지', link: '/manager/edit/main', icon: <BsPerson />, level: 40, allow_list: ['/manager/edit/main'] },
+        { name: '회원통계', link: '/manager/statistic/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/statistic/user'] },
+        { name: '메인페이지', link: '/manager/edit/main', icon: <RiPagesLine />, level: 40, allow_list: ['/manager/edit/main'] },
         //{ name: '접속자현황', link: '/manager/list/user', icon: <MdOutlineAccessTime /> },
         //{ name: '회원통계', link: '/manager/list/user', icon: <IoStatsChartSharp /> },
         { name: '필독!활용법', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
@@ -166,7 +167,7 @@ const SideBar = () => {
                 <div style={{ maxHeight: '80vh', paddingBottom: '32px' }}>
                     {zSidebar.map((item, index) => (
                         <>
-                            {JSON.parse(localStorage.getItem('auth'))?.level ?? 0 >= item.level ?
+                            {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= item.level ?
                                 <>
                                     {item.allow_list.includes(location.pathname) ?
                                         <>

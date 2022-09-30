@@ -44,6 +44,7 @@ import MItemList from '../pages/Manager/MItemList';
 import MChannelEdit from '../pages/Manager/MChannelEdit';
 import Notice from '../pages/User/Notice/Notice';
 import MMainEdit from '../pages/Manager/MMainEdit';
+import MUserStatistic from '../pages/Manager/MUserStatistic';
 
 const zRoute = [
     { link: '/', element: <Home /> },
@@ -53,15 +54,15 @@ const zRoute = [
     { link: '/subscriptiononly', element: <SubscriptionOnly /> },
     { link: '/search', element: <Search /> },
 
-    { link: '/selectissuecategory', element: <SelectIssueCategory /> },
-    { link: '/selectfeaturecategory', element: <SelectFeatureCategory/> },
+    //{ link: '/selectissuecategory', element: <SelectIssueCategory /> },
+    //{ link: '/selectfeaturecategory', element: <SelectFeatureCategory/> },
     { link: '/masterlist', element: <MasterList /> },
-    { link: '/themelist', element: <ThemeList /> },
-    { link: '/videolist', element: <VideoList /> },
-    { link: '/issuelist/:pk', element: <IssueList /> },
-    { link: '/featurelist/:pk', element: <FeatureList /> },
-    { link: '/onewordlist', element: <OneWordList /> },
-    { link: '/oneeventlist', element: <OneEventList /> },
+    //{ link: '/themelist', element: <ThemeList /> },
+    //{ link: '/videolist', element: <VideoList /> },
+    //{ link: '/issuelist/:pk', element: <IssueList /> },
+    //{ link: '/featurelist/:pk', element: <FeatureList /> },
+   // { link: '/onewordlist', element: <OneWordList /> },
+   // { link: '/oneeventlist', element: <OneEventList /> },
     { link: '/noticelist', element: <NoticeList /> },
     { link: '/master/:pk', element: <Master /> },
 
@@ -82,12 +83,14 @@ const zRoute = [
     { link: '/manager/eventedit/master/:pk', element: <MMasterEventEdit /> },
     { link: '/manager/edit/master_subscribe/:pk', element: <MMasterSubscribeEdit /> },
     { link: '/manager/yieldedit/master/:pk', element: <MMasterYieldEdit /> },
-    { link: '/manager/edit/channel/:pk', element: <MChannelEdit /> },
+    { link: '/manager/statistic/user', element: <MUserStatistic /> },
+    
+   // { link: '/manager/edit/channel/:pk', element: <MChannelEdit /> },
     // { link: '/manager/setting', element: <MSetting /> },
-    { link: '/manager/edit/video/:pk', element: <MVideoEdit /> },
+    //{ link: '/manager/edit/video/:pk', element: <MVideoEdit /> },
     { link: '/manager/edit/notice/:pk', element: <MNoticeEdit /> },
-    { link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit /> },
-    { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit /> },
+    //{ link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit /> },
+   // { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit /> },
     { link: '/manager/edit/setting', element: <MSettingEdit /> },
     { link: '/manager/edit/main', element: <MMainEdit /> },
     { link: '/manager/edit/:table/:pk', element: <MItemEdit /> },

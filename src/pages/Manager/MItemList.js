@@ -64,7 +64,7 @@ const MItemList = () => {
             if(params.table=='master_subscribe'){
                 str += `&master_pk=${params.pk}`
             }
-            if (auth?.level < 40) {
+            if (auth?.user_level < 40) {
                 str += `&user_pk=${auth.pk}`
             }
             const { data: response } = await axios.get(str)

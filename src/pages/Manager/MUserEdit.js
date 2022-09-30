@@ -21,6 +21,7 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import Picker from 'emoji-picker-react';
 import { backUrl } from '../../data/Data';
+import ContentTable from '../../components/ContentTable';
 
 const MUserEdit = () => {
     const params = useParams();
@@ -33,20 +34,21 @@ const MUserEdit = () => {
     const [content, setContent] = useState(undefined)
     const [formData] = useState(new FormData())
     const [noteFormData] = useState(new FormData());
-
+    const [subscribeList, setSubscribeList] = useState([])
     useEffect(() => {
 
         async function fetchPost() {
             if (params.pk > 0) {
-                const { data: response } = await axios.get(`/api/item?table=user&pk=${params.pk}`)
-                $('.id').val(response.data.id)
+                const {data:response} = await axios.get(`/api/getusercontent?pk=${params.pk}`)
+                console.log(response)
+                setSubscribeList(response?.data?.subscribes);
+                $('.id').val(response.data.user.id)
                 $('.pw').val("")
-                $('.name').val(response.data.name)
-                $('.nickname').val(response.data.nickname)
-                $('.phone').val(response.data.phone)
-                $('.level').val(response.data.user_level)
-                editorRef.current.getInstance().setHTML(response.data.consulting_note.replaceAll('http://localhost:8001', backUrl));
-
+                $('.name').val(response.data.user.name)
+                $('.nickname').val(response.data.user.nickname)
+                $('.phone').val(response.data.user.phone)
+                $('.level').val(response.data.user.user_level)
+                editorRef.current.getInstance().setHTML(response.data.user.consulting_note.replaceAll('http://localhost:8001', backUrl));
             }
         }
         $('div.toastui-editor-defaultUI-toolbar > div:nth-child(4)').append(`<button type="button" class='emoji' aria-label='이모티콘' style='font-size:18px;'>🙂</button>`);
@@ -132,8 +134,16 @@ const MUserEdit = () => {
                             <Col>
                                 <Title style={{ margintop: '32px' }}>유저레벨</Title>
                                 <Select className='level'>
-                                    <option value={0}>일반유저</option>
-                                    <option value={40}>관리자</option>
+                                <option value={0}>일반유저</option>
+                                <option value={40}>관리자</option>
+                                    {JSON.parse(localStorage.getItem('auth')).user_level>=50?
+                                    <>
+                                    <option value={50}>개발자</option>
+                                    </>
+                                    :
+                                    <>
+                                    </>}
+                                    
                                 </Select>
                             </Col>
                         </Row>
@@ -172,6 +182,15 @@ const MUserEdit = () => {
                                 </div>
                             </Col>
                         </Row>
+                        <Title>구독상품</Title>
+                        <ContentTable columns={[
+                                { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                                { name: "구매일자", column: "date", width: 25, type: 'text' },
+                                { name: "금액", column: "yield", width: 25, type: 'text' },
+                                { name: "취소", column: "", width: 25, type: 'delete' },
+                            ]}
+                                data={subscribeList}
+                                schema={'user_master_connect'} />
                     </Card>
                     <ButtonContainer>
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>

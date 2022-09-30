@@ -43,11 +43,15 @@ const HowToUse = () => {
 
     useEffect(() => {
         async function fetchPost() {
+            setLoading(true)
             const { data: response } = await axios.get('/api/setting')
             console.log(response)
             let obj = response.data;
             setSetting(response.data);
             obj.note = stringToHTML(obj[zMenu[typeNum]['column']], backUrl)
+            
+            setLoading(false)
+            await new Promise((r) => setTimeout(r, 100));
             $('.note').html(obj.note)
             $('.note > img').css("width", "100%")
         }
@@ -64,6 +68,12 @@ const HowToUse = () => {
     return (
         <>
             <Wrappers className='wrappers'>
+                {loading?
+                <>
+                <Loading/>
+                </>
+                :
+                <>
                 <Content>
                     <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                 </Content>
@@ -74,6 +84,9 @@ const HowToUse = () => {
                     <div style={{ padding: '16px' }} className="note">
                     </div>
                 </Width90Component>
+                </>
+                }
+                
 
             </Wrappers>
         </>

@@ -69,6 +69,7 @@ const SubscriptionOnly = () => {
                                 { name: "기준가", column: "base_price", width: 25, type: 'number' },
                                 { name: "포착일시", column: "capture_date", width: 25, type: 'text' },
                             ]} click={'/post/master_subscribe'}
+                                isPointer={true}
                                 data={posts} />
                         </div>
                     </>}

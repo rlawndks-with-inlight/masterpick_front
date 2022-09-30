@@ -51,7 +51,7 @@ const Breadcrumb = (props) => {
         async function isAuth(){
             const {data:response} = await axios.get('/api/auth');
             if(location.pathname.includes('/manager')&&location.pathname!='/manager/login'&&location.pathname!='/manager'){
-                if(response.level>=30){
+                if(response.user_level>=30){
                     localStorage.setItem('auth',JSON.stringify(response));
                 }else{
                     localStorage.removeItem('auth')

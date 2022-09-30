@@ -79,10 +79,10 @@ const MLoginCard = () => {
                 }
             },
                 { withCredentials: true });
-            if (response.level >= 40) {
+            if (response.user_level >= 40) {
                 localStorage.setItem('auth', JSON.stringify(response))
                 navigate('/manager/list/user');
-            } else if (response.level >= 30) {
+            } else if (response.user_level >= 30) {
                 localStorage.setItem('auth', JSON.stringify(response))
                 navigate('/manager/list/strategy');
             } else {

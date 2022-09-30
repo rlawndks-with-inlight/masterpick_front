@@ -49,7 +49,7 @@ const MItemEdit = () => {
         async function fetchPost() {
             let authObj = JSON.parse(localStorage.getItem('auth'));
             setAuth(authObj);
-            if (authObj?.level >= 40 && params.table == 'strategy') {
+            if (authObj?.user_level >= 40 && params.table == 'strategy') {
                 const { data: channelResponse } = await axios.get(`/api/getchannel`)
                 setChannelList(channelResponse.data);
             }
@@ -97,7 +97,7 @@ const MItemEdit = () => {
             if (params.table == 'issue' || params.table == 'feature') {
                 formData.append('category', $(`.category`).val());
             }
-            formData.append('user_pk', auth.level >= 40 && params.table == 'strategy' ? $('.channel').val() : auth.pk)
+            formData.append('user_pk', auth.user_level >= 40 && params.table == 'strategy' ? $('.channel').val() : auth.pk)
             formData.append('note', editorRef.current.getInstance().getHTML());
             if (params.table == 'issue' || params.table == 'feature') formData.append('category_pk', $('.category').val())
             if (params.pk > 0) formData.append('pk', params.pk);
@@ -201,7 +201,7 @@ const MItemEdit = () => {
                                 <Title>해시태그</Title>
                                 <Input className='hash' placeholder='#사과 #수박' />
                             </Col>
-                            {auth.level >= 40 && params.table == 'strategy' ?
+                            {auth.user_level >= 40 && params.table == 'strategy' ?
                                 <>
                                     <Col>
                                         <Title>채널명</Title>

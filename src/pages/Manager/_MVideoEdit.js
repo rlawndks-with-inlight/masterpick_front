@@ -69,7 +69,7 @@ const MVideoEdit = () => {
         let authObj = JSON.parse(localStorage.getItem('auth'));
         setAuth(authObj);
         async function fetchPost() {
-            if (authObj?.level >= 40) {
+            if (authObj?.user_level >= 40) {
                 const { data: channelResponse } = await axios.get(`/api/getchannel`)
                 setChannelList(channelResponse.data);
             }
@@ -103,7 +103,7 @@ const MVideoEdit = () => {
             alert('필요값이 비어있습니다.');
         } else {
             let obj = {
-                user_pk: auth.level < 40 ? auth.pk : $('.channel').val(),
+                user_pk: auth.user_level < 40 ? auth.pk : $('.channel').val(),
                 title: $('.title').val(),
                 link: $('.link').val(),
                 font_color: $('.font-color').val(),
@@ -156,7 +156,7 @@ const MVideoEdit = () => {
                                 <Title>유튜브 링크</Title>
                                 <Input className='link' placeholder='https://www.youtube.com/watch?v=9kaCAbIXuyg&list=RDVWbYRiF44Dc&index=2' />
                             </Col>
-                            {auth.level >= 40 ?
+                            {auth.user_level >= 40 ?
                                 <>
                                     <Col>
                                         <Title>채널명</Title>

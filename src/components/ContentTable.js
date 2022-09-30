@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { commarNumber } from "../functions/utils";
+import { RiDeleteBinLine } from 'react-icons/ri'
+import axios from "axios";
 
 const Table = styled.table`
 font-size:${props => props.theme.size.font4};
@@ -19,10 +21,26 @@ border-bottom:1px solid ${props => props.theme.color.font4};
 `
 const ContentTable = (props) => {
     const navigate = useNavigate();
-    const { columns, data, click } = props;
+    const { columns, data, click, schema,isPointer } = props;
     const onClickEvent = (str) =>{
         if(str){
             navigate(str)
+        }
+    }
+    const deleteItem = async (pk, schema) => {
+        if(window.confirm("정말로 삭제하시겠습니까?")){
+            let obj = {
+                pk: pk,
+                table: schema
+            }
+            const { data: response } = await axios.post(`/api/deleteitem`, obj)
+    
+            if (response.result > 0) {
+                alert('has been deleted');
+                window.location.reload();
+            } else {
+                alert('error')
+            }
         }
     }
     return (
@@ -39,13 +57,13 @@ const ContentTable = (props) => {
                     <Tr onClick={()=>{click?onClickEvent(`${click+'/'+item.pk}`):onClickEvent(``)}}>
                         {columns.map((column, idx) => (
                             <>
-                                <Td style={{ width: column.width, color:`${column.color?column.color:''}` }}>
+                                <Td style={{ width: column.width, color:`${column.color?column.color:''}`,cursor:`${isPointer?'pointer':''}` }}>
                                     {column.type == 'text' ?
-                                        item[column.column]
+                                        item[column.column]??"---"
                                         :
                                         null}
                                     {column.type == 'number' ?
-                                        commarNumber(item[column.column])
+                                        commarNumber(item[column.column])??"---"
                                         :
                                         null}
                                     {column.type == 'day' ?
@@ -54,6 +72,10 @@ const ContentTable = (props) => {
                                         null}
                                     {column.type == 'percent' ?
                                         `${item[column.column] >= 0 ? '+' : '-'}` + item[column.column] + '%'
+                                        :
+                                        null}
+                                        {column.type == 'delete' ?
+                                        <RiDeleteBinLine style={{cursor:'pointer'}} onClick={()=>deleteItem(item.pk,schema)}/>
                                         :
                                         null}
                                 </Td>
