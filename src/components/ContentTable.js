@@ -27,8 +27,8 @@ const ContentTable = (props) => {
             navigate(str)
         }
     }
-    const deleteItem = async (pk, schema) => {
-        if(window.confirm("정말로 삭제하시겠습니까?")){
+    const deleteItem = async (pk, schema, cha) => {
+        if(window.confirm(`정말로 ${cha??'삭제'}하시겠습니까?`)){
             let obj = {
                 pk: pk,
                 table: schema
@@ -75,7 +75,7 @@ const ContentTable = (props) => {
                                         :
                                         null}
                                         {column.type == 'delete' ?
-                                        <RiDeleteBinLine style={{cursor:'pointer'}} onClick={()=>deleteItem(item.pk,schema)}/>
+                                        <RiDeleteBinLine style={{cursor:'pointer'}} onClick={()=>deleteItem(item.pk,schema,column.name)}/>
                                         :
                                         null}
                                 </Td>

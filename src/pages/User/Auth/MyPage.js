@@ -6,8 +6,9 @@ import { backUrl } from "../../../data/Data";
 import defaultImg from '../../../assets/images/icon/default-profile.png'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {MdEdit} from 'react-icons/md';
+import { MdEdit } from 'react-icons/md';
 import theme from "../../../styles/theme";
+import ContentTable from "../../../components/ContentTable";
 const MyCard = styled.div`
 display:flex;
 width:100%;
@@ -65,15 +66,19 @@ font-size:12px;
 const MyPage = () => {
     const navigate = useNavigate();
     const [auth, setAuth] = useState({})
+    const [subscribeList, setSubscribeList] = useState([])
+
     useEffect(() => {
-        async function isAdmin(){
+        async function isAdmin() {
             const { data: response } = await axios('/api/auth')
             console.log(response)
-            if(response.pk>0){
-                await localStorage.setItem('auth',JSON.stringify(response))
+            if (response.pk > 0) {
+                await localStorage.setItem('auth', JSON.stringify(response))
                 let obj = response;
                 setAuth(obj);
-            }else{
+                const { data: contentResponse } = await axios.get(`/api/getusercontent?pk=${response.pk}`)
+                setSubscribeList(contentResponse?.data?.subscribes)
+            } else {
                 localStorage.removeItem('auth');
                 navigate('/login')
 
@@ -94,8 +99,8 @@ const MyPage = () => {
     return (
         <>
             <Wrappers className="wrapper" style={{ maxWidth: '800px' }}>
-            <Title>마이페이지</Title>
-                <MdEdit style={{margin:'2rem 0 1rem auto',color:`${theme.color.font2}`,fontSize:'24px',cursor:'pointer'}} onClick={()=>navigate('/editmyinfo')} />
+                <Title>마이페이지</Title>
+                <MdEdit style={{ margin: '2rem 0 1rem auto', color: `${theme.color.font2}`, fontSize: '24px', cursor: 'pointer' }} onClick={() => navigate('/editmyinfo')} />
 
                 <MyCard>
                     {/* <ProfileContainer>
@@ -106,13 +111,13 @@ const MyPage = () => {
                             <Category>닉네임</Category>
                             <Result>
                                 {auth?.nickname ?? "---"}
-                                </Result>
+                            </Result>
                         </Content>
                         <Content>
                             <Category>아이디</Category>
                             <Result>
                                 {auth?.id ?? "---"}
-                                </Result>
+                            </Result>
                         </Content>
                         <Content>
                             <Category>비밀번호</Category>
@@ -129,8 +134,23 @@ const MyPage = () => {
                     </Container>
                 </MyCard>
                 <Title>서비스 이용내역</Title>
+                <ContentTable columns={[
+                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                    { name: "구매일자", column: "date", width: 25, type: 'text' },
+                    { name: "금액", column: "yield", width: 25, type: 'text' },
+                    { name: "취소", column: "", width: 25, type: 'delete' },
+                ]}
+                    data={subscribeList}
+                    schema={'user_master_connect'} />
                 <Title>서비스 만료내역</Title>
-
+                <ContentTable columns={[
+                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                    { name: "구매일자", column: "date", width: 25, type: 'text' },
+                    { name: "금액", column: "yield", width: 25, type: 'text' },
+                    { name: "취소", column: "", width: 25, type: 'delete' },
+                ]}
+                    data={[]}
+                    schema={'user_master_connect'} />
                 <LogoutButton onClick={onLogout}>
                     로그아웃
                 </LogoutButton>
