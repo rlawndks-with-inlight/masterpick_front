@@ -41,18 +41,18 @@ const Yield = () => {
         fetchPost();
     }, [])
 
-    const selectTypeNum = useCallback(async (num) => {
+    const onClickMaster = useCallback(async (num) => {
         setLoading(true)
         setTypeNum(num)
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_yield&order=yield&desc=true&pk=${num}`)
         console.log(response)
         setPosts(response.data)
-        setTimeout(() => setLoading(false), 1000);
+        setLoading(false);
     }, [])
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
+                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} />
                 {loading ?
                     <>
                         <Loading />

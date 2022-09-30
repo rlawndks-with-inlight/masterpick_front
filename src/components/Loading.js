@@ -3,22 +3,22 @@ import styled from 'styled-components';
 import theme from '../styles/theme';
 import loadingGif from '../assets/images/icon/logo.gif'
 const LoadingContainer = styled.div`
-margin: 15vw auto;
-@media (max-width: 1000px) {
-    margin: 20vw auto;
+margin:-15vh auto;
+@media screen and (max-width:700px) {
+    position:absolute;
+width:100vw;
+height:100vh;
+display:flex;
+z-index:5;
+margin:0;
 }
-@media (max-width: 650px) {
-    margin: 35vh auto;
-}
-@media (max-width: 375px) {
-    margin: 25vh auto;
-}
+
 `
 const Loading = () => {
     return (
         <>
             <LoadingContainer>
-                <img src={loadingGif} style={{width:'100px'}}/>
+                <img src={loadingGif} style={{width:'100px',margin:'35vh auto auto auto'}}/>
             </LoadingContainer>
         </>
     )

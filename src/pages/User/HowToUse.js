@@ -64,17 +64,9 @@ const HowToUse = () => {
     return (
         <>
             <Wrappers className='wrappers'>
-                {loading ?
-                    <>
-                        <Loading />
-                    </>
-                    :
-                    <>
-                        <Content>
-                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
-                        </Content>
-
-                    </>}
+                <Content>
+                    <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
+                </Content>
                 <Width90Component>
                     <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
                 </Width90Component>

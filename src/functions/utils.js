@@ -48,6 +48,7 @@ export const deleteItem = async (type, obj) => {
 
 }
 export const commarNumber = (num) => {
+    console.log(num)
     let str = "";
     if (typeof num == "number") {
         str = num.toString();

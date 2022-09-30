@@ -43,7 +43,7 @@ const SubscriptionOnly = () => {
         fetchPost();
     }, [])
 
-    const selectTypeNum = useCallback(async (num) => {
+    const onClickMaster = useCallback(async (num) => {
         setLoading(true)
         setTypeNum(num)
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&pk=${num}`)
@@ -54,7 +54,7 @@ const SubscriptionOnly = () => {
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterContentSlide selectTypeNum={selectTypeNum} num={typeNum} />
+                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} />
 
                 {loading ?
                     <>
@@ -68,7 +68,7 @@ const SubscriptionOnly = () => {
                                 { name: "종목명", column: "name", width: 25, type: 'text' },
                                 { name: "기준가", column: "base_price", width: 25, type: 'number' },
                                 { name: "포착일시", column: "capture_date", width: 25, type: 'text' },
-                            ]}
+                            ]} click={'/post/master_subscribe'}
                                 data={posts} />
                         </div>
                     </>}

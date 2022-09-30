@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { commarNumber } from "../functions/utils";
 
@@ -17,7 +18,13 @@ const Td = styled.td`
 border-bottom:1px solid ${props => props.theme.color.font4};
 `
 const ContentTable = (props) => {
-    const { columns, data } = props;
+    const navigate = useNavigate();
+    const { columns, data, click } = props;
+    const onClickEvent = (str) =>{
+        if(str){
+            navigate(str)
+        }
+    }
     return (
         <>
             <Table>
@@ -29,7 +36,7 @@ const ContentTable = (props) => {
                     ))}
                 </Tr>
                 {data.map((item, idx) => (
-                    <Tr>
+                    <Tr onClick={()=>{click?onClickEvent(`${click+'/'+item.pk}`):onClickEvent(``)}}>
                         {columns.map((column, idx) => (
                             <>
                                 <Td style={{ width: column.width, color:`${column.color?column.color:''}` }}>

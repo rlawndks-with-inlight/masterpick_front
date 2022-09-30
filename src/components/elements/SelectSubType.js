@@ -6,6 +6,7 @@ display: -webkit-box;
 display: -ms-flexbox;
 background:#fff;
 margin:0 auto;
+
 @media screen and (max-width:1000px) {
     width: 90%;
 }

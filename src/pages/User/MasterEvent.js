@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Wrappers, Title, Content } from '../../components/elements/UserContentTemplete';
@@ -7,6 +7,7 @@ import Loading from '../../components/Loading';
 import ContentTable from '../../components/ContentTable';
 import styled from 'styled-components';
 import $ from 'jquery'
+import MasterSlide from '../../components/MasterSlide';
 const ScreenDiv = styled.div`
 width:90%;
 height:134px;
@@ -27,7 +28,7 @@ const MasterEvent = () => {
     const [posts, setPosts] = useState([]);
 
     const [loading, setLoading] = useState(false);
-
+    const [typeNum, setTypeNum] = useState(0);
 
 
     const settings = {
@@ -51,20 +52,27 @@ const MasterEvent = () => {
         }
         fetchPost();
     }, [])
-
+    const onClickMaster = useCallback(async (num) => {
+        setLoading(true)
+        setTypeNum(num)
+        const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&order=level&pk=${num}`)
+        console.log(response)
+        setPosts(response.data)
+        setLoading(false);
+    }, [])
     return (
         <>
             <Wrappers className='wrappers'>
+                <Content>
+                    <Title>대가들의 종목</Title>
+                </Content>
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} width={'90%'}  />
                 {loading ?
                     <>
                         <Loading />
                     </>
                     :
                     <>
-                        <Content>
-                            <Title>대가들의 종목</Title>
-                        </Content>
-
                         <div style={{ position: 'relative' }}>
                             <ScreenDiv onClick={() => navigate('/masterlist')}>
                                 <p style={{ margin: 'auto' }}>TOP 5 보러가기</p>

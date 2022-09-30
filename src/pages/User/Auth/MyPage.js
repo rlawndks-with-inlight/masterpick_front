@@ -16,7 +16,7 @@ background:${props => props.theme.color.background3};
 border:1px solid ${props => props.theme.color.background3};
 @media screen and (max-width:700px) {
     flex-direction:column;
-    height:500px;
+    height:250px;
 }
 `
 const ProfileContainer = styled.div`
@@ -30,11 +30,8 @@ height:250px;
 }
 `
 const Container = styled.div`
-width:50%;
+width:100%;
 font-size:14px;
-@media screen and (max-width:700px) {
-    width:100%;
-}
 `
 const Content = styled.div`
 width:100%;
@@ -101,9 +98,9 @@ const MyPage = () => {
                 <MdEdit style={{margin:'2rem 0 1rem auto',color:`${theme.color.font2}`,fontSize:'24px',cursor:'pointer'}} onClick={()=>navigate('/editmyinfo')} />
 
                 <MyCard>
-                    <ProfileContainer>
+                    {/* <ProfileContainer>
                         <img src={auth?.profile_img ? auth?.profile_img.substring(0,4)=="http"?auth?.profile_img : backUrl + auth?.profile_img : defaultImg} style={{ height: '125px', width: '125px', borderRadius: '50%', background: '#fff', margin: 'auto' }} />
-                    </ProfileContainer>
+                    </ProfileContainer> */}
                     <Container>
                         <Content>
                             <Category>닉네임</Category>

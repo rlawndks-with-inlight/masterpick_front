@@ -76,7 +76,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            //setLoading(true)
+            setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
@@ -106,7 +106,7 @@ const Home = () => {
             setBestList(best_list)
             setSetting(response?.data)
 
-            //setTimeout(() => setLoading(false), 1500);
+            setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])

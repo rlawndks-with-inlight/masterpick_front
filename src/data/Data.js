@@ -9,6 +9,11 @@ import bottomMenuActiveImg4 from '../assets/images/icon/bottommenu4-active.svg';
 import bottomMenuImg5 from '../assets/images/icon/bottommenu5.svg';
 import bottomMenuActiveImg5 from '../assets/images/icon/bottommenu5-active.svg';
 import logo from '../assets/images/test/logo.svg'
+import weather1 from '../assets/images/icon/weather1.svg';
+import weather2 from '../assets/images/icon/weather2.svg';
+import weather3 from '../assets/images/icon/weather3.svg';
+import weather4 from '../assets/images/icon/weather4.svg';
+import weather5 from '../assets/images/icon/weather5.svg';
 import { EditorState } from "draft-js"
 export const backUrl = "http://localhost:8001";
 export const logoSrc = logo;
@@ -16,7 +21,13 @@ export const logoSrc = logo;
 export const editorState = {
     editorState: EditorState.createEmpty()
 }
-
+export const zWeather = [
+    {icon:weather1,name:'맑음: 강력매수'},
+    {icon:weather2,name:'구름 조금: 매수'},
+    {icon:weather3,name:'흐림: 중립'},
+    {icon:weather4,name:'약한비: 매도'},
+    {icon:weather5,name:'비: 강력매도'},
+]
 export const localization = {
     locale: 'ko',
 }

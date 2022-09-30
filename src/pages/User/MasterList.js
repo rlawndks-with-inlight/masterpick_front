@@ -21,6 +21,7 @@ const MasterList = () => {
         }
         fetchPosts();
     }, [])
+    
     return (
         <>
             <Wrappers>
