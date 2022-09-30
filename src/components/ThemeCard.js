@@ -60,17 +60,19 @@ margin-top: 16px;
     margin-top: 6px;
 }
 `
-const ThemeCard = (props) => {
+const MasterCard = (props) => {
+    const {data} = props;
     const navigate = useNavigate();
     return (
         <>
             <Card onClick={() =>{}}>
                 <Img style={{
-                    backgroundImage: `url(${backUrl + props.item?.main_img ?? ""})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply'
+                    backgroundImage: `url(${backUrl + data?.profile_img ?? ""})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply'
                 }} />
 
                 <TextContainer>
-                    <Title> {props.item?.title ?? ""}</Title>
+                <Title> {data?.name ?? ""} 전문가</Title>
+                <Title> {data?.motto ?? ""}</Title>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Hash>
                             {props.item?.hash}
@@ -82,4 +84,4 @@ const ThemeCard = (props) => {
         </>
     )
 }
-export default ThemeCard;
+export default MasterCard;

@@ -25,11 +25,10 @@ const Home = () => {
     const [setting, setSetting] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const [mastersObj, setMastersObj] = useState({});
     const [bestMasterObj, setBestMasterObj] = useState({});
     const [bestList, setBestList] = useState([])
-    const [bestMaterYieldList, setBestMaterYieldList] = useState([])
-    const [recommendationList, setRecommendationList] = useState([])
+    const [masterList, setMasterList] = useState([])
+    const [masterPk, setMasterPk] = useState(0);
 
     const [recommendMasterPk, setRecommendMasterPk] = useState(0);
 
@@ -49,37 +48,30 @@ const Home = () => {
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
-            let best_obj = JSON.parse(response.data.best_mater_yield_list);
-            let max_yield = {
-                yield: 0, pk: 0
-            };
-            for (var i = 0; i < Object.keys(best_obj).length; i++) {
-                if (best_obj[Object.keys(best_obj)[i]]?.best_mater_yield >= max_yield.yield) {
-                    max_yield.yield = parseFloat(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield)
-                    max_yield.pk = parseInt(Object.keys(best_obj)[i])
-                }
-            }
-            setBestMasterObj(max_yield)
-
 
             let best_list = JSON.parse(response?.data?.best_list);
 
             let best_mater_yield_list = JSON.parse(response?.data?.best_mater_yield_list);
-            setBestMaterYieldList(best_mater_yield_list);
-
-            let master_obj = {};
-            for (var i = 0; i < masterResponse.data.length; i++) {
-                master_obj[`${masterResponse.data[i].pk}`] = masterResponse.data[i];
-                master_obj[`${masterResponse.data[i].pk}`].yield = best_mater_yield_list[`${masterResponse.data[i].pk}`]?.best_mater_yield
-            }
-            setRecommendMasterPk(masterResponse.data[0].pk)
-            setMastersObj(master_obj)
 
             let recommendation_list = JSON.parse(response?.data?.recommendation_list);
 
+            let master_list = [];
+            let max_yield = 0;
+            let max_index = 0;
+            for (var i = 0; i < masterResponse.data.length; i++) {
+                master_list.push(masterResponse.data[i]);
+                master_list[i].yield = best_mater_yield_list[master_list[i].pk].best_mater_yield;
+                master_list[i].recommend_obj = recommendation_list[master_list[i].pk];
+                if(parseFloat(master_list[i].yield)>max_yield){
+                    max_yield = master_list[i].yield;
+                    max_index = i;
+                }
+            }
+            setBestMasterObj(master_list[max_index])
+
+            setMasterPk(master_list[0].pk);
+            setMasterList(master_list)
             setBestList(best_list)
-            setBestMaterYieldList(best_obj)
-            setRecommendationList(recommendation_list)
             setSetting(response?.data)
 
             console.log(response)
@@ -106,8 +98,8 @@ const Home = () => {
                             <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }}>
                                 <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '50%', position: 'relative' }}>
                                     <div style={{ display: 'flex', position: 'absolute', alignItems: 'center', top: '6px', left: '20%' }}>
-                                        <img src={backUrl + mastersObj[bestMasterObj?.pk ?? 0]?.profile_img ?? ''} style={{ height: '75px', marginRight: '5vw' }} />
-                                        <div style={{ color: '#670D0D', fontSize: theme.size.font5 }}>{mastersObj[bestMasterObj?.pk ?? 0]?.name ?? ''}</div>
+                                        <img src={backUrl + bestMasterObj?.profile_img ?? ''} style={{ height: '75px', marginRight: '5vw' }} />
+                                        <div style={{ color: '#670D0D', fontSize: theme.size.font5 }}>{bestMasterObj?.name ?? ''}</div>
                                     </div>
                                 </div>
                                 <div style={{ position: 'relative', width: '50%', display: 'flex' }}>
@@ -122,18 +114,18 @@ const Home = () => {
                         <Title>BEST 투자대가</Title>
                         <Content>
                             <WrapDiv>
-                                {Object.keys(mastersObj).map((item, idx) => (
+                                {masterList.map((item, idx) => (
                                     <>
-                                        <ThemeCard />
+                                        <ThemeCard data={item}/>
 
                                     </>
                                 ))}
                             </WrapDiv>
                             <SliderDiv>
                                 <Slider {...slideSetting} className='board-container pointer'>
-                                    {Object.keys(mastersObj).map((item, idx) => (
+                                    {masterList.map((item, idx) => (
                                         <>
-                                            <ThemeCard />
+                                            <ThemeCard data={item}  />
 
                                         </>
                                     ))}
@@ -144,10 +136,10 @@ const Home = () => {
                         <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
                         <Content>
                             <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
-                                {Object.keys(mastersObj).map((pk, index) => (
+                                {masterList.map((item, index) => (
                                     <>
-                                        <SubType style={{ color: `${recommendMasterPk == pk ? '#fff' : theme.color.font1}`, background: `${recommendMasterPk == pk ? theme.color.background1 : theme.color.background3}` }} onClick={() => {  }}>
-                                            {mastersObj[pk].name}
+                                        <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}` }} onClick={() => { setMasterPk(item.pk) }}>
+                                            {item.name}
                                         </SubType>
                                     </>
                                 ))}
