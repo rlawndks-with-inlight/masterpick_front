@@ -104,7 +104,7 @@ const Home = () => {
                                 <div style={{ position: 'relative', width: '50%', display: 'flex' }}>
                                     <div style={{ margin: 'auto', alignItems: 'center', textAlign: 'center', fontSize: `${theme.size.font2}`, fontWeight: 'bold' }}>
                                         <div style={{ marginBottom: '4px' }}>누적 수익률</div>
-                                        <div style={{ marginTop: '4px', color: '#FB0000' }}>{commarNumber(bestMasterObj?.yield ?? '0')}%</div>
+                                        <div style={{ marginTop: '4px', color: '#FB0000' }}>+{commarNumber(bestMasterObj?.yield ?? '0')}%</div>
                                     </div>
 
                                 </div>
