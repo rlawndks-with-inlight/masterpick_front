@@ -32,7 +32,7 @@ const ContentTable = (props) => {
                     <Tr>
                         {columns.map((column, idx) => (
                             <>
-                                <Td style={{ width: column.width }}>
+                                <Td style={{ width: column.width, color:`${column.color?column.color:''}` }}>
                                     {column.type == 'text' ?
                                         item[column.column]
                                         :

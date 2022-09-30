@@ -5,7 +5,7 @@ const Card = styled.div`
 width:100%;
 background:${props => props.theme.color.background3};
 text-align:left;
-height:112px;
+height:150px;
 margin:6px 0;
 color:${props => props.theme.color.font1};
 font-weight:bold;

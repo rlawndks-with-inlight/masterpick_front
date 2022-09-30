@@ -18,6 +18,38 @@ import { commarNumber } from '../../functions/utils';
 import SelectSubType from '../../components/elements/SelectSubType';
 import SubType from '../../components/elements/SubType';
 
+const Banner = styled.div`
+width: 960px; 
+margin-bottom:16px;
+background: ${props => props.theme.color.background3};
+cursor:pointer;
+margin: 0 auto;
+padding:20px;
+font-size: ${props => props.theme.size.font3};
+flex-direction:column;
+font-weight:bold;
+@media screen and (max-width:1000px) {
+    width:85vw;
+    padding:2.5vw;
+}
+
+`
+const BannerContent = styled.div`
+display:flex;
+`
+const BannerTitle = styled.div`
+width:100px;
+margin-bottom:8px;
+@media screen and (max-width:700px) {
+width:40%;
+}
+`
+const BannerResult = styled.div`
+word-break: break-all;
+@media screen and (max-width:700px) {
+    width:60%;
+}
+`
 const Home = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
@@ -44,7 +76,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            setLoading(true)
+            //setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
@@ -74,7 +106,7 @@ const Home = () => {
             setBestList(best_list)
             setSetting(response?.data)
 
-            setTimeout(() => setLoading(false), 1500);
+            //setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])
@@ -144,12 +176,40 @@ const Home = () => {
                                 ))}
                             </SelectSubType>
                         </Content>
+                        {masterList.map((item, idx) => (
+                            <>
+                                <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}` }}>
+                                    {console.log(item.recommend_obj)}
+                                    <BannerContent>
+                                        <BannerTitle>종목명</BannerTitle>
+                                        <BannerResult>{'비공개'}</BannerResult>
+                                    </BannerContent>
+                                    <BannerContent>
+                                        <BannerTitle>종목설명</BannerTitle>
+                                        <BannerResult>{item.recommend_obj.note}</BannerResult>
+                                    </BannerContent>
+                                    <BannerContent>
+                                        <BannerTitle>추천가</BannerTitle>
+                                        <BannerResult>{commarNumber(item.recommend_obj.recommend_price)}</BannerResult>
+                                    </BannerContent>
+                                    <BannerContent>
+                                        <BannerTitle>현재가</BannerTitle>
+                                        <BannerResult>{commarNumber(item.recommend_obj.current_price)}</BannerResult>
+                                    </BannerContent>
+                                    <BannerContent style={{ color: '#FB0000' }}>
+                                        <BannerTitle style={{ marginBottom: '0' }}>현재 수익률</BannerTitle>
+                                        <BannerResult>+{commarNumber(item.recommend_obj.yield)}%</BannerResult>
+                                    </BannerContent>
+                                </Banner>
+                            </>
+                        ))}
+
                         <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
                         <Content>
                             <ContentTable columns={[
                                 { name: "거장명", column: "master_name", width: 25, type: 'text' },
                                 { name: "종목명", column: "name", width: 25, type: 'text' },
-                                { name: "수익률", column: "yield", width: 25, type: 'text' },
+                                { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
                                 { name: "보유기간", column: "days", width: 25, type: 'text' }
                             ]}
                                 data={bestList} />
