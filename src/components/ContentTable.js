@@ -6,6 +6,7 @@ font-size:${props => props.theme.size.font4};
 width:90%;
 margin:0 auto;
 text-align:center;
+border-collapse: collapse;
 `
 const Tr = styled.tr`
 width:100%;

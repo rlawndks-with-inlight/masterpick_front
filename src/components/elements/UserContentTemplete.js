@@ -90,7 +90,7 @@ display:flex;
 flex-direction:column;
 font-weight:normal;
 @media screen and (max-width:700px) { 
-    
+    width:99.5%; 
 }
 `
 export const Img = styled.div`

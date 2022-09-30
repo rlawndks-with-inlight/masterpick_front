@@ -64,7 +64,7 @@ const ThemeCard = (props) => {
     const navigate = useNavigate();
     return (
         <>
-            <Card onClick={() => navigate(`/post/${props.category}/${props.item?.pk}`)}>
+            <Card onClick={() =>{}}>
                 <Img style={{
                     backgroundImage: `url(${backUrl + props.item?.main_img ?? ""})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply'
                 }} />

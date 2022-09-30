@@ -31,7 +31,7 @@ border-radius: 0;
 
 ::-webkit-progress-value {
 background:transparent;
-border-bottom: 16px solid #4CDAD8;
+border-bottom: 16px solid #FB8200;
 border-right: 10px solid transparent;
 }
 `

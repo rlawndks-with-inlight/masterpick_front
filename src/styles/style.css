@@ -21,13 +21,15 @@ body::-webkit-scrollbar-thumb {
 .board-container {
     width: 100%;
 }
-
+.slick-arrow{
+    display: none !important;
+}
 .slick-dots {
     bottom: -15px !important;
 }
 
 .slick-dots li.slick-active button:before {
-    color: #4CDAD8 !important;
+    color: #FB8200 !important;
 }
 
 .scroll-css {}
@@ -172,7 +174,7 @@ div.note>p>img {
 
     .progress-bar::-webkit-progress-value {
         border-radius: 0;
-        background: #4CDAD8;
+        background: #FB8200;
     }
 }
 
