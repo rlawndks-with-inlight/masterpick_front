@@ -94,22 +94,28 @@ const MMainEdit = () => {
             const { data: response } = await axios.get('/api/getmaincontent');
             let best_obj = JSON.parse(response.data.best_mater_yield_list);
             for(var i = 0;i<Object.keys(best_obj).length;i++){
-                console.log(best_obj[Object.keys(best_obj)[i]])
+                $(`.best_mater_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield)
             }
             let obj = JSON.parse(response.data.recommendation_list);
             for(var i = 0;i<Object.keys(obj).length;i++){
-                console.log(obj[Object.keys(obj)[i]])
+                $(`.name-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.name)
+                $(`.note-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.note)
+                $(`.recommend_price-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.recommend_price)
+                $(`.current_price-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.current_price)
+                $(`.yield-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.yield)
             }
             let sector_list = JSON.parse(response.data.best_list);
+            setSectorList(sector_list);
+            await new Promise((r) => setTimeout(r, 100));
             for(var i = 0;i<sector_list.length;i++){
-                console.log(sector_list[i])
+                $(`.best-td-1-${i}`).val(sector_list[i]?.master_name)
+                $(`.best-td-2-${i}`).val(sector_list[i]?.name)
+                $(`.best-td-3-${i}`).val(sector_list[i]?.yield)
+                $(`.best-td-4-${i}`).val(sector_list[i]?.days)
             }
             setSetting(response.data ?? {});
             if (response.data) {
                 setUrl(backUrl + response.data.main_img);
-                introduceRef.current.getInstance().setHTML(response.data.introduce.replaceAll('http://localhost:8001', backUrl));
-                howToUseRef.current.getInstance().setHTML(response.data.how_to_use.replaceAll('http://localhost:8001', backUrl));
-                mustReadRef.current.getInstance().setHTML(response.data.must_read.replaceAll('http://localhost:8001', backUrl));
             }
         }
         $('div.toastui-editor-defaultUI-toolbar > div:nth-child(4)').append(`<button type="button" class='emoji' aria-label='이모티콘' style='font-size:18px;'>🙂</button>`);
@@ -130,20 +136,12 @@ const MMainEdit = () => {
 
             let best_obj = {};
             for (var i = 0; i < bestMasterList.length; i++) {
-                if(isNaN(parseFloat($(`.best_mater_yield-${bestMasterList[i].pk}`).val()))){
-                    alert('only number에는 숫자만 입력 가능합니다.');
-                    return;
-                }
                 best_obj[bestMasterList[i].pk] = {
                     best_mater_yield: $(`.best_mater_yield-${bestMasterList[i].pk}`).val(),
                 }
             }
             let obj = {};
             for (var i = 0; i < masterList.length; i++) {
-                if(isNaN(parseFloat($(`.recommend_price-${masterList[i].pk}`).val()))||isNaN(parseFloat($(`.current_price-${masterList[i].pk}`).val()))||isNaN(parseFloat($(`.yield-${masterList[i].pk}`).val()))){
-                    alert('only number에는 숫자만 입력 가능합니다.');
-                    return;
-                }
                 obj[masterList[i].pk] = {
                     name: $(`.name-${masterList[i].pk}`).val(),
                     note: $(`.note-${masterList[i].pk}`).val(),
@@ -152,34 +150,28 @@ const MMainEdit = () => {
                     yield: $(`.yield-${masterList[i].pk}`).val(),
                 }
             }
-            console.log(best_obj)
-            console.log(obj);
             let sector_list = [];
             for (var i = 0; i < sectorList.length; i++) {
                 if ($(`.best-tr-${i}`).css('display') != 'none') {
-                    if(isNaN(parseFloat($(`.best-td-3-${i}`).val()))||isNaN(parseFloat($(`.best-td-4-${i}`).val() ))){
-                        alert('only number에는 숫자만 입력 가능합니다.');
-                        return;
-                    }
                     sector_list.push(
-                        { master_name: $(`.best-td-1-${i}`).val(), name: $(`.best-td-2-${i}`).val(), name: $(`.best-td-3-${i}`).val(), name: $(`.best-td-4-${i}`).val() }
+                        { master_name: $(`.best-td-1-${i}`).val(), name: $(`.best-td-2-${i}`).val(), yield: $(`.best-td-3-${i}`).val(), days: $(`.best-td-4-${i}`).val() }
                     )
                 }
             }
-            console.log(sector_list)
             if (window.confirm("저장하시겠습니까?")) {
                 formData.append('main', content);
                 formData.append('best_mater_yield_list', JSON.stringify(best_obj));
-                formData.append('recommendation_list', JSON.stringify(obj))
-                formData.append('best_list', JSON.stringify(sector_list))
+                formData.append('recommendation_list', JSON.stringify(obj));
+                formData.append('best_list', JSON.stringify(sector_list));
+                formData.append('pk',setting?.pk??0)
                 const { data: response } = await axios.post('/api/editmaincontent', formData)
-                console.log(response)
                 if(response.result>0){
                     alert('성공적으로 저장되었습니다.')
                 }else{
                     alert(response.message)
                 }
             }
+
             // formData.append('introduce', introduceRef.current.getInstance().getHTML());
             // formData.append('howToUse', howToUseRef.current.getInstance().getHTML());
             // formData.append('mustRead', mustReadRef.current.getInstance().getHTML());
