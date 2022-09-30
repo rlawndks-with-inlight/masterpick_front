@@ -44,7 +44,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            // setLoading(true)
+            setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
@@ -62,7 +62,7 @@ const Home = () => {
                 master_list.push(masterResponse.data[i]);
                 master_list[i].yield = best_mater_yield_list[master_list[i].pk].best_mater_yield;
                 master_list[i].recommend_obj = recommendation_list[master_list[i].pk];
-                if(parseFloat(master_list[i].yield)>max_yield){
+                if (parseFloat(master_list[i].yield) > max_yield) {
                     max_yield = master_list[i].yield;
                     max_index = i;
                 }
@@ -74,7 +74,7 @@ const Home = () => {
             setBestList(best_list)
             setSetting(response?.data)
 
-            // setTimeout(() => setLoading(false), 1500);
+            setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])
@@ -115,7 +115,7 @@ const Home = () => {
                             <WrapDiv>
                                 {masterList.map((item, idx) => (
                                     <>
-                                        <ThemeCard data={item}/>
+                                        <ThemeCard data={item} />
 
                                     </>
                                 ))}
@@ -124,7 +124,7 @@ const Home = () => {
                                 <Slider {...slideSetting} className='board-container pointer'>
                                     {masterList.map((item, idx) => (
                                         <>
-                                            <ThemeCard data={item}  />
+                                            <ThemeCard data={item} />
 
                                         </>
                                     ))}
