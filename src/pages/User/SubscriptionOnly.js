@@ -34,8 +34,8 @@ const SubscriptionOnly = () => {
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
-
-            const { data: response } = await axios.get('/api/getmastercontents?table=master_subscribe&order=pk&desc=true')
+            let auth_obj = JSON.parse(localStorage.getItem('auth'))
+            const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&is_subscribe=true&user_pk=${auth_obj?.pk??0}`)
             console.log(response)
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
@@ -54,7 +54,7 @@ const SubscriptionOnly = () => {
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} />
+                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} is_subscribe={true} />
 
                 {loading ?
                     <>
