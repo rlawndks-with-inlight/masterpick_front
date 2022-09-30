@@ -98,7 +98,11 @@ const Master = () => {
                     user_pk: JSON.parse(localStorage.getItem('auth'))?.pk,
                     master_pk: params.pk
                 })
-                console.log(response)
+                if(response.result>0){
+                    alert("구독을 완료하였습니다.")
+                }else{
+                    alert(response.message);
+                }
             }
         } else {
             alert('로그인을 해주세요.');
