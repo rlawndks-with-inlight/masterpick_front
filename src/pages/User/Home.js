@@ -74,7 +74,6 @@ const Home = () => {
             setBestList(best_list)
             setSetting(response?.data)
 
-            console.log(response)
             // setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
