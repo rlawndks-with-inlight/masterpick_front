@@ -62,7 +62,6 @@ const Master = () => {
     useEffect(() => {
         async function fetchPost() {
             const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
-            console.log(response)
             setItem(response.data)
             let obj = response.data;
             if (response.data.investment_principle) {
@@ -95,7 +94,7 @@ const Master = () => {
     const addSubscribeMaster = async () => {
         if (localStorage.getItem('auth')) {
             if (window.confirm('구독 하시겠습니까?')) {
-                const { data: response } = await axios.post('/api/addsubscribemaster', {
+                const { data: response } = await axios.post('/api/addsubscribe', {
                     user_pk: JSON.parse(localStorage.getItem('auth'))?.pk,
                     master_pk: params.pk
                 })
