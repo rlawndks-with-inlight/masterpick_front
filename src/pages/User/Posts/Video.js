@@ -97,7 +97,6 @@ const Video = () => {
             obj.link = getIframeLinkByLink(obj.link);
             obj.note = stringToHTML(obj.note)
             $('.note').append(obj.note)
-            console.log(obj)
             setPost(obj);
             let relate_list = response.data?.relates ?? [];
             for (var i = 0; i < relate_list.length; i++) {

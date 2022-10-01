@@ -179,7 +179,6 @@ const Home = () => {
                         {masterList.map((item, idx) => (
                             <>
                                 <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}` }}>
-                                    {console.log(item.recommend_obj)}
                                     <BannerContent>
                                         <BannerTitle>종목명</BannerTitle>
                                         <BannerResult>{'비공개'}</BannerResult>

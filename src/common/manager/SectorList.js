@@ -38,7 +38,6 @@ cursor:pointer;
 height:36px;
 `
 const SectorList = (props) => {
-    console.log(props)
     const [zSector, setZSector] = useState([])
     useEffect(() => {
         setZSector(props.list);

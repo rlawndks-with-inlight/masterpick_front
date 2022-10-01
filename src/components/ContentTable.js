@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { commarNumber } from "../functions/utils";
 import { RiDeleteBinLine } from 'react-icons/ri'
 import axios from "axios";
+import { backUrl } from "../data/Data";
+import AddButton from "./elements/button/AddButton";
+import theme from "../styles/theme";
 
 const Table = styled.table`
 font-size:${props => props.theme.size.font4};
@@ -21,7 +24,7 @@ border-bottom:1px solid ${props => props.theme.color.font4};
 `
 const ContentTable = (props) => {
     const navigate = useNavigate();
-    const { columns, data, click, schema, isPointer } = props;
+    const { columns, data, click, schema, isPointer, addSubscribeMaster } = props;
     const onClickEvent = (str) => {
         if (str) {
             navigate(str)
@@ -65,6 +68,17 @@ const ContentTable = (props) => {
                         {columns.map((column, idx) => (
                             <>
                                 <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}` }}>
+                                    {column.type == 'img' ?
+                                        <img src={backUrl+item[column.column]} style={{height:'36px'}} />  ?? "---"
+                                        :
+                                        null}
+                                        {column.type == 'is_subscribe' ?
+                                        <AddButton style={{width:'84px',background:`${item[column.column]?theme.color.background1:'#fff'}`,color:`${item[column.column]?'#fff':theme.color.font1}`,border:`1px solid ${theme.color.background1}`}}
+                                        onClick={()=>(item[column.column]?null:addSubscribeMaster(item.pk))}>
+                                            {item[column.column]?'구독완료':'구독'}
+                                            </AddButton> ?? "---"
+                                        :
+                                        null}
                                     {column.type == 'text' ?
                                         item[column.column] ?? "---"
                                         :

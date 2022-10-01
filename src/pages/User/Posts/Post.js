@@ -132,7 +132,6 @@ const Post = () => {
             setLoading(true)
             const { data: response } = await axios.get(`/api/getmastercontent?table=${params.table}&pk=${params.pk}`)
             let obj = response.data;
-            console.log(response)
             //list
             let take_list = JSON.parse(response?.data?.take_list);
             setTakeList(take_list);
@@ -156,7 +155,6 @@ const Post = () => {
                 }
                 setDonutObj({...donut_obj})
             }
-            console.log(donut_obj)
             
             await new Promise((r) => setTimeout(r, 100));
             //note
@@ -188,7 +186,6 @@ const Post = () => {
     
     useEffect(() => {
         setDonutObj({...donutObj})
-        console.log(chartRef.current.chartInstance)
         
     },[chartRef])
     // 1-1,2-4,3-5,4-2

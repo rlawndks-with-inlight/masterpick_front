@@ -68,7 +68,6 @@ const MMasterEdit = () => {
         let sector_list = [];
         for (var i = 0; i < sectorList.length; i++) {
             if ($(`.sector-tr-${i}`).css('display') != 'none') {
-                console.log($(`.sector-td-2-${i}`).val())
                 if (isNaN(parseFloat($(`.sector-td-2-${i}`).val()))) {
                     alert('투자섹터비중 퍼센트 부분에 숫자가 아닌 부분이 들어 있습니다.');
                     return;

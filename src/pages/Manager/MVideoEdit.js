@@ -44,14 +44,12 @@ const MVideoEdit = () => {
             }
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/getvideocontent?pk=${params.pk}`);
-                console.log(response);
                 $(`.title`).val(response.data.video.title);
                 $(`.link`).val(response.data.video.link);
                 $(`.channel`).val(response.data.video.user_pk);
                 $('.font-color').val(response.data.video.font_color);
                 $('.background-color').val(response.data.video.background_color);
                 let relate_list = response.data.relates ??[];
-                console.log(relate_list)
                 let relate_str = "";
                 for(var i =0;i<relate_list.length;i++){
                     if(i!=0){

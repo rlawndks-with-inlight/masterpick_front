@@ -17,7 +17,6 @@ const MUserStatistic = () => {
         async function fetchPosts(){
 
             const {data:response} = await axios.get('/api/getuserstatistic');
-            console.log(response)
         }
         fetchPosts();
     },[])

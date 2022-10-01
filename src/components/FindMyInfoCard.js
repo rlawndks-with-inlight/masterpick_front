@@ -171,7 +171,6 @@ const FindMyInfoCard = () => {
                     pw: $('.pw').val(),
                     id: myId
                 })
-                console.log(response)
                 if (response.result > 0) {
                     alert('저장되었습니다.')
                     navigate('/login');

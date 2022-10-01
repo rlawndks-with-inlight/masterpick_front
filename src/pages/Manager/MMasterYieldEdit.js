@@ -114,7 +114,6 @@ const MMasterYieldEdit = () => {
         const ws = XLSX.utils.aoa_to_sheet([
             ['종목명', '매수가','수익률','보유기간']
         ]);
-        console.log(sector_list)
         sector_list.map((data) => {
             XLSX.utils.sheet_add_aoa(
                 ws,

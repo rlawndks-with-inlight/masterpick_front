@@ -75,7 +75,6 @@ const MVideoEdit = () => {
             }
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/video/${params.pk}`);
-                console.log(response);
                 $(`.title`).val(response.data.video.title);
                 $(`.link`).val(response.data.video.link);
                 $(`.channel`).val(response.data.video.user_pk);
@@ -110,7 +109,6 @@ const MVideoEdit = () => {
                 background_color: $('.background-color').val(),
                 note: editorRef.current.getInstance().getHTML()
             }
-            console.log(obj)
             if (params.pk > 0) obj.pk = params.pk;
 
             if (window.confirm(`저장하시겠습니까?`)) {

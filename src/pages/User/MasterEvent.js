@@ -46,7 +46,6 @@ const MasterEvent = () => {
             setLoading(true)
 
             const { data: response } = await axios.get('/api/getmastercontents?table=master_event&order=level&desc=true')
-            console.log(response)
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
         }
@@ -56,7 +55,6 @@ const MasterEvent = () => {
         setLoading(true)
         setTypeNum(num)
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&order=level&desc=true&pk=${num}`)
-        console.log(response)
         setPosts(response.data)
         setLoading(false);
     }, [])

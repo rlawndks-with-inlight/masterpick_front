@@ -45,7 +45,6 @@ const HowToUse = () => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get('/api/setting')
-            console.log(response)
             let obj = response.data;
             setSetting(response.data);
             obj.note = stringToHTML(obj[zMenu[typeNum]['column']], backUrl)

@@ -56,7 +56,6 @@ const Search = () => {
         slidesToScroll: 1,
     };
     useEffect(()=>{
-        console.log(location.state)
         if(location.state){
             $('.search').val(location.state);
             let str = location.state;
@@ -72,7 +71,6 @@ const Search = () => {
         } else {
             setLoading(true)
             const { data: response } = await axios.get(`/api/onsearchallitem?keyword=${str}`);
-            console.log(response.data)
             if(response.data.oneWord.length==0&&
                 response.data.oneEvent.length==0&&
                 response.data.issues.length==0&&

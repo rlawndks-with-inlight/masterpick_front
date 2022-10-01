@@ -36,7 +36,6 @@ const SubscriptionOnly = () => {
             setLoading(true)
             let auth_obj = JSON.parse(localStorage.getItem('auth'))
             const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&is_subscribe=true&user_pk=${auth_obj?.pk??0}`)
-            console.log(response)
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
         }
@@ -47,7 +46,6 @@ const SubscriptionOnly = () => {
         setLoading(true)
         setTypeNum(num)
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&pk=${num}`)
-        console.log(response)
         setPosts(response.data)
         setTimeout(() => setLoading(false), 500);
     }, [])

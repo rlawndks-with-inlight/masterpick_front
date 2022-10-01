@@ -48,7 +48,6 @@ export const deleteItem = async (type, obj) => {
 
 }
 export const commarNumber = (num) => {
-    console.log(num)
     let str = "";
     if (typeof num == "number") {
         str = num.toString();
@@ -65,7 +64,6 @@ export const commarNumber = (num) => {
     return result;
 }
 export const formatPhoneNumber = (input) => {
-    console.log(input)
     const cleanInput = String(input).replaceAll(/[^0-9]/g, "");
     let result = "";
     const length = cleanInput.length;

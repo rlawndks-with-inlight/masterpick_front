@@ -55,7 +55,6 @@ const EditMyInfoCard = () => {
     const zType = [{ title: "프로필 변경" }, { title: "닉네임 변경" }, { title: "비밀번호 변경" }, { title: "전화번호 변경" }];
     useEffect(() => {
         let auth = JSON.parse(localStorage.getItem('auth'))
-        console.log(auth)
         if(auth.profile_img){
             setUrl(auth.profile_img.substring(0,4)=="http"?auth.profile_img:backUrl+auth.profile_img)
         }
@@ -162,7 +161,6 @@ const EditMyInfoCard = () => {
             obj.phone = $('.phone').val();
         }
         const { data: response } = await axios.post(str, obj);
-        console.log(response);
         if (response.result > 0) {
             alert("성공적으로 저장되었습니다.\n다시 로그인 해주세요.");
             const { data: response } = await axios.post('/api/logout');

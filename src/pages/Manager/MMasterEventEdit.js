@@ -100,7 +100,6 @@ const MMasterEventEdit = () => {
         const ws = XLSX.utils.aoa_to_sheet([
             ['종목명', '등급 (숫자: 별점)']
         ]);
-        console.log(sector_list)
         sector_list.map((data) => {
             XLSX.utils.sheet_add_aoa(
                 ws,

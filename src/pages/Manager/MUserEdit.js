@@ -35,13 +35,24 @@ const MUserEdit = () => {
     const [formData] = useState(new FormData())
     const [noteFormData] = useState(new FormData());
     const [subscribeList, setSubscribeList] = useState([])
+    const [masterList, setMasterList] = useState([])
     useEffect(() => {
 
         async function fetchPost() {
             if (params.pk > 0) {
-                const {data:response} = await axios.get(`/api/getusercontent?pk=${params.pk}`)
-                console.log(response)
-                setSubscribeList(response?.data?.subscribes);
+                const { data: masterResponse } = await axios.get('/api/items?table=master');
+                let master_list = masterResponse.data;
+                const { data: response } = await axios.get(`/api/getusercontent?pk=${params.pk}`)
+                let subscribe_list = response?.data?.subscribes;
+                setSubscribeList(subscribe_list);
+                let subscribe_master_pk_list = subscribe_list.map(a => a.master_pk);
+                for (var i = 0; i < master_list.length; i++) {
+                    if (subscribe_master_pk_list.includes(master_list[i].pk)) {
+                        master_list[i].is_subscribe = true;
+                    } else {
+                        master_list[i].is_subscribe = false;
+                    }
+                }
                 $('.id').val(response.data.user.id)
                 $('.pw').val("")
                 $('.name').val(response.data.user.name)
@@ -100,6 +111,26 @@ const MUserEdit = () => {
         setChosenEmoji(emojiObject);
         editorRef.current.getInstance().insertText(emojiObject.emoji)
     };
+    const addSubscribeMaster = async (num) => {
+        if (localStorage.getItem('auth')) {
+            if (window.confirm('구독 하시겠습니까?')) {
+                const { data: response } = await axios.post('/api/addsubscribe', {
+                    user_pk: params.pk,
+                    master_pk: num
+                })
+                if (response.result > 0) {
+                    alert("구독을 완료하였습니다.")
+                    window.location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        } else {
+            alert('로그인을 해주세요.');
+            navigate('/login');
+            return;
+        }
+    }
     return (
         <>
             <ManagerWrappers>
@@ -134,16 +165,16 @@ const MUserEdit = () => {
                             <Col>
                                 <Title style={{ margintop: '32px' }}>유저레벨</Title>
                                 <Select className='level'>
-                                <option value={0}>일반유저</option>
-                                <option value={40}>관리자</option>
-                                    {JSON.parse(localStorage.getItem('auth')).user_level>=50?
-                                    <>
-                                    <option value={50}>개발자</option>
-                                    </>
-                                    :
-                                    <>
-                                    </>}
-                                    
+                                    <option value={0}>일반유저</option>
+                                    <option value={40}>관리자</option>
+                                    {JSON.parse(localStorage.getItem('auth')).user_level >= 50 ?
+                                        <>
+                                            <option value={50}>개발자</option>
+                                        </>
+                                        :
+                                        <>
+                                        </>}
+
                                 </Select>
                             </Col>
                         </Row>
@@ -184,13 +215,22 @@ const MUserEdit = () => {
                         </Row>
                         <Title>구독상품</Title>
                         <ContentTable columns={[
-                                { name: "거장명", column: "master_name", width: 25, type: 'text' },
-                                { name: "구매일자", column: "date", width: 25, type: 'text' },
-                                { name: "금액", column: "yield", width: 25, type: 'text' },
-                                { name: "취소", column: "", width: 25, type: 'delete' },
-                            ]}
-                                data={subscribeList}
-                                schema={'user_master_connect'} />
+                            { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                            { name: "구매일자", column: "date", width: 25, type: 'text' },
+                            { name: "금액", column: "yield", width: 25, type: 'text' },
+                            { name: "취소", column: "", width: 25, type: 'delete' },
+                        ]}
+                            data={subscribeList}
+                            schema={'user_master_connect'} />
+                        <Title>거장목록</Title>
+                        <ContentTable columns={[
+                            { name: "프로필이미지", column: "profile_img", width: 25, type: 'img' },
+                            { name: "이름", column: "name", width: 25, type: 'text' },
+                            { name: "구독여부", column: "is_subscribe", width: 25, type: 'is_subscribe' }
+                        ]}
+                            data={masterList}
+                            schema={'master'}
+                            addSubscribeMaster={addSubscribeMaster} />
                     </Card>
                     <ButtonContainer>
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>

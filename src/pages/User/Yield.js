@@ -34,7 +34,6 @@ const Yield = () => {
             setLoading(true)
 
             const { data: response } = await axios.get('/api/getmastercontents?table=master_yield&order=yield&desc=true')
-            console.log(response)
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
         }
@@ -45,7 +44,6 @@ const Yield = () => {
         setLoading(true)
         setTypeNum(num)
         const { data: response } = await axios.get(`/api/getmastercontents?table=master_yield&order=yield&desc=true&pk=${num}`)
-        console.log(response)
         setPosts(response.data)
         setLoading(false);
     }, [])
