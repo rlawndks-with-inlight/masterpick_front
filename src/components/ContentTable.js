@@ -21,20 +21,20 @@ border-bottom:1px solid ${props => props.theme.color.font4};
 `
 const ContentTable = (props) => {
     const navigate = useNavigate();
-    const { columns, data, click, schema,isPointer } = props;
-    const onClickEvent = (str) =>{
-        if(str){
+    const { columns, data, click, schema, isPointer } = props;
+    const onClickEvent = (str) => {
+        if (str) {
             navigate(str)
         }
     }
     const deleteItem = async (pk, schema, cha) => {
-        if(window.confirm(`정말로 ${cha??'삭제'}하시겠습니까?`)){
+        if (window.confirm(`정말로 ${cha ?? '삭제'}하시겠습니까?`)) {
             let obj = {
                 pk: pk,
                 table: schema
             }
             const { data: response } = await axios.post(`/api/deleteitem`, obj)
-    
+
             if (response.result > 0) {
                 alert('has been deleted');
                 window.location.reload();
@@ -42,6 +42,13 @@ const ContentTable = (props) => {
                 alert('error')
             }
         }
+    }
+    const getStarBynum = (num) => {
+        let str = '';
+        for (var i = 0; i < num; i++) {
+            str += '★';
+        }
+        return str;
     }
     return (
         <>
@@ -54,16 +61,20 @@ const ContentTable = (props) => {
                     ))}
                 </Tr>
                 {data.map((item, idx) => (
-                    <Tr onClick={()=>{click?onClickEvent(`${click+'/'+item.pk}`):onClickEvent(``)}}>
+                    <Tr onClick={() => { click ? onClickEvent(`${click + '/' + item.pk}`) : onClickEvent(``) }}>
                         {columns.map((column, idx) => (
                             <>
-                                <Td style={{ width: column.width, color:`${column.color?column.color:''}`,cursor:`${isPointer?'pointer':''}` }}>
+                                <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}` }}>
                                     {column.type == 'text' ?
-                                        item[column.column]??"---"
+                                        item[column.column] ?? "---"
+                                        :
+                                        null}
+                                    {column.type == 'star' ?
+                                        getStarBynum(parseInt(item[column.column])) ?? "---"
                                         :
                                         null}
                                     {column.type == 'number' ?
-                                        commarNumber(item[column.column])??"---"
+                                        commarNumber(item[column.column]) ?? "---"
                                         :
                                         null}
                                     {column.type == 'day' ?
@@ -74,8 +85,8 @@ const ContentTable = (props) => {
                                         `${item[column.column] >= 0 ? '+' : '-'}` + item[column.column] + '%'
                                         :
                                         null}
-                                        {column.type == 'delete' ?
-                                        <RiDeleteBinLine style={{cursor:'pointer'}} onClick={()=>deleteItem(item.pk,schema,column.name)}/>
+                                    {column.type == 'delete' ?
+                                        <RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => deleteItem(item.pk, schema, column.name)} />
                                         :
                                         null}
                                 </Td>

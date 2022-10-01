@@ -45,7 +45,7 @@ const MasterEvent = () => {
         async function fetchPost() {
             setLoading(true)
 
-            const { data: response } = await axios.get('/api/getmastercontents?table=master_event&order=level')
+            const { data: response } = await axios.get('/api/getmastercontents?table=master_event&order=level&desc=true')
             console.log(response)
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
@@ -55,7 +55,7 @@ const MasterEvent = () => {
     const onClickMaster = useCallback(async (num) => {
         setLoading(true)
         setTypeNum(num)
-        const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&order=level&pk=${num}`)
+        const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&order=level&desc=true&pk=${num}`)
         console.log(response)
         setPosts(response.data)
         setLoading(false);
@@ -80,7 +80,7 @@ const MasterEvent = () => {
                             <ContentTable columns={[
                                 { name: "대가이름", column: "master_name", width: 25, type: 'text' },
                                 { name: "종목명", column: "name", width: 50, type: 'text' },
-                                { name: "등급", column: "level", width: 25, type: 'text' }
+                                { name: "등급", column: "level", width: 25, type: 'star' }
                             ]}
                                 data={posts} />
                         </div>

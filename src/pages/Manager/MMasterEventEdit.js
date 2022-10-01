@@ -77,14 +77,14 @@ const MMasterEventEdit = () => {
                                     <Table>
                                         <Tr>
                                             <Td>종목명</Td>
-                                            <Td>등급</Td>
+                                            <Td>등급 (숫자: 별점)</Td>
                                             <Td style={{ width: '20%' }}>삭제</Td>
                                         </Tr>
                                         {sectorList && sectorList.map((item, idx) => (
                                             <>
                                                 <Tr className={`sector-tr-${idx}`}>
                                                     <Td ><SectorInput className={`sector-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} placeholder='only number' /> </Td>
                                                     <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.sector-tr-${idx}`).css('display', 'none') }} /></Td>
                                                 </Tr>
                                             </>
