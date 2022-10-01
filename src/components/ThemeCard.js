@@ -105,7 +105,7 @@ const MasterCard = (props) => {
         <>
             <Card>
                 <Img style={{
-                    backgroundImage: `url(${backUrl + data?.profile_img ?? ""})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
+                    backgroundImage: `url(${backUrl + data?.profile_img ?? ""})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
                 }} />
 
                 <TextContainer>

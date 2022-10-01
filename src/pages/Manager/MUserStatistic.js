@@ -16,7 +16,7 @@ const MUserStatistic = () => {
     useEffect(()=>{
         async function fetchPosts(){
 
-            const {data:response} = await axios.get('/api/getuserstatistic')
+            const {data:response} = await axios.get('/api/getuserstatistic');
             console.log(response)
         }
         fetchPosts();

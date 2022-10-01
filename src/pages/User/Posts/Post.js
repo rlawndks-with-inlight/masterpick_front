@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, React } from "react";
 import { useParams } from "react-router-dom";
 import { ViewerContainer, Wrappers } from "../../../components/elements/UserContentTemplete";
 import { backUrl, zWeather } from "../../../data/Data";
@@ -7,16 +7,17 @@ import theme from "../../../styles/theme";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import $ from 'jquery'
 import styled from "styled-components";
-import { commarNumber, stringToHTML } from "../../../functions/utils";
+import { commarNumber } from "../../../functions/utils";
 import firstPartnersImg from '../../../assets/images/test/first-partners.svg'
-import { Pie3D } from 'react-pie3d'
-import { Row } from "../../../components/elements/ManagerTemplete";
 import { AiFillCaretDown } from 'react-icons/ai'
-import 'chart.js/auto';
-import { Doughnut } from "react-chartjs-2";
-import ReactApexChart from "react-apexcharts";
 import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 const Progress = styled.progress`
 
 appearance: none;
@@ -77,7 +78,7 @@ padding: 16px;
 }
 `
 const DonutContainer = styled.div`
-width:50%;
+width:40%;
 @media screen and (max-width:700px) {
     width:100%;
 
@@ -85,7 +86,7 @@ width:50%;
 `
 const DonutExplainContainer = styled.div`
 text-align:end;
-width:50%;
+width:60%;
 @media screen and (max-width:700px) {
     width:100%;
 }
@@ -98,55 +99,23 @@ margin:0 auto;
 const Post = () => {
     const params = useParams();
 
-
-    const donutData = {
-        series: [50, 40, 30, 10, 0],
-        options: {
-            chart: {
-                type: 'donut',
-            },
-            legend: {
-                position: 'bottom'
-            },
-            responsive: [{
-                breakpoint: 480,
-            }],
-            plotOptions: {
-                pie: {
-                    donut: {
-                        // hollow: {  
-                        //   margin: 15,
-                        //   size: '70%',
-                        //   image: '../../css/images/a-icon.jpg',
-                        //   imageWidth: 64,
-                        //   imageHeight: 64,
-                        //   imageClipped: false
-                        // },
-                        labels: {
-                            show: true,
-                            total: {
-                                showAlways: true,
-                                show: false,
-                                label: '주요 사업',
-                                fontSize: '12px',
-                                color: 'red'
-                            },
-                            value: {
-                                fontSize: '22px',
-                                show: true,
-                                color: 'blue',
-                            },
-                        },
-                    }
-                }
-            },
-            labels: ["침입", "배회", "쓰러짐", "화재", "안전모"],
-            title: {
-            },
-        },
-    }
+    const chartRef = useRef(null);
+    const donut_data = {
+        labels: [],
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [],
+            backgroundColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+            borderColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+            borderWidth: 1,
+          },
+        ],
+      };
+    
     const [loading, setLoading] = useState(false)
 
+    const [isShowDonut, setIsShowDonut] = useState(false)
     const [percent, setPercent] = useState(0);
     const [item, setItem] = useState({})
     const [typeNum, setTypeNum] = useState(0);//매출액-0,영업이익-1
@@ -156,12 +125,11 @@ const Post = () => {
     const [investmentPointList, setInvestmentPointList] = useState([])//투자포인트-막대그래프
     const [investmentPointDetailDisplay, setInvestmentPointDetailDisplay] = useState(false)
     const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
-    const [donutObj, setDonutObj] = useState(donutData)
-
+    const [donutObj, setDonutObj] = useState(donut_data??{})
 
     useEffect(() => {
         async function fetchPost() {
-            setLoading(true)
+            // setLoading(true)
             const { data: response } = await axios.get(`/api/getmastercontent?table=${params.table}&pk=${params.pk}`)
             let obj = response.data;
             console.log(response)
@@ -177,15 +145,20 @@ const Post = () => {
 
             let major_bussiness_list = JSON.parse(response?.data?.major_bussiness_list);
             setMajorBussinessList(major_bussiness_list);
-            let donut_obj = donutData;
-            donut_obj.series = [];
-            donut_obj.options.labels = [];
-            for (var i = 0; i < major_bussiness_list.length; i++) {
-                donut_obj.series.push(parseFloat(major_bussiness_list[i].percent))
-                donut_obj.options.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
+            let donut_obj = {...donut_data};
+            donut_obj.labels = [];
+            donut_obj.datasets[0].data = [];
+
+            if (major_bussiness_list.length > 0) {
+                for (var i = 0; i < major_bussiness_list.length; i++) {
+                    donut_obj.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
+                    donut_obj.datasets[0].data.push(parseFloat(major_bussiness_list[i].percent))
+                }
+                setDonutObj({...donut_obj})
             }
-            setDonutObj(donut_obj)
             console.log(donut_obj)
+            
+            await new Promise((r) => setTimeout(r, 100));
             //note
             obj.main_note = obj.main_note.replaceAll('http://localhost:8001', backUrl);
             obj.company_overview_note = obj.company_overview_note.replaceAll('http://localhost:8001', backUrl);
@@ -196,20 +169,28 @@ const Post = () => {
             obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
             obj.etc_note = obj.etc_note.replaceAll('http://localhost:8001', backUrl);
             $('.toastui-editor-contents').attr("style", "max-width:500px !important;")
-            console.log(obj)
             $('.note > body').css('margin', '0');
+            $('.donutchart').css("width", '100%')
+            $('.donutchart').attr("style", "width:100% !important;")
+
             setItem(obj);
             await new Promise((r) => setTimeout(r, 100));
-            setLoading(false)
+            //setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
 
         window.addEventListener('scroll', function (el) {
+
             let per = Math.floor(($(window).scrollTop() / ($(document).height() - $(window).height())) * 100);
             setPercent(per);
         })
     }, [])
-
+    
+    useEffect(() => {
+        setDonutObj({...donutObj})
+        console.log(chartRef.current.chartInstance)
+        
+    },[chartRef])
     // 1-1,2-4,3-5,4-2
     return (
         <>
@@ -330,12 +311,10 @@ const Post = () => {
                             <TitleStyle>3. 주요 사업</TitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
-                                    <ReactApexChart
-                                        options={donutObj?.options}
-                                        series={donutObj?.series}
-                                        type="donut"
-                                    /> 
+                                    
+                                   <Doughnut data={donutObj.labels.length>0?donutObj:donut_data} ref={chartRef} />
 
+                                    
                                 </DonutContainer>
                                 <DonutExplainContainer>
                                     <Img src={backUrl + item?.major_bussiness_img} />

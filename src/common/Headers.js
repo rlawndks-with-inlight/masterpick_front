@@ -227,7 +227,6 @@ const Headers = () => {
                   </>
                   :
                   <>
-                    <img src={hamburgurIcon} style={{ height: '1rem', marginTop: '0.25rem' }} />
                     <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} onClick={() => { navigate('/') }} />
                   </>}
               </div>

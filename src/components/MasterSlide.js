@@ -35,7 +35,7 @@ const MasterSlide = (props) => {
                         {isPhoto ?
                             <>
                                 <Img style={{
-                                    backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
+                                    backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
                                     , opacity: `${params.pk == item.pk || num == item.pk ? '1' : '0.5'}`
                                 }} onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
                             </>
