@@ -22,6 +22,7 @@ min-height:58vh;
 `
 
 export const Wrappers = (props) =>{
+    let {maxWidth} = props;
     const [minHeight, setMinHeight] = useState(500);
     const {pathname} = useLocation();
     useEffect(()=>{
@@ -32,7 +33,7 @@ export const Wrappers = (props) =>{
     },[])
     return (
         <>
-        <WrappersStyle style={{minHeight:`${minHeight}px`}}>
+        <WrappersStyle style={{minHeight:`${minHeight}px`,maxWidth:`${maxWidth?maxWidth:''}px`}}>
             {props.children??""}
         </WrappersStyle>
         </>
@@ -144,4 +145,9 @@ border-radius:4px;
 border:1px solid ${props=>props.theme.color.background1};
 cursor:pointer;
 font-size:${props=>props.theme.size.font3};
+`
+export const ViewerContainer = styled.div`
+max-width:700px;
+width:100%;
+margin:0 auto;
 `

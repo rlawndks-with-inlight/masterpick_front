@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Wrappers } from "../../../components/elements/UserContentTemplete";
+import { ViewerContainer, Wrappers } from "../../../components/elements/UserContentTemplete";
 import { backUrl, zWeather } from "../../../data/Data";
 import theme from "../../../styles/theme";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
@@ -16,6 +16,7 @@ import 'chart.js/auto';
 import { Doughnut } from "react-chartjs-2";
 import ReactApexChart from "react-apexcharts";
 import Loading from "../../../components/Loading";
+import { Viewer } from '@toast-ui/react-editor';
 const Progress = styled.progress`
 
 appearance: none;
@@ -89,21 +90,15 @@ width:50%;
     width:100%;
 }
 `
+const Img = styled.img`
+width:100%;
+max-width:700px;
+margin:0 auto;
+`
 const Post = () => {
     const params = useParams();
 
-    const [loading, setLoading] = useState(false)
 
-    const [percent, setPercent] = useState(0);
-    const [item, setItem] = useState({})
-    const [typeNum, setTypeNum] = useState(0);//매출액-0,영업이익-1
-    const [takeList, setTakeList] = useState([])//매출액
-    const [operatingProfitList, setOperatingProfitList] = useState([])//영업이익
-
-    const [investmentPointList, setInvestmentPointList] = useState([])//투자포인트-막대그래프
-    const [investmentPointDetailDisplay, setInvestmentPointDetailDisplay] = useState(false)
-    const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
-    const [donutObj, setDonutObj] = useState({})
     const donutData = {
         series: [50, 40, 30, 10, 0],
         options: {
@@ -150,7 +145,19 @@ const Post = () => {
             },
         },
     }
-    const zColor = ['#594a7d', '#0030c0', '#90c000', '#aaeebb', '#c00030', '#00c090', '#cba123', '#789af3', '#e7fa09', '#e4f404']
+    const [loading, setLoading] = useState(false)
+
+    const [percent, setPercent] = useState(0);
+    const [item, setItem] = useState({})
+    const [typeNum, setTypeNum] = useState(0);//매출액-0,영업이익-1
+    const [takeList, setTakeList] = useState([])//매출액
+    const [operatingProfitList, setOperatingProfitList] = useState([])//영업이익
+
+    const [investmentPointList, setInvestmentPointList] = useState([])//투자포인트-막대그래프
+    const [investmentPointDetailDisplay, setInvestmentPointDetailDisplay] = useState(false)
+    const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
+    const [donutObj, setDonutObj] = useState(donutData)
+
 
     useEffect(() => {
         async function fetchPost() {
@@ -175,47 +182,25 @@ const Post = () => {
             donut_obj.options.labels = [];
             for (var i = 0; i < major_bussiness_list.length; i++) {
                 donut_obj.series.push(parseFloat(major_bussiness_list[i].percent))
-                donut_obj.options.labels.push(major_bussiness_list[i].element+`(${commarNumber(major_bussiness_list[i].price)}원)`)
+                donut_obj.options.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
             }
             setDonutObj(donut_obj)
+            console.log(donut_obj)
             //note
-            obj.main_note = stringToHTML(obj.main_note, backUrl)
-            
-            obj.company_overview_note = stringToHTML(obj.company_overview_note, backUrl)
-            
-            obj.investment_point_note = stringToHTML(obj.investment_point_note, backUrl)
-            
-            obj.major_bussiness_note = stringToHTML(obj.major_bussiness_note, backUrl)
-            
-            obj.share_note = stringToHTML(obj.share_note, backUrl)
-            
-            obj.capital_change_note = stringToHTML(obj.capital_change_note, backUrl)
-            
-            obj.investment_indicator_note = stringToHTML(obj.investment_indicator_note, backUrl)
-            
-            obj.etc_note = stringToHTML(obj.etc_note, backUrl)
-            
+            obj.main_note = obj.main_note.replaceAll('http://localhost:8001', backUrl);
+            obj.company_overview_note = obj.company_overview_note.replaceAll('http://localhost:8001', backUrl);
+            obj.investment_point_note = obj.investment_point_note.replaceAll('http://localhost:8001', backUrl);
+            obj.major_bussiness_note = obj.major_bussiness_note.replaceAll('http://localhost:8001', backUrl);
+            obj.share_note = obj.share_note.replaceAll('http://localhost:8001', backUrl);
+            obj.capital_change_note = obj.capital_change_note.replaceAll('http://localhost:8001', backUrl);
+            obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
+            obj.etc_note = obj.etc_note.replaceAll('http://localhost:8001', backUrl);
+            $('.toastui-editor-contents').attr("style", "max-width:500px !important;")
             console.log(obj)
             $('.note > body').css('margin', '0');
             setItem(obj);
-            setLoading(false)
             await new Promise((r) => setTimeout(r, 100));
-            $('.main_note').append(obj.main_note)
-            $('.main_note > img').css("width", "100%")
-            $('.company_overview_note').append(obj.company_overview_note)
-            $('.company_overview_note > img').css("width", "100%")
-            $('.investment_point_note').append(obj.investment_point_note)
-            $('.investment_point_note > img').css("width", "100%")
-            $('.major_bussiness_note').append(obj.major_bussiness_note)
-            $('.major_bussiness_note > img').css("width", "100%")
-            $('.share_note').append(obj.share_note)
-            $('.share_note > img').css("width", "100%")
-            $('.capital_change_note').append(obj.capital_change_note)
-            $('.capital_change_note > img').css("width", "100%")
-            $('.investment_indicator_note').append(obj.investment_indicator_note)
-            $('.investment_indicator_note > img').css("width", "100%")
-            $('.etc_note').append(obj.etc_note)
-            $('.etc_note > img').css("width", "100%")
+            setLoading(false)
         }
         fetchPost();
 
@@ -228,7 +213,7 @@ const Post = () => {
     // 1-1,2-4,3-5,4-2
     return (
         <>
-            <Wrappers className="wrapper">
+            <Wrappers className="wrapper" maxWidth={700}>
                 {loading ?
                     <>
                         <Loading />
@@ -254,8 +239,9 @@ const Post = () => {
                                     <div style={{ fontSize: theme.size.font5 }}>투자점수</div>
                                 </div>
                             </div>
-                            <div className="note main_note">
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.main_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer' }}>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
@@ -292,8 +278,9 @@ const Post = () => {
                                 }
                             </div>
                             <TitleStyle>1. 기업개요</TitleStyle>
-                            <div className="note company_overview_note">
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.company_overview_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <TitleStyle>2. 투자포인트</TitleStyle>
                             <div style={{ display: 'flex', maxWidth: '500px', width: '100%', margin: '16px auto', overflowX: 'auto' }}>
                                 {investmentPointList.map((post, idx) => (
@@ -337,59 +324,51 @@ const Post = () => {
                                 <>
                                 </>
                             }
-
-                            <div className="note investment_point_note">
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.investment_point_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <TitleStyle>3. 주요 사업</TitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
-                                    {donutObj == {} ?
-                                        <>
-                                            <ReactApexChart
-                                                options={donutData.options}
-                                                series={donutData.series}
-                                                type="donut"
-                                            />
-                                        </>
-                                        :
-                                        <>
-                                            <ReactApexChart
-                                                options={donutObj?.options ?? donutData.options}
-                                                series={donutObj?.series ?? donutData.series}
-                                                type="donut"
-                                            />
-                                        </>
-                                    }
+                                    <ReactApexChart
+                                        options={donutObj?.options}
+                                        series={donutObj?.series}
+                                        type="donut"
+                                    /> 
 
                                 </DonutContainer>
                                 <DonutExplainContainer>
-                                    <img src={backUrl + item?.major_bussiness_img} style={{ width: 'auto', width: '100%' }} />
+                                    <Img src={backUrl + item?.major_bussiness_img} />
                                     <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                         {item?.major_bussiness_text}
                                     </div>
                                 </DonutExplainContainer>
                             </div>
-                            <div className="note major_bussiness_note">
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.major_bussiness_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <TitleStyle>4. 지배구조, 자본금 변동사항</TitleStyle>
                             <SubTitleStyle>(1) 최대주주 및 특수관계인 지분</SubTitleStyle>
-                            <div className="note share_note" style={{ marginLeft: '16px' }}>
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.share_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <SubTitleStyle>(2) 자본금 변동사항</SubTitleStyle>
-                            <img src={backUrl + item?.capital_change_img} style={{ marginLeft: '16px', width: 'auto' }} />
+                            <Img src={backUrl + item?.capital_change_img} />
                             <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                 {item?.capital_change_text}
                             </div>
-                            <div className="note capital_change_note" style={{ marginLeft: '16px' }}>
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.capital_change_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <TitleStyle>5. 투자 지표</TitleStyle>
-                            <img src={backUrl + item?.investment_indicator_img} style={{ width: '100%' }} />
-                            <div className="note investment_indicator_note">
-                            </div>
+                            <Img src={backUrl + item?.investment_indicator_img} />
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.investment_indicator_note ?? `<body></body>`} />
+                            </ViewerContainer>
                             <TitleStyle>6. 추가 내용들</TitleStyle>
-
-                            <div className="note etc_note">
-                            </div>
+                            <ViewerContainer>
+                                <Viewer initialValue={item?.etc_note ?? `<body></body>`} />
+                            </ViewerContainer>
                         </Content>
                     </>
                 }
