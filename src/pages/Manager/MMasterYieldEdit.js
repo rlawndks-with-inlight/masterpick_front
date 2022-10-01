@@ -23,7 +23,11 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { RiDeleteBinLine } from 'react-icons/ri'
-
+import ExcelComponent from '../../components/ExcelComponent';
+import { useCallback } from 'react';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
+import readXlsxFile from 'read-excel-file'
 const MMasterYieldEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -74,7 +78,67 @@ const MMasterYieldEdit = () => {
         }
 
     }
+    const uploadExcel = (e) => {
+        if (e.target.files[0]) {
+            readXlsxFile(e.target.files[0]).then((rows) => {
+                rows.shift();
+                setSectorList(rows)
+                for(var i = 0;i<1000;i++){
+                    if(i==rows.length){
+                        break;
 
+                    }else{
+                        $(`.sector-tr-${i}`).css('display','flex');
+                        $(`.sector-td-1-${i}`).val(rows[i][0])
+                        $(`.sector-td-2-${i}`).val(rows[i][1])
+                        $(`.sector-td-3-${i}`).val(rows[i][1])
+                        $(`.sector-td-4-${i}`).val(rows[i][1])
+                    }
+                }
+            })
+        }
+    }
+    const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const excelFileExtension = '.xlsx';
+    const excelFileName = '거장수익률';
+    const extractExcel = async () => {
+        let sector_list = [];
+        for (var i = 0; i < sectorList.length; i++) {
+            if ($(`.sector-tr-${i}`).css('display') != 'none') {
+                sector_list.push(
+                    { name: $(`.sector-td-1-${i}`).val(), purchase_price: $(`.sector-td-2-${i}`).val() , yield: $(`.sector-td-3-${i}`).val() , period: $(`.sector-td-4-${i}`).val() }
+                )
+            }
+        }
+
+        const ws = XLSX.utils.aoa_to_sheet([
+            ['종목명', '매수가','수익률','보유기간']
+        ]);
+        console.log(sector_list)
+        sector_list.map((data) => {
+            XLSX.utils.sheet_add_aoa(
+                ws,
+                [
+                    [
+                        data['name'],
+                        data['purchase_price'],
+                        data['yield'],
+                        data['period']
+                    ]
+                ],
+                { origin: -1 }
+            );
+            ws['!cols'] = [
+                { wpx: 200 },
+                { wpx: 200 }
+            ]
+            return false;
+        });
+        const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+        const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const excelFile = new Blob([excelButter], { type: excelFileType });
+        FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
+    }
 
     return (
         <>
@@ -86,6 +150,7 @@ const MMasterYieldEdit = () => {
                         <Row>
                             <Col>
                                 <Title>수익률</Title>
+                                <ExcelComponent uploadExcel={uploadExcel} extractExcel={extractExcel}/>
                                 <Container>
                                     <Table >
                                         <Tr>

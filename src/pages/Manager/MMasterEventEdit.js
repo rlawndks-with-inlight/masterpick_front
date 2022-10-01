@@ -12,7 +12,11 @@ import CancelButton from '../../components/elements/button/CancelButton';
 import $ from 'jquery';
 import { Card, Title, Input, Select, Row, Col, ImageContainer, Table, Tr, Td, SectorInput, SectorAddButton, Container } from '../../components/elements/ManagerTemplete';
 import { RiDeleteBinLine } from 'react-icons/ri'
-
+import { useCallback } from 'react';
+import ExcelComponent from '../../components/ExcelComponent';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
+import readXlsxFile from 'read-excel-file'
 const MMasterEventEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -62,6 +66,63 @@ const MMasterEventEdit = () => {
 
     }
 
+    const uploadExcel = (e) => {
+        if (e.target.files[0]) {
+            readXlsxFile(e.target.files[0]).then((rows) => {
+                rows.shift();
+                setSectorList(rows)
+                for(var i = 0;i<1000;i++){
+                    if(i==rows.length){
+                        break;
+
+                    }else{
+                        $(`.sector-tr-${i}`).css('display','flex');
+                        $(`.sector-td-1-${i}`).val(rows[i][0])
+                        $(`.sector-td-2-${i}`).val(rows[i][1])
+                    }
+                }
+            })
+        }
+    }
+    const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const excelFileExtension = '.xlsx';
+    const excelFileName = '거장종목';
+    const extractExcel = async () => {
+        let sector_list = [];
+        for (var i = 0; i < sectorList.length; i++) {
+            if ($(`.sector-tr-${i}`).css('display') != 'none') {
+                sector_list.push(
+                    { name: $(`.sector-td-1-${i}`).val(), level: $(`.sector-td-2-${i}`).val() }
+                )
+            }
+        }
+
+        const ws = XLSX.utils.aoa_to_sheet([
+            ['종목명', '등급 (숫자: 별점)']
+        ]);
+        console.log(sector_list)
+        sector_list.map((data) => {
+            XLSX.utils.sheet_add_aoa(
+                ws,
+                [
+                    [
+                        data['name'],
+                        data['level']
+                    ]
+                ],
+                { origin: -1 }
+            );
+            ws['!cols'] = [
+                { wpx: 200 },
+                { wpx: 200 }
+            ]
+            return false;
+        });
+        const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+        const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const excelFile = new Blob([excelButter], { type: excelFileType });
+        FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
+    }
 
     return (
         <>
@@ -73,6 +134,7 @@ const MMasterEventEdit = () => {
                         <Row>
                             <Col>
                                 <Title>종목</Title>
+                                <ExcelComponent uploadExcel={uploadExcel} extractExcel={extractExcel} />
                                 <Container>
                                     <Table>
                                         <Tr>
@@ -84,7 +146,7 @@ const MMasterEventEdit = () => {
                                             <>
                                                 <Tr className={`sector-tr-${idx}`}>
                                                     <Td ><SectorInput className={`sector-td-1-${idx}`} /></Td>
-                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} placeholder='only number' /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-2-${idx}`} placeholder={`only number${idx}`} /> </Td>
                                                     <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.sector-tr-${idx}`).css('display', 'none') }} /></Td>
                                                 </Tr>
                                             </>

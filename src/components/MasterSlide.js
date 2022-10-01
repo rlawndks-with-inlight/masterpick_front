@@ -13,6 +13,7 @@ height: 62px;
 margin: 10px;
 background:#fff;
 border:1px solid #707070;
+cursor:pointer;
 `
 const MasterSlide = (props) => {
     let { onClickMaster, num, isPhoto,width } = props;
