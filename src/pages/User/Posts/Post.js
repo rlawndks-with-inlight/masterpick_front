@@ -129,7 +129,7 @@ const Post = () => {
 
     useEffect(() => {
         async function fetchPost() {
-            // setLoading(true)
+            setLoading(true)
             const { data: response } = await axios.get(`/api/getmastercontent?table=${params.table}&pk=${params.pk}`)
             let obj = response.data;
             console.log(response)
@@ -175,7 +175,7 @@ const Post = () => {
 
             setItem(obj);
             await new Promise((r) => setTimeout(r, 100));
-            //setTimeout(() => setLoading(false), 1500);
+            setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
 
@@ -223,7 +223,7 @@ const Post = () => {
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer' }}>
+                            <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer'}}>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
                             </div>
