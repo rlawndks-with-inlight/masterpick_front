@@ -151,12 +151,13 @@ const Master = () => {
                                         </>
                                     ))}
                                 </SectorContainer>
-                                <Button onClick={addSubscribeMaster}>구독하기</Button>
+                                
 
                             </>
                             :
                             <>
                             </>}
+                            <Button onClick={addSubscribeMaster}>구독하기</Button>
                     </>}
 
 
