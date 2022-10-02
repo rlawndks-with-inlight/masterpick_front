@@ -29,6 +29,7 @@ const MasterEvent = () => {
 
     const [loading, setLoading] = useState(false);
     const [typeNum, setTypeNum] = useState(0);
+    const [overlapList, setOverlapList] = useState([]);
 
 
     const settings = {
@@ -56,26 +57,41 @@ const MasterEvent = () => {
         }
         fetchPost();
     }, [])
-    const onClickMaster = useCallback(async (num) => {
+   
+    const onClickMaster = async (num) => {
         setLoading(true)
         setTypeNum(num)
-        const { data: response } = await axios.post('/api/getmastercontents', {
+        let overlap_list = [...overlapList];
+        if(overlap_list.includes(num)){
+            for(var i = 0; i < overlap_list.length; i++){ 
+                if (overlap_list[i] === num) { 
+                    overlap_list.splice(i, 1); 
+                  i--; 
+                }
+              }
+        }else{
+            overlap_list.push(num);
+        }
+        setOverlapList(overlap_list)
+        console.log(overlap_list)
+        let auth_obj = JSON.parse(localStorage.getItem('auth'))
+        const { data: response } = await axios.post(`/api/getmastercontents`, {
             table: 'master_event',
             order: 'level',
             desc: true,
             status: 1,
-            pk: num
+            overlap_list:overlap_list
         })
         setPosts(response.data)
         setLoading(false);
-    }, [])
+    }
     return (
         <>
             <Wrappers className='wrappers'>
                 <Content>
                     <Title>대가들의 종목</Title>
                 </Content>
-                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} width={'90%'} status={1} />
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum}  overlapList={overlapList} width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />
