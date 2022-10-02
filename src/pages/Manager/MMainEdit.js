@@ -175,7 +175,6 @@ const MMainEdit = () => {
             if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_list));
             if (params.category == 'banner_img') formData.append('banner', content2);
 
-            formData.append('pk', setting?.pk ?? 0)
             const { data: response } = await axios.post('/api/editmaincontent', formData)
             if (response.result > 0) {
                 alert('성공적으로 저장되었습니다.')
