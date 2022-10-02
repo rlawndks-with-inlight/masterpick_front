@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { zTalk, zTheme } from '../../data/TestData';
 import axios from 'axios';
-import { backUrl, slideSetting } from '../../data/Data';
+import { backUrl, masterSlideSetting, slideSetting } from '../../data/Data';
 import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv, ImgTitle } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import megaphoneIcon from '../../assets/images/icon/megaphone.svg';
@@ -48,6 +48,16 @@ const BannerResult = styled.div`
 word-break: break-all;
 @media screen and (max-width:700px) {
     width:60%;
+}
+`
+const BannerImg = styled.img`
+width:100%;
+max-width:1000px;
+margin:0 auto;
+margin-top:16px;
+cursor:pointer;
+@media screen and (max-width:700px) {
+    width:90%;
 }
 `
 const Home = () => {
@@ -95,6 +105,7 @@ const Home = () => {
                     master_list.push(masterResponse.data[i]);
                     let master_item = masterResponse.data[i]
                     master_item.yield = best_mater_yield_list[master_item.pk].best_mater_yield;
+                    master_item.yield_title = best_mater_yield_list[master_item.pk].best_mater_yield_title;
                     master_item.recommend_obj = recommendation_list[master_item.pk];
                     if (parseFloat(master_item.yield) > max_yield) {
                         max_yield = master_item.yield;
@@ -171,13 +182,15 @@ const Home = () => {
                         <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
                         <Content>
                             <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
+                                
                                 {masterList.map((item, index) => (
                                     <>
-                                        <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}` }} onClick={() => { setMasterPk(item.pk) }}>
+                                        <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}`,width:'25%' }} onClick={() => { setMasterPk(item.pk) }}>
                                             {item.name}
                                         </SubType>
                                     </>
                                 ))}
+                               
                             </SelectSubType>
                         </Content>
                         {masterList.map((item, idx) => (
@@ -206,7 +219,8 @@ const Home = () => {
                                 </Banner>
                             </>
                         ))}
-
+                        <BannerImg src={backUrl + setting?.recommendation_banner_img}
+                            onClick={() => navigate('/masterevent')} />
                         <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
 
                         <Content>
@@ -238,7 +252,7 @@ const Home = () => {
                                 ]}
                                     data={bestMonthList} />
                             </div>
-                            <img src={backUrl + setting?.banner_img} style={{ width: '90%', maxWidth: '900px', margin: '0 auto', marginTop: '16px' }}
+                            <img src={backUrl + setting?.banner_img} style={{ width: '90%', maxWidth: '900px', margin: '0 auto', marginTop: '16px', cursor: 'pointer' }}
                                 onClick={() => navigate('/masterlist')} />
                         </Content>
                     </>}

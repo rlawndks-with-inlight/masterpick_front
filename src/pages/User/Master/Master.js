@@ -120,8 +120,8 @@ const Master = () => {
             <Wrappers>
                 <MasterSlide />
                 <Title>대가 프로필</Title>
-                <div style={{ margin: '0 2px 0 auto' }}>
-                    <TransparentButton onClick={addSubscribeMaster}>+ 구독</TransparentButton>
+                <div style={{ margin: '0 2px 24px auto' }}>
+                    <TransparentButton onClick={addSubscribeMaster} style={{position:'absolute',top:'98px',right:'0'}}>+ 구독</TransparentButton>
                 </div>
                 {loading ?
                     <>

@@ -104,3 +104,14 @@ export const slideSetting = {
     beforeChange: (current, next) => {console.log(current)},
     afterChange: current => {console.log(current)},
 }
+export const masterSlideSetting = {
+    infinite: false,
+    dots: true,
+    speed: 500,
+    autoplay: false,
+    autoplaySpeed: 2500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    beforeChange: (current, next) => {console.log(current)},
+    afterChange: current => {console.log(current)},
+}

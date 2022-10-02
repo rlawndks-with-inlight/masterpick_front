@@ -115,6 +115,7 @@ const MMainEdit = () => {
             let best_obj = JSON.parse(response.data.best_mater_yield_list);
             for (var i = 0; i < Object.keys(best_obj).length; i++) {
                 $(`.best_mater_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield)
+                $(`.best_mater_yield_title-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield_title)
             }
             let obj = JSON.parse(response.data.recommendation_list);
             for (var i = 0; i < Object.keys(obj).length; i++) {
@@ -165,6 +166,7 @@ const MMainEdit = () => {
         let best_obj = {};
         for (var i = 0; i < bestMasterList.length; i++) {
             best_obj[bestMasterList[i].pk] = {
+                best_mater_yield_title: $(`.best_mater_yield_title-${bestMasterList[i].pk}`).val(),
                 best_mater_yield: $(`.best_mater_yield-${bestMasterList[i].pk}`).val(),
             }
         }
@@ -330,7 +332,11 @@ const MMainEdit = () => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Title>이달의 BEST 수익률</Title>
+                                        {bestMasterList.map((item, index) => (
+                                            <>
+                                                <Input style={{ display: `${item.pk == bestMasterNum ? 'block' : 'none'}` }} placeholder='10월 누적 수익률' className={`best_mater_yield_title-${item.pk}`} />
+                                            </>
+                                        ))}
                                         {bestMasterList.map((item, index) => (
                                             <>
                                                 <Input style={{ display: `${item.pk == bestMasterNum ? 'block' : 'none'}` }} placeholder='only number' className={`best_mater_yield-${item.pk}`} />

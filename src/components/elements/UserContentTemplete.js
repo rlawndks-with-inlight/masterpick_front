@@ -142,6 +142,7 @@ width:90px;
 height:35px;
 background:transparent;
 border-radius:4px;
+color:${props=>props.theme.color.font1};
 border:1px solid ${props=>props.theme.color.background1};
 cursor:pointer;
 font-size:${props=>props.theme.size.font3};
