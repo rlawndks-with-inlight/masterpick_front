@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Wrappers, Title, TransparentButton } from "../../../components/elements/UserContentTemplete";
+import { Wrappers, Title, TransparentButton, ViewerContainer } from "../../../components/elements/UserContentTemplete";
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +9,7 @@ import MasterCard from "../../../components/MasterCard";
 import { stringToHTML } from "../../../functions/utils";
 import $ from 'jquery'
 import Loading from "../../../components/Loading";
+import { Viewer } from '@toast-ui/react-editor';
 const Button = styled.button`
 width:364px;
 margin:0 auto;
@@ -121,7 +122,7 @@ const Master = () => {
                 <MasterSlide />
                 <Title>대가 프로필</Title>
                 <div style={{ margin: '0 2px 24px auto' }}>
-                    <TransparentButton onClick={addSubscribeMaster} style={{position:'absolute',top:'98px',right:'0'}}>+ 구독</TransparentButton>
+                    <TransparentButton onClick={addSubscribeMaster} style={{ position: 'absolute', top: '98px', right: '0' }}>+ 구독</TransparentButton>
                 </div>
                 {loading ?
                     <>
@@ -132,11 +133,15 @@ const Master = () => {
                         <MasterCard item={item} />
 
                         <Title>대가 투자원칙</Title>
-                        <div className="note principle">
-                        </div>
+                        <ViewerContainer style={{width:'90%'}}>
+                            <Viewer initialValue={item?.investment_principle ?? `<body></body>`} />
+                        </ViewerContainer>
+
+
                         <Title>대가 투자 스타일</Title>
-                        <div className="note style">
-                        </div>
+                        <ViewerContainer style={{width:'90%'}}>
+                            <Viewer initialValue={item?.investment_style ?? `<body></body>`} />
+                        </ViewerContainer>
                         {sectorList && sectorList.length > 0 ?
                             <>
                                 <Title>투자 섹터 비중</Title>
@@ -151,13 +156,13 @@ const Master = () => {
                                         </>
                                     ))}
                                 </SectorContainer>
-                                
+
 
                             </>
                             :
                             <>
                             </>}
-                            <Button onClick={addSubscribeMaster}>구독하기</Button>
+                        <Button onClick={addSubscribeMaster}>구독하기</Button>
                     </>}
 
 
