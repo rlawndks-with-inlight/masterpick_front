@@ -7,6 +7,7 @@ import theme from '../styles/theme';
 import axios from 'axios';
 import { backUrl } from '../data/Data';
 import styled from 'styled-components';
+import $ from 'jquery'
 const Img = styled.div`
 width: 107px;
 height: 62px;
