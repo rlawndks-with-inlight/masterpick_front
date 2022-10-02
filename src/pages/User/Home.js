@@ -185,7 +185,7 @@ const Home = () => {
                                 
                                 {masterList.map((item, index) => (
                                     <>
-                                        <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}`,width:'25%' }} onClick={() => { setMasterPk(item.pk) }}>
+                                        <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}` }} onClick={() => { setMasterPk(item.pk) }}>
                                             {item.name}
                                         </SubType>
                                     </>

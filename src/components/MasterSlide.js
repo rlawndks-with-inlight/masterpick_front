@@ -64,13 +64,16 @@ const MasterSlide = (props) => {
     },[])
     return (
         <>
-            <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}`,flexWrap:`${isPhoto?'wrap':''}` }}>
+            <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}`,display:`${isPhoto?'flex':''}`,flexWrap:`${isPhoto?'wrap':''}` }}>
                 {masterList.map((item, index) => (
                     <>
                         {isPhoto ?
                             <>
                                 {overlapList ?
                                     <>
+                                        {
+
+                                        }
                                         <Img style={{backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}`,margin:`${window.innerWidth<=700?makeMarginImg(index):''}`}} 
                                         onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
                                     </>
