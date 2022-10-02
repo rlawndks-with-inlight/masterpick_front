@@ -6,7 +6,6 @@ import axios from "axios";
 import { backUrl } from "../../../data/Data";
 import MasterSlide from "../../../components/MasterSlide";
 import MasterCard from "../../../components/MasterCard";
-import { stringToHTML } from "../../../functions/utils";
 import $ from 'jquery'
 import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
@@ -68,19 +67,7 @@ const Master = () => {
             setLoading(true)
             const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
             setItem(response.data)
-            let obj = response.data;
-            if (response.data.investment_principle) {
-                $('.principle').html(stringToHTML(obj['investment_principle'], backUrl))
-                $('.principle > img').css({ "width": "100%", "max-width": "700px" });
-            } else {
-                $('.principle').html("");
-            }
-            if (response.data.investment_style) {
-                $('.style').html(stringToHTML(obj['investment_style'], backUrl))
-                $('.style > img').css({ "width": "100%", "max-width": "700px" });
-            } else {
-                $('.style').html("");
-            }
+            
             let sector_list = JSON.parse(response.data?.sector_list);
             sector_list = sector_list.sort(function (a, b) {
                 return b.percent - a.percent
