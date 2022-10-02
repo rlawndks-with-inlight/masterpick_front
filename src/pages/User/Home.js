@@ -59,10 +59,11 @@ const Home = () => {
 
     const [bestMasterObj, setBestMasterObj] = useState({});
     const [bestList, setBestList] = useState([])
+    const [bestMonthList, setBestMonthList] = useState([])
     const [masterList, setMasterList] = useState([])
     const [masterPk, setMasterPk] = useState(0);
     const [recommendMasterPk, setRecommendMasterPk] = useState(0);
-
+    const [dayType, setDayType] = useState(0)
     const settings = {
         infinite: true,
         speed: 500,
@@ -75,12 +76,13 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            setLoading(true)
+            // setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
 
-            let best_list = JSON.parse(response?.data?.best_list);
+            let best_list = JSON.parse(response?.data?.best_list)?.week;
+            let best_month_list = JSON.parse(response?.data?.best_list)?.month;
 
             let best_mater_yield_list = JSON.parse(response?.data?.best_mater_yield_list);
             let recommendation_list = JSON.parse(response?.data?.recommendation_list);
@@ -105,9 +107,10 @@ const Home = () => {
             setMasterPk(master_list[0].pk);
             setMasterList(master_list)
             setBestList(best_list)
+            setBestMonthList(best_month_list)
             setSetting(response?.data)
 
-            setTimeout(() => setLoading(false), 1500);
+            //setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])
@@ -205,14 +208,38 @@ const Home = () => {
                         ))}
 
                         <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
+
                         <Content>
-                            <ContentTable columns={[
-                                { name: "거장명", column: "master_name", width: 25, type: 'text' },
-                                { name: "종목명", column: "name", width: 25, type: 'text' },
-                                { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
-                                { name: "보유기간", column: "days", width: 25, type: 'text' }
-                            ]}
-                                data={bestList} />
+                            <div style={{ width: '90%', margin: '0 auto', alignItems: 'end', display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <SubType style={{ color: `${dayType == 0 ? '#fff' : theme.color.font1}`, background: `${dayType == 0 ? theme.color.background1 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(0) }}>
+                                        {'주'}
+                                    </SubType>
+                                    <SubType style={{ color: `${dayType == 1 ? '#fff' : theme.color.font1}`, background: `${dayType == 1 ? theme.color.background1 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(1) }}>
+                                        {'월'}
+                                    </SubType>
+                                </div>
+                            </div>
+                            <div style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
+                                <ContentTable columns={[
+                                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                                    { name: "종목명", column: "name", width: 25, type: 'text' },
+                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
+                                    { name: "보유기간", column: "days", width: 25, type: 'text' }
+                                ]}
+                                    data={bestList} />
+                            </div>
+                            <div style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
+                                <ContentTable columns={[
+                                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                                    { name: "종목명", column: "name", width: 25, type: 'text' },
+                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
+                                    { name: "보유기간", column: "days", width: 25, type: 'text' }
+                                ]}
+                                    data={bestMonthList} />
+                            </div>
+                            <img src={backUrl + setting?.banner_img} style={{ width: '90%', maxWidth: '900px', margin: '0 auto', marginTop: '16px' }}
+                                onClick={() => navigate('/masterlist')} />
                         </Content>
                     </>}
 

@@ -43,12 +43,14 @@ const MMasterYieldEdit = () => {
                 });
                 let sector_list = response.data;
                 setSectorList(sector_list);
+                console.log(response)
                 await new Promise((r) => setTimeout(r, 100));
                 for (var i = 0; i < sector_list.length; i++) {
                     $(`.sector-td-1-${i}`).val(sector_list[i]?.name);
                     $(`.sector-td-2-${i}`).val(sector_list[i]?.purchase_price);
-                    $(`.sector-td-3-${i}`).val(sector_list[i]?.yield);
-                    $(`.sector-td-4-${i}`).val(sector_list[i]?.period);
+                    $(`.sector-td-3-${i}`).val(sector_list[i]?.sell_price);
+                    $(`.sector-td-4-${i}`).val(sector_list[i]?.yield);
+                    $(`.sector-td-5-${i}`).val(sector_list[i]?.period);
                 }
             } else {
                 navigate(-1);
@@ -62,13 +64,13 @@ const MMasterYieldEdit = () => {
             for (var i = 0; i < sectorList.length; i++) {
                 if ($(`.sector-tr-${i}`).css('display') != 'none') {
                     sector_list.push(
-                        [$(`.sector-td-1-${i}`).val(), $(`.sector-td-2-${i}`).val(), $(`.sector-td-3-${i}`).val(), $(`.sector-td-4-${i}`).val(), params.pk]
+                        [$(`.sector-td-1-${i}`).val(), $(`.sector-td-2-${i}`).val(), $(`.sector-td-3-${i}`).val(), $(`.sector-td-4-${i}`).val(), $(`.sector-td-5-${i}`).val(), params.pk]
                     )
                 }
             }
             let obj = {
                 list: sector_list,
-                columns: ['name', 'purchase_price', 'yield', 'period', 'master_pk'],
+                columns: ['name', 'purchase_price','sell_price', 'yield', 'period', 'master_pk'],
                 table: 'master_yield',
                 master_pk: params.pk
             }
@@ -94,8 +96,9 @@ const MMasterYieldEdit = () => {
                         $(`.sector-tr-${i}`).css('display','flex');
                         $(`.sector-td-1-${i}`).val(rows[i][0])
                         $(`.sector-td-2-${i}`).val(rows[i][1])
-                        $(`.sector-td-3-${i}`).val(rows[i][1])
-                        $(`.sector-td-4-${i}`).val(rows[i][1])
+                        $(`.sector-td-3-${i}`).val(rows[i][2])
+                        $(`.sector-td-4-${i}`).val(rows[i][3])
+                        $(`.sector-td-5-${i}`).val(rows[i][4])
                     }
                 }
             })
@@ -109,7 +112,7 @@ const MMasterYieldEdit = () => {
         for (var i = 0; i < sectorList.length; i++) {
             if ($(`.sector-tr-${i}`).css('display') != 'none') {
                 sector_list.push(
-                    { name: $(`.sector-td-1-${i}`).val(), purchase_price: $(`.sector-td-2-${i}`).val() , yield: $(`.sector-td-3-${i}`).val() , period: $(`.sector-td-4-${i}`).val() }
+                    { name: $(`.sector-td-1-${i}`).val(), purchase_price: $(`.sector-td-2-${i}`).val(), sell_price: $(`.sector-td-3-${i}`).val() , yield: $(`.sector-td-4-${i}`).val() , period: $(`.sector-td-5-${i}`).val() }
                 )
             }
         }
@@ -158,6 +161,7 @@ const MMasterYieldEdit = () => {
                                         <Tr>
                                             <Td>종목명</Td>
                                             <Td>매수가</Td>
+                                            <Td>매도가</Td>
                                             <Td>수익률</Td>
                                             <Td>보유기간</Td>
                                             <Td style={{ width: '20%' }}>삭제</Td>
@@ -167,8 +171,9 @@ const MMasterYieldEdit = () => {
                                                 <Tr className={`sector-tr-${idx}`}>
                                                     <Td ><SectorInput className={`sector-td-1-${idx}`} placeholder={'삼성전자'}  /></Td>
                                                     <Td ><SectorInput className={`sector-td-2-${idx}`} placeholder={'only number'}  /> </Td>
-                                                    <Td ><SectorInput className={`sector-td-3-${idx}`} placeholder={'only number'} /> </Td>
-                                                    <Td ><SectorInput className={`sector-td-4-${idx}`} placeholder={'only number'}  /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-3-${idx}`} placeholder={'only number'}  /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-4-${idx}`} placeholder={'only number'} /> </Td>
+                                                    <Td ><SectorInput className={`sector-td-5-${idx}`} placeholder={'only number'}  /> </Td>
                                                     <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.sector-tr-${idx}`).css('display', 'none') }} /></Td>
                                                 </Tr>
                                             </>

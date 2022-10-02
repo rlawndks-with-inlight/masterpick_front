@@ -66,6 +66,8 @@ const MMainEdit = () => {
     const [myNick, setMyNick] = useState("")
     const [url, setUrl] = useState('')
     const [content, setContent] = useState(undefined)
+    const [url1, setUrl1] = useState('')
+    const [content1, setContent1] = useState(undefined)
     const [url2, setUrl2] = useState('')
     const [content2, setContent2] = useState(undefined)
     const [setting, setSetting] = useState({});
@@ -81,17 +83,24 @@ const MMainEdit = () => {
     const [masterNum, setMasterNum] = useState(0);
 
     const [sectorList, setSectorList] = useState([])
+    const [sectorMonthList, setSectorMonthList] = useState([])
 
+    const [dayType, setDayType] = useState(0)
     useEffect(() => {
         async function fetchPost() {
             formData.delete('main')
             formData.delete('best_mater_yield_list')
             formData.delete('recommendation_list')
+            formData.delete('recommendation_banner')
             formData.delete('best_list')
             formData.delete('pk')
             formData.delete('banner')
             setUrl('')
+            setUrl1('')
             setUrl2('')
+            setContent(undefined)
+            setContent1(undefined)
+            setContent2(undefined)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
             setBestMasterList(masterResponse.data);
             setBestMasterNum(masterResponse.data[0].pk)
@@ -115,8 +124,10 @@ const MMainEdit = () => {
                 $(`.current_price-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.current_price)
                 $(`.yield-${Object.keys(obj)[i]}`).val(obj[Object.keys(obj)[i]]?.yield)
             }
-            let sector_list = JSON.parse(response.data.best_list);
+            let sector_list = JSON.parse(response.data.best_list)?.week ?? [];
+            let sector_month_list = JSON.parse(response.data.best_list)?.month ?? [];
             setSectorList(sector_list);
+            setSectorMonthList(sector_month_list)
             await new Promise((r) => setTimeout(r, 100));
             for (var i = 0; i < sector_list.length; i++) {
                 $(`.best-td-1-${i}`).val(sector_list[i]?.master_name)
@@ -124,9 +135,16 @@ const MMainEdit = () => {
                 $(`.best-td-3-${i}`).val(sector_list[i]?.yield)
                 $(`.best-td-4-${i}`).val(sector_list[i]?.days)
             }
+            for (var i = 0; i < sector_month_list.length; i++) {
+                $(`.best_month-td-1-${i}`).val(sector_month_list[i]?.master_name)
+                $(`.best_month-td-2-${i}`).val(sector_month_list[i]?.name)
+                $(`.best_month-td-3-${i}`).val(sector_month_list[i]?.yield)
+                $(`.best_month-td-4-${i}`).val(sector_month_list[i]?.days)
+            }
             setSetting(response.data ?? {});
             if (response.data) {
                 setUrl(backUrl + response.data.main_img);
+                setUrl1(backUrl + response.data.recommendation_banner_img);
                 setUrl2(backUrl + response.data.banner_img);
             }
         }
@@ -168,11 +186,23 @@ const MMainEdit = () => {
                 )
             }
         }
+        let sector_month_list = [];
+        for (var i = 0; i < sectorMonthList.length; i++) {
+            if ($(`.best_month-tr-${i}`).css('display') != 'none') {
+                sector_month_list.push(
+                    { master_name: $(`.best_month-td-1-${i}`).val(), name: $(`.best_month-td-2-${i}`).val(), yield: $(`.best_month-td-3-${i}`).val(), days: $(`.best_month-td-4-${i}`).val() }
+                )
+            }
+        }
+        let sector_obj = {
+            week: sector_list,
+            month: sector_month_list
+        }
         if (window.confirm("저장하시겠습니까?")) {
             if (params.category == 'main_img') formData.append('main', content);
             if (params.category == 'best_mater_yield_list') formData.append('best_mater_yield_list', JSON.stringify(best_obj));
-            if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));
-            if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_list));
+            if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));formData.append('recommendation_banner', content1);
+            if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_obj));
             if (params.category == 'banner_img') formData.append('banner', content2);
 
             const { data: response } = await axios.post('/api/editmaincontent', formData)
@@ -209,6 +239,12 @@ const MMainEdit = () => {
         if (e.target.files[0]) {
             setContent(e.target.files[0]);
             setUrl(URL.createObjectURL(e.target.files[0]))
+        }
+    };
+    const addFile1 = (e) => {
+        if (e.target.files[0]) {
+            setContent1(e.target.files[0]);
+            setUrl1(URL.createObjectURL(e.target.files[0]))
         }
     };
     const addFile2 = (e) => {
@@ -354,7 +390,26 @@ const MMainEdit = () => {
                                                     <Input placeholder='only number' className={`yield-${item.pk}`} />
                                                 </Col>
                                             </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Title>배너등록</Title>
+                                                    <ImageContainer for="file3">
 
+                                                        {url1 ?
+                                                            <>
+                                                                <Img src={url1} alt="#"
+                                                                />
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                            </>}
+                                                    </ImageContainer>
+                                                    <div>
+                                                        <input type="file" id="file3" onChange={addFile1} style={{ display: 'none' }} />
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                         </div>
                                     </>
                                 ))}
@@ -367,7 +422,19 @@ const MMainEdit = () => {
                                 <Row>
                                     <Col>
                                         <Title>주/월간 BEST 수익률 </Title>
-                                        <Container>
+                                        <SlideContainer>
+                                            <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
+
+                                                <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 0 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(0) }}>
+                                                    {'주'}
+                                                </SubType>
+                                                <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 1 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(1) }}>
+                                                    {'월'}
+                                                </SubType>
+                                            </SelectSubType>
+                                        </SlideContainer>
+
+                                        <Container style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
                                             <Table>
                                                 <Tr>
                                                     <Td>거장명</Td>
@@ -390,6 +457,31 @@ const MMainEdit = () => {
                                             </Table>
                                             <SectorAddButton onClick={() => { setSectorList([...sectorList, ...[{}]]) }}>+추가</SectorAddButton>
                                         </Container>
+
+                                        <Container style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>거장명</Td>
+                                                    <Td>종목명</Td>
+                                                    <Td>수익률</Td>
+                                                    <Td>보유기간</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
+                                                </Tr>
+                                                {sectorMonthList && sectorMonthList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`best_month-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`best_month-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`best_month-td-2-${idx}`} /> </Td>
+                                                            <Td ><SectorInput className={`best_month-td-3-${idx}`} placeholder='only number' /> </Td>
+                                                            <Td ><SectorInput className={`best_month-td-4-${idx}`} placeholder='only number' /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.best-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setSectorMonthList([...sectorMonthList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+
                                     </Col>
 
                                 </Row>

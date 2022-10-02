@@ -86,6 +86,7 @@ const Yield = () => {
                                 { name: "대가명", column: "master_name", width: 30, type: 'text' },
                                 { name: "종목명", column: "name", width: 30, type: 'text' },
                                 { name: "매수가", column: "purchase_price", width: 30, type: 'number' },
+                                { name: "매도가", column: "sell_price", width: 30, type: 'number' },
                                 { name: "수익률", column: "yield", width: 30, type: 'percent' },
                                 { name: "보유기간", column: "period", width: 30, type: 'day' }
                             ]}
