@@ -64,14 +64,15 @@ export const objManagerListContent = {
         breadcrumb: '거장',
         schema: 'master',
         zColumn: [
-            { name: '프로필이미지', width: 15, type: 'img', column: 'profile_img' },
-            { name: '이름', width: 15, type: 'text', column: 'name' },
+            { name: '프로필이미지', width: 16, type: 'img', column: 'profile_img' },
+            { name: '이름', width: 16, type: 'text', column: 'name' },
             { name: '생성시간', width: 20, type: 'text', column: 'date' },
-            { name: '맨위로', width: 10, type: 'top', column: '' },
-            { name: '정보수정', width: 10, type: 'edit', column: 'edit' },
-            { name: '종목수정', width: 10, type: 'event_edit', column: 'edit' },
-            { name: '수익률수정', width: 10, type: 'yield_edit', column: 'edit' },
-            { name: '삭제', width: 10, type: 'delete', column: 'delete' }
+            { name: '맨위로', width: 8, type: 'top', column: '' },
+            { name: '노출여부', width: 8, type: 'status', column: 'status' },
+            { name: '정보수정', width: 8, type: 'edit', column: 'edit' },
+            { name: '종목수정', width: 8, type: 'event_edit', column: 'edit' },
+            { name: '수익률수정', width: 8, type: 'yield_edit', column: 'edit' },
+            { name: '삭제', width: 8, type: 'delete', column: 'delete' }
         ],
     },
     master_subscribe: {

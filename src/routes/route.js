@@ -92,7 +92,7 @@ const zRoute = [
     //{ link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit /> },
    // { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit /> },
     { link: '/manager/edit/setting', element: <MSettingEdit /> },
-    { link: '/manager/edit/main', element: <MMainEdit /> },
+    { link: '/manager/edit/main/:category', element: <MMainEdit /> },
     { link: '/manager/edit/:table/:pk', element: <MItemEdit /> },
     { link: '/manager/list/:table/:pk', element: <MItemList /> },
     { link: '/manager/list/:table', element: <MItemList /> },

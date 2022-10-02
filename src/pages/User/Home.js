@@ -61,7 +61,6 @@ const Home = () => {
     const [bestList, setBestList] = useState([])
     const [masterList, setMasterList] = useState([])
     const [masterPk, setMasterPk] = useState(0);
-
     const [recommendMasterPk, setRecommendMasterPk] = useState(0);
 
     const settings = {
@@ -84,19 +83,21 @@ const Home = () => {
             let best_list = JSON.parse(response?.data?.best_list);
 
             let best_mater_yield_list = JSON.parse(response?.data?.best_mater_yield_list);
-
             let recommendation_list = JSON.parse(response?.data?.recommendation_list);
 
             let master_list = [];
             let max_yield = 0;
             let max_index = 0;
             for (var i = 0; i < masterResponse.data.length; i++) {
-                master_list.push(masterResponse.data[i]);
-                master_list[i].yield = best_mater_yield_list[master_list[i].pk].best_mater_yield;
-                master_list[i].recommend_obj = recommendation_list[master_list[i].pk];
-                if (parseFloat(master_list[i].yield) > max_yield) {
-                    max_yield = master_list[i].yield;
-                    max_index = i;
+                if (masterResponse.data[i]?.status != 0) {
+                    master_list.push(masterResponse.data[i]);
+                    let master_item = masterResponse.data[i]
+                    master_item.yield = best_mater_yield_list[master_item.pk].best_mater_yield;
+                    master_item.recommend_obj = recommendation_list[master_item.pk];
+                    if (parseFloat(master_item.yield) > max_yield) {
+                        max_yield = master_item.yield;
+                        max_index = master_list.length - 1;
+                    }
                 }
             }
             setBestMasterObj(master_list[max_index])
@@ -126,7 +127,7 @@ const Home = () => {
 
                         <Title>이달의 BEST 수익률</Title>
                         <Content>
-                            <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }}>
+                            <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }} onClick={() => navigate(`/yield`)}>
                                 <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '50%', position: 'relative' }}>
                                     <div style={{ display: 'flex', position: 'absolute', alignItems: 'center', top: '6px', left: '20%' }}>
                                         <img src={backUrl + bestMasterObj?.profile_img ?? ''} style={{ height: '75px', marginRight: '5vw' }} />

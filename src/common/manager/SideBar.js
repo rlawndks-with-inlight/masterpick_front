@@ -9,7 +9,7 @@ import { BsPerson, BsCameraVideo } from 'react-icons/bs'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { AiOutlineQuestionCircle, AiOutlineRotateLeft } from 'react-icons/ai'
 import { SiYoutubemusic } from 'react-icons/si'
-import {RiPagesLine} from 'react-icons/ri'
+import { RiPagesLine } from 'react-icons/ri'
 import axios from 'axios';
 const Wrappers = styled.div`
 display:flex;
@@ -91,17 +91,24 @@ const SideBar = () => {
     const navigate = useNavigate();
 
     const [auth, setAuth] = useState({})
-    const [zIssueCategory, setZIssueCategory] = useState([])
     const [issueCategoryDisplay, setIssueCategoryDisplay] = useState(false);
-    const [zFeatureCategory, setZFeatureCategory] = useState([])
     const [zMaster, setZMaster] = useState([])
     const [issueMasterDisplay, setIssueMasterDisplay] = useState(false);
 
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
+
+    const [mainCategoryDisplay, setMainCategoryDisplay] = useState(false)
+    const zMain = [
+        { name: '메인 배너', param: 'main_img' },
+        { name: '이달의 BEST 수익률', param: 'best_mater_yield_list' },
+        { name: '대가의 추천종목', param: 'recommendation_list' },
+        { name: '주간/월간 BEST 수익', param: 'best_list' },
+        { name: '배너등록', param: 'banner_img' },
+    ]
     const zSidebar = [
-        { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
-        { name: '회원통계', link: '/manager/statistic/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/statistic/user'] },
-        { name: '메인페이지', link: '/manager/edit/main', icon: <RiPagesLine />, level: 40, allow_list: ['/manager/edit/main'] },
+        // { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
+        // { name: '회원통계', link: '/manager/statistic/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/statistic/user'] },
+        // { name: '메인페이지', link: '/manager/edit/main', icon: <RiPagesLine />, level: 40, allow_list: ['/manager/edit/main'] },
         //{ name: '접속자현황', link: '/manager/list/user', icon: <MdOutlineAccessTime /> },
         //{ name: '회원통계', link: '/manager/list/user', icon: <IoStatsChartSharp /> },
         { name: '필독!활용법', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
@@ -138,6 +145,8 @@ const SideBar = () => {
             changeFeatureCategoryDisplay();
         } else if (link == '/manager/list/master_subscribe') {
             changeMasterDisplay();
+        } else if (link == '/manager/edit/main') {
+            changeMainCategoryDisplay();
         } else {
             navigate(link);
         }
@@ -151,7 +160,9 @@ const SideBar = () => {
     const changeMasterDisplay = () => {
         setIssueMasterDisplay(!issueMasterDisplay);
     }
-
+    const changeMainCategoryDisplay = () => {
+        setMainCategoryDisplay(!mainCategoryDisplay)
+    }
     return (
         <>
             <HambergurContainer onClick={() => { setDisplay('flex') }}>
@@ -165,6 +176,83 @@ const SideBar = () => {
                     <img src={logo} style={{ height: '40px', width: 'auto' }} />
                 </LogoWrappers>
                 <div style={{ maxHeight: '80vh', paddingBottom: '32px' }}>
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                        <>
+                            {['/manager/list/user'].includes(location.pathname) ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/user`) }}>
+                                        <BsPerson />
+                                        <MenuText>{'회원관리'}</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/user`) }}>
+                                        <BsPerson />
+                                        <MenuText>{'회원관리'}</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                        <>
+                            {['/manager/statistic/user'].includes(location.pathname) ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/statistic/user`) }}>
+                                        <BsPerson />
+                                        <MenuText>{'회원통계'}</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu(`/manager/statistic/user`) }}>
+                                        <BsPerson />
+                                        <MenuText>{'회원통계'}</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                        <>
+                            {['/manager/edit/main'].includes(location.pathname) ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu('/manager/edit/main') }}>
+                                        <RiPagesLine />
+                                        <MenuText>{'메인페이지'}</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu('/manager/edit/main') }}>
+                                        <RiPagesLine />
+                                        <MenuText>{'메인페이지'}</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {mainCategoryDisplay ?
+                        <>
+                            {zMain.map((item, idx) => (
+                                <>
+                                    <MenuContent key={idx} onClick={() => { navigate(`/manager/edit/main/${item.param}`) }} style={{ color: `${location.pathname == `/manager/edit/main/${item.param}` ? '#000' : ''}` }}>
+                                        <MenuText style={{ marginLeft: '15px' }}>{item.name}</MenuText>
+                                    </MenuContent>
+                                </>
+                            ))}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
                     {zSidebar.map((item, index) => (
                         <>
                             {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= item.level ?
@@ -218,87 +306,6 @@ const SideBar = () => {
                         :
                         <>
                         </>}
-                    {JSON.parse(localStorage.getItem('auth'))?.level??0 >= 40 ?
-                        <>
-                            {'/manager/list/feature_category' == location.pathname ?
-                                <>
-                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/feature_category`) }}>
-                                        <MdOutlineFeaturedPlayList />
-                                        <MenuText>특징주 카테고리</MenuText>
-                                    </SelectMenuContent>
-                                </>
-                                :
-                                <>
-                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/feature_category`) }}>
-                                        <MdOutlineFeaturedPlayList />
-                                        <MenuText>특징주 카테고리</MenuText>
-                                    </MenuContent>
-                                </>}
-                        </>
-                        :
-                        <>
-                        </>
-                    }
-
-                    {JSON.parse(localStorage.getItem('auth'))?.level??0 >= 40 ?
-                        <>
-                            {'/manager/list/feature' == location.pathname ?
-                                <>
-                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/feature`) }}>
-                                        <MdOutlineFeaturedPlayList />
-                                        <MenuText>특징주</MenuText>
-                                    </SelectMenuContent>
-                                </>
-                                :
-                                <>
-                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/feature`) }}>
-                                        <MdOutlineFeaturedPlayList />
-                                        <MenuText>특징주</MenuText>
-                                    </MenuContent>
-                                </>}
-                        </>
-                        :
-                        <>
-                        </>
-                    }
-
-
-                    {featureCategoryDisplay ?
-                        <>
-                            {zFeatureCategory.map((item, idx) => (
-                                <>
-                                    <MenuContent key={idx} onClick={() => { navigate(`/manager/list/feature/${item.pk}`) }} style={{ color: `${location.pathname == `/manager/list/feature/${item.pk}` ? '#000' : ''}` }}>
-                                        <MenuText style={{ marginLeft: '15px' }}>{item.title}</MenuText>
-                                    </MenuContent>
-                                </>
-                            ))}
-                        </>
-                        :
-                        <>
-                        </>}
-                    {JSON.parse(localStorage.getItem('auth'))?.level??0 >= 30 ?
-                        <>
-                            {'/manager/list/video' == location.pathname ?
-                                <>
-                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/video`) }}>
-                                        <BsCameraVideo />
-                                        <MenuText>핵심비디오</MenuText>
-                                    </SelectMenuContent>
-                                </>
-                                :
-                                <>
-                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/video`) }}>
-                                        <BsCameraVideo />
-                                        <MenuText>핵심비디오</MenuText>
-                                    </MenuContent>
-                                </>}
-                        </>
-                        :
-                        <>
-                        </>
-                    }
-
-
                     {JSON.parse(localStorage.getItem('auth'))?.level??0 >= 40 ?
                         <>
                             {'/manager/list/notice' == location.pathname ?

@@ -28,31 +28,59 @@ const SubscriptionOnly = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [typeNum, setTypeNum] = useState(0)
-
-
+    const [overlapList, setOverlapList] = useState([]);
 
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
             let auth_obj = JSON.parse(localStorage.getItem('auth'))
-            const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&is_subscribe=true&user_pk=${auth_obj?.pk??0}`)
+            const { data: response } = await axios.post(`/api/getmastercontents`, {
+                table: 'master_subscribe',
+                order: 'pk',
+                desc: true,
+                status: 1,
+                is_subscribe: true,
+                user_pk: auth_obj?.pk ?? 0
+            })
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
         }
         fetchPost();
     }, [])
 
-    const onClickMaster = useCallback(async (num) => {
+    const onClickMaster = async (num) => {
         setLoading(true)
         setTypeNum(num)
-        const { data: response } = await axios.get(`/api/getmastercontents?table=master_subscribe&order=pk&desc=true&pk=${num}`)
+        let overlap_list = [...overlapList];
+        if(overlap_list.includes(num)){
+            for(var i = 0; i < overlap_list.length; i++){ 
+                if (overlap_list[i] === num) { 
+                    overlap_list.splice(i, 1); 
+                  i--; 
+                }
+              }
+        }else{
+            overlap_list.push(num);
+        }
+        setOverlapList(overlap_list)
+        console.log(overlap_list)
+        let auth_obj = JSON.parse(localStorage.getItem('auth'))
+        const { data: response } = await axios.post(`/api/getmastercontents`, {
+            table: 'master_subscribe',
+            order: 'pk',
+            desc: true,
+            status: 1,
+            is_subscribe: true,
+            user_pk: auth_obj?.pk ?? 0,
+            overlap_list:overlap_list
+        })
         setPosts(response.data)
         setTimeout(() => setLoading(false), 500);
-    }, [])
+    }
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} is_subscribe={true} />
+                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} is_subscribe={true} overlapList={overlapList} status={1} />
 
                 {loading ?
                     <>

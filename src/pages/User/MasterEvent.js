@@ -45,7 +45,12 @@ const MasterEvent = () => {
         async function fetchPost() {
             setLoading(true)
 
-            const { data: response } = await axios.get('/api/getmastercontents?table=master_event&order=level&desc=true')
+            const { data: response } = await axios.post('/api/getmastercontents', {
+                table: 'master_event',
+                order: 'level',
+                desc: true,
+                status: 1
+            })
             setPosts(response.data)
             setTimeout(() => setLoading(false), 1000);
         }
@@ -54,7 +59,13 @@ const MasterEvent = () => {
     const onClickMaster = useCallback(async (num) => {
         setLoading(true)
         setTypeNum(num)
-        const { data: response } = await axios.get(`/api/getmastercontents?table=master_event&order=level&desc=true&pk=${num}`)
+        const { data: response } = await axios.post('/api/getmastercontents', {
+            table: 'master_event',
+            order: 'level',
+            desc: true,
+            status: 1,
+            pk: num
+        })
         setPosts(response.data)
         setLoading(false);
     }, [])
@@ -64,7 +75,7 @@ const MasterEvent = () => {
                 <Content>
                     <Title>대가들의 종목</Title>
                 </Content>
-                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} width={'90%'}  />
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />

@@ -16,21 +16,21 @@ border:1px solid #707070;
 cursor:pointer;
 `
 const MasterSlide = (props) => {
-    let { onClickMaster, num, isPhoto,width } = props;
+    let { onClickMaster, num, isPhoto, overlapList, width, status } = props;
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const params = useParams();
     const [masterList, setMasterList] = useState([])
     useEffect(() => {
         async function fetchPosts() {
-            const { data: response } = await axios.get('/api/items?table=master');
+            const { data: response } = await axios.get(`/api/items?table=master${status?`&status=1`:''}`);
             setMasterList(response.data);
         }
         fetchPosts();
     }, [])
     return (
         <>
-            <SelectSubType className='subtype-container' style={{ marginBottom: '16px',width:`${width?width:''}` }}>
+            <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}` }}>
                 {masterList.map((item, index) => (
                     <>
                         {isPhoto ?
@@ -42,9 +42,19 @@ const MasterSlide = (props) => {
                             </>
                             :
                             <>
-                                <SubType style={{ color: `${theme.color.font1}`, background: `${params.pk == item.pk || num == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }}>
-                                    {item.name}
-                                </SubType>
+                                {overlapList ?
+                                    <>
+                                        <SubType style={{ color: `${theme.color.font1}`, background: `${overlapList.includes(item.pk) ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster(item.pk) }}>
+                                            {item.name}
+                                        </SubType>
+                                    </>
+                                    :
+                                    <>
+                                        <SubType style={{ color: `${theme.color.font1}`, background: `${params.pk == item.pk || num == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }}>
+                                            {item.name}
+                                        </SubType>
+                                    </>
+                                }
                             </>
                         }
                     </>

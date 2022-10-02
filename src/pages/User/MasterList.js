@@ -14,7 +14,7 @@ const MasterList = () => {
         async function fetchPosts() {
             setLoading(true)
 
-            const { data: response } = await axios.get('/api/items?table=master');
+            const { data: response } = await axios.get('/api/items?table=master&status=1');
             setPosts(response.data);
             setLoading(false)
 
@@ -31,7 +31,7 @@ const MasterList = () => {
                     </>
                     :
                     <>
-                        <MasterSlide />
+                        <MasterSlide status={1} />
                         {posts.map((item, idx) => (
                             <>
                                 <MasterCard item={item} />

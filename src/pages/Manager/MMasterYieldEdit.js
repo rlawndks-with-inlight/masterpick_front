@@ -37,7 +37,10 @@ const MMasterYieldEdit = () => {
     useEffect(() => {
         async function fetchPost() {
             if (params.pk > 0) {
-                const { data: response } = await axios.get(`/api/getmastercontents?table=master_yield&pk=${params.pk}`);
+                const { data: response } = await axios.post(`/api/getmastercontents`,{
+                    table:'master_yield',
+                    pk:params.pk
+                });
                 let sector_list = response.data;
                 setSectorList(sector_list);
                 await new Promise((r) => setTimeout(r, 100));
