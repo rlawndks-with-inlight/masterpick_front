@@ -55,6 +55,12 @@ const MasterSlide = (props) => {
             return '1.6666vw'
         }
     }
+    useEffect(()=>{
+        if(isPhoto){
+            $('.subtype-container').attr('style','display: -webkit-flex;')
+            $('.subtype-container').attr('style','-webkit-flex-wrap: wrap;')
+        }
+    },[])
     return (
         <>
             <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}`,flexWrap:`${isPhoto?'wrap':''}` }}>
@@ -64,7 +70,7 @@ const MasterSlide = (props) => {
                             <>
                                 {overlapList ?
                                     <>
-                                        <Img style={{backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}`,margin:`${window.innerWidth<=600?makeMarginImg(index):''}`}} 
+                                        <Img style={{backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}`,margin:`${window.innerWidth<=700?makeMarginImg(index):''}`}} 
                                         onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
                                     </>
                                     :
