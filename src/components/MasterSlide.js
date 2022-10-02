@@ -58,8 +58,6 @@ const MasterSlide = (props) => {
     }
     useEffect(()=>{
         if(isPhoto){
-            $('.subtype-container').attr('style','display: -webkit-flex;')
-            $('.subtype-container').attr('style','-webkit-flex-wrap: wrap;')
         }
     },[])
     return (
