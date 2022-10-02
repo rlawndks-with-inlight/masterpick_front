@@ -332,7 +332,7 @@ const MMainEdit = () => {
 
                                             <Row>
                                                 <Col>
-                                                    <Title>종목명{item.pk}</Title>
+                                                    <Title>종목명</Title>
                                                     <Input className={`name-${item.pk}`} />
                                                 </Col>
                                                 <Col>
