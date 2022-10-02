@@ -86,7 +86,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            // setLoading(true)
+            setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
@@ -121,7 +121,7 @@ const Home = () => {
             setBestMonthList(best_month_list)
             setSetting(response?.data)
 
-            //setTimeout(() => setLoading(false), 1500);
+            setTimeout(() => setLoading(false), 1500);
         }
         fetchPost();
     }, [])
@@ -182,7 +182,7 @@ const Home = () => {
                         <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
                         <Content>
                             <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
-                                
+
                                 {masterList.map((item, index) => (
                                     <>
                                         <SubType style={{ color: `${masterPk == item.pk ? '#fff' : theme.color.font1}`, background: `${masterPk == item.pk ? theme.color.background1 : theme.color.background3}` }} onClick={() => { setMasterPk(item.pk) }}>
@@ -190,7 +190,7 @@ const Home = () => {
                                         </SubType>
                                     </>
                                 ))}
-                               
+
                             </SelectSubType>
                         </Content>
                         {masterList.map((item, idx) => (
