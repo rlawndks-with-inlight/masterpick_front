@@ -68,11 +68,11 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
 
     const [bestMasterObj, setBestMasterObj] = useState({});
+    const [bestMasterYieldList, setBestMasterYieldList] = useState([])
     const [bestList, setBestList] = useState([])
     const [bestMonthList, setBestMonthList] = useState([])
     const [masterList, setMasterList] = useState([])
     const [masterPk, setMasterPk] = useState(0);
-    const [recommendMasterPk, setRecommendMasterPk] = useState(0);
     const [dayType, setDayType] = useState(0)
     const settings = {
         infinite: true,
@@ -94,18 +94,23 @@ const Home = () => {
             let best_list = JSON.parse(response?.data?.best_list)?.week;
             let best_month_list = JSON.parse(response?.data?.best_list)?.month;
 
-            let best_mater_yield_list = JSON.parse(response?.data?.best_mater_yield_list);
+            let best_master_yield_list = JSON.parse(response?.data?.best_master_yield_list);//컨텐츠에 쓸것
+            let best_master_yield_obj = JSON.parse(response?.data?.best_master_yield_list);
+            console.log(best_master_yield_list)
+            setBestMasterYieldList(bestMasterObj)
             let recommendation_list = JSON.parse(response?.data?.recommendation_list);
 
             let master_list = [];
             let max_yield = 0;
             let max_index = 0;
+
             for (var i = 0; i < masterResponse.data.length; i++) {
                 if (masterResponse.data[i]?.status != 0) {
                     master_list.push(masterResponse.data[i]);
                     let master_item = masterResponse.data[i]
-                    master_item.yield = best_mater_yield_list[master_item.pk].best_mater_yield;
-                    master_item.yield_title = best_mater_yield_list[master_item.pk].best_mater_yield_title;
+                    master_item.yield = best_master_yield_list[master_item.pk].best_master_yield;
+                    master_item.yield_title = best_master_yield_list[master_item.pk].best_master_yield_title;
+                    master_item.yield_sequence = best_master_yield_list[master_item.pk].best_master_sequence;
                     master_item.recommend_obj = recommendation_list[master_item.pk];
                     if (parseFloat(master_item.yield) > max_yield) {
                         max_yield = master_item.yield;
@@ -125,7 +130,19 @@ const Home = () => {
         }
         fetchPost();
     }, [])
-
+    const getListByYieldList = (list) => {
+        let result = list;
+        for(var i =0;i<result.length;i++){
+            if(parseInt(result[i].yield_sequence)<0){
+                result.splice(i, 1);
+                i--;
+            }
+        }
+        result = result.sort(function (a, b) {
+            return parseInt(a.yield_sequence) - parseInt(b.yield_sequence)
+        })
+        return result;
+    }
     return (
         <>
             <Wrappers className='wrappers'>
@@ -160,7 +177,7 @@ const Home = () => {
                         <Title>BEST 투자대가</Title>
                         <Content>
                             <WrapDiv>
-                                {masterList.map((item, idx) => (
+                                {getListByYieldList(masterList).map((item, idx) => (
                                     <>
                                         <ThemeCard data={item} />
 
@@ -169,7 +186,7 @@ const Home = () => {
                             </WrapDiv>
                             <SliderDiv>
                                 <Slider {...slideSetting} className='board-container pointer'>
-                                    {masterList.map((item, idx) => (
+                                    {getListByYieldList(masterList).map((item, idx) => (
                                         <>
                                             <ThemeCard data={item} />
 

@@ -12,20 +12,13 @@ import ButtonContainer from '../../components/elements/button/ButtonContainer';
 import AddButton from '../../components/elements/button/AddButton';
 import CancelButton from '../../components/elements/button/CancelButton';
 import $ from 'jquery';
-import { addItem, updateItem } from '../../functions/utils';
 import { Card, Title, Input, Select, Row, Col, Table, Tr, Td, SectorInput, SectorAddButton, Container } from '../../components/elements/ManagerTemplete';
 import { backUrl } from '../../data/Data';
 import theme from '../../styles/theme';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
-import Picker from 'emoji-picker-react';
 import SelectSubType from '../../components/elements/SelectSubType';
 import SubType from '../../components/elements/SubType';
 import { RiDeleteBinLine } from 'react-icons/ri'
+import { CgToggleOn, CgToggleOff } from 'react-icons/cg'
 
 const ImageContainer = styled.label`
 border: 2px dashed ${props => props.theme.color.manager.font3};
@@ -88,8 +81,9 @@ const MMainEdit = () => {
     const [dayType, setDayType] = useState(0)
     useEffect(() => {
         async function fetchPost() {
+            formData.delete('category')
             formData.delete('main')
-            formData.delete('best_mater_yield_list')
+            formData.delete('best_master_yield_list')
             formData.delete('recommendation_list')
             formData.delete('recommendation_banner')
             formData.delete('best_list')
@@ -112,10 +106,12 @@ const MMainEdit = () => {
 
             const { data: response } = await axios.get('/api/getmaincontent');
             console.log(response)
-            let best_obj = JSON.parse(response.data.best_mater_yield_list);
+            let best_obj = JSON.parse(response.data.best_master_yield_list);
+            console.log(best_obj)
             for (var i = 0; i < Object.keys(best_obj).length; i++) {
-                $(`.best_mater_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield)
-                $(`.best_mater_yield_title-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_mater_yield_title)
+                $(`.best_master_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield)
+                $(`.best_master_yield_title-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield_title)
+                $(`.best_master_sequence-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_sequence)
             }
             let obj = JSON.parse(response.data.recommendation_list);
             for (var i = 0; i < Object.keys(obj).length; i++) {
@@ -166,8 +162,9 @@ const MMainEdit = () => {
         let best_obj = {};
         for (var i = 0; i < bestMasterList.length; i++) {
             best_obj[bestMasterList[i].pk] = {
-                best_mater_yield_title: $(`.best_mater_yield_title-${bestMasterList[i].pk}`).val(),
-                best_mater_yield: $(`.best_mater_yield-${bestMasterList[i].pk}`).val(),
+                best_master_yield_title: $(`.best_master_yield_title-${bestMasterList[i].pk}`).val(),
+                best_master_sequence: $(`.best_master_sequence-${bestMasterList[i].pk}`).val(),
+                best_master_yield: $(`.best_master_yield-${bestMasterList[i].pk}`).val(),
             }
         }
         let obj = {};
@@ -201,11 +198,12 @@ const MMainEdit = () => {
             month: sector_month_list
         }
         if (window.confirm("저장하시겠습니까?")) {
+            formData.append('category', params.category)
             if (params.category == 'main_img') formData.append('main', content);
-            if (params.category == 'best_mater_yield_list') formData.append('best_mater_yield_list', JSON.stringify(best_obj));
-            if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));formData.append('recommendation_banner', content1);
+            if (params.category == 'best_master_yield_list') formData.append('best_master_yield_list', JSON.stringify(best_obj));
+            if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));
             if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_obj));
-            if (params.category == 'banner_img') formData.append('banner', content2);
+            if (params.category == 'banner_img') { formData.append('banner', content2); formData.append('recommendation_banner', content1) };
 
             const { data: response } = await axios.post('/api/editmaincontent', formData)
             if (response.result > 0) {
@@ -311,7 +309,7 @@ const MMainEdit = () => {
                             :
                             <>
                             </>}
-                        {params.category == 'best_mater_yield_list' ?
+                        {params.category == 'best_master_yield_list' ?
                             <>
                                 <Row>
                                     <Col>
@@ -334,14 +332,29 @@ const MMainEdit = () => {
                                     <Col>
                                         {bestMasterList.map((item, index) => (
                                             <>
-                                                <Input style={{ display: `${item.pk == bestMasterNum ? 'block' : 'none'}` }} placeholder='10월 누적 수익률' className={`best_mater_yield_title-${item.pk}`} />
+                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
+                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>텍스트</div>
+                                                    <Input style={{ margin: '12px auto 6px 6px' }} placeholder='10월 누적 수익률' className={`best_master_yield_title-${item.pk}`} />
+                                                </div>
                                             </>
                                         ))}
                                         {bestMasterList.map((item, index) => (
                                             <>
-                                                <Input style={{ display: `${item.pk == bestMasterNum ? 'block' : 'none'}` }} placeholder='only number' className={`best_mater_yield-${item.pk}`} />
+                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
+                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>수익률</div>
+                                                    <Input style={{ margin: '12px auto 6px 6px' }} placeholder='only number' className={`best_master_yield-${item.pk}`} />
+                                                </div>
                                             </>
                                         ))}
+                                        {bestMasterList.map((item, index) => (
+                                            <>
+                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center',flexDirection:'column' }}>
+                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}` }}>노출순서 (음수일시 노출 안함)</div>
+                                                    <Input style={{ margin:'12px auto 6px 24px'}} placeholder='only number' className={`best_master_sequence-${item.pk}`} />
+                                                </div>
+                                            </>
+                                        ))}
+                                        
                                     </Col>
                                 </Row>
                             </>
@@ -396,26 +409,7 @@ const MMainEdit = () => {
                                                     <Input placeholder='only number' className={`yield-${item.pk}`} />
                                                 </Col>
                                             </Row>
-                                            <Row>
-                                                <Col>
-                                                    <Title>배너등록</Title>
-                                                    <ImageContainer for="file3">
 
-                                                        {url1 ?
-                                                            <>
-                                                                <Img src={url1} alt="#"
-                                                                />
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                            </>}
-                                                    </ImageContainer>
-                                                    <div>
-                                                        <input type="file" id="file3" onChange={addFile1} style={{ display: 'none' }} />
-                                                    </div>
-                                                </Col>
-                                            </Row>
                                         </div>
                                     </>
                                 ))}
@@ -497,9 +491,28 @@ const MMainEdit = () => {
                             </>}
                         {params.category == 'banner_img' ?
                             <>
+
                                 <Row>
                                     <Col>
-                                        <Title>배너등록</Title>
+                                        <Col>
+                                            <Title>거장추천 배너등록</Title>
+                                            <ImageContainer for="file3">
+
+                                                {url1 ?
+                                                    <>
+                                                        <Img src={url1} alt="#"
+                                                        />
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                    </>}
+                                            </ImageContainer>
+                                            <div>
+                                                <input type="file" id="file3" onChange={addFile1} style={{ display: 'none' }} />
+                                            </div>
+                                        </Col>
+                                        <Title>투자대가 포트폴리오 배너등록</Title>
                                         <ImageContainer for="file2">
 
                                             {url2 ?

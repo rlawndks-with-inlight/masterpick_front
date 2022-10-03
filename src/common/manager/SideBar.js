@@ -100,7 +100,7 @@ const SideBar = () => {
     const [mainCategoryDisplay, setMainCategoryDisplay] = useState(false)
     const zMain = [
         { name: '메인 배너', param: 'main_img' },
-        { name: '이달의 BEST 수익률', param: 'best_mater_yield_list' },
+        { name: '이달의 BEST 수익률', param: 'best_master_yield_list' },
         { name: '대가의 추천종목', param: 'recommendation_list' },
         { name: '주간/월간 BEST 수익', param: 'best_list' },
         { name: '배너등록', param: 'banner_img' },

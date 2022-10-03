@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Wrappers, Title, Content } from '../../components/elements/UserContentTemplete';
+import { Wrappers, Title, Content, TransparentButton } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import ContentTable from '../../components/ContentTable';
 import styled from 'styled-components';
@@ -57,31 +57,35 @@ const MasterEvent = () => {
         }
         fetchPost();
     }, [])
-   
+
     const onClickMaster = async (num) => {
         setLoading(true)
         setTypeNum(num)
         let overlap_list = [...overlapList];
-        if(overlap_list.includes(num)){
-            for(var i = 0; i < overlap_list.length; i++){ 
-                if (overlap_list[i] === num) { 
-                    overlap_list.splice(i, 1); 
-                  i--; 
+        if (overlap_list.includes(num)) {
+            for (var i = 0; i < overlap_list.length; i++) {
+                if (overlap_list[i] === num) {
+                    overlap_list.splice(i, 1);
+                    i--;
                 }
-              }
-        }else{
+            }
+        } else {
             overlap_list.push(num);
         }
         setOverlapList(overlap_list)
         console.log(overlap_list)
-        let auth_obj = JSON.parse(localStorage.getItem('auth'))
-        const { data: response } = await axios.post(`/api/getmastercontents`, {
+        let obj =  {
             table: 'master_event',
             order: 'level',
             desc: true,
-            status: 1,
-            overlap_list:overlap_list
-        })
+            status: 1
+        }
+        if(num==0){
+            setOverlapList([]);
+        }else{
+            obj.overlap_list = overlap_list;
+        }
+        const { data: response } = await axios.post(`/api/getmastercontents`, obj)
         setPosts(response.data)
         setLoading(false);
     }
@@ -90,8 +94,10 @@ const MasterEvent = () => {
             <Wrappers className='wrappers'>
                 <Content>
                     <Title>대가들의 종목</Title>
+                        <TransparentButton style={{ position: 'absolute', top: '25px', right: '0',background:'#fff',border:'none', fontWeight:'bold' }}
+                        onClick={()=>onClickMaster(0)}>전체보기</TransparentButton>
                 </Content>
-                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum}  overlapList={overlapList} width={'90%'} status={1} />
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} overlapList={overlapList} width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />

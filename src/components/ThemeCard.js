@@ -82,7 +82,6 @@ margin-top: 16px;
 const MasterCard = (props) => {
     const { data } = props;
     const navigate = useNavigate();
-    console.log(data)
     const addSubscribeMaster = async () => {
         if (localStorage.getItem('auth')) {
             if (window.confirm('구독 하시겠습니까?')) {
@@ -114,7 +113,7 @@ const MasterCard = (props) => {
                     <Title> {data?.motto ?? ""}</Title>
                     <div style={{ display: 'flex', flexDirection: 'column', marginTop: 'auto' }}>
                         <Hash>
-                            <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
+                            <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield_sequence)}%</p>
                         </Hash>
                         <div style={{ display: 'flex', margin: '0 auto' }}>
                             <SubType style={{ background: theme.color.background2 }} onClick={()=>navigate(`/master/${data.pk}`)}>투자전략</SubType>
