@@ -113,7 +113,7 @@ const MasterCard = (props) => {
                     <Title> {data?.motto ?? ""}</Title>
                     <div style={{ display: 'flex', flexDirection: 'column', marginTop: 'auto' }}>
                         <Hash>
-                            <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield_sequence)}%</p>
+                            <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
                         </Hash>
                         <div style={{ display: 'flex', margin: '0 auto' }}>
                             <SubType style={{ background: theme.color.background2 }} onClick={()=>navigate(`/master/${data.pk}`)}>투자전략</SubType>
