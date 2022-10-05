@@ -69,6 +69,7 @@ const MMasterSubscribeEdit = () => {
             setMasterList(masterresponse?.data ?? []);
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/item?table=master_subscribe&pk=${params.pk}`);
+                console.log(response)
                 $('.name').val(response?.data?.name);
                 $('.base_price').val(response?.data?.base_price);
                 $('.capture_date').val(response?.data?.capture_date);
@@ -112,11 +113,11 @@ const MMasterSubscribeEdit = () => {
                 setUrl3(backUrl + response.data?.investment_indicator_img);
                 mainRef.current.getInstance().setHTML(response.data?.main_note.replaceAll('http://localhost:8001', backUrl));
                 companyOverviewRef.current.getInstance().setHTML(response.data?.company_overview_note.replaceAll('http://localhost:8001', backUrl));
-                investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
-                majorBussinessRef.current.getInstance().setHTML(response.data?.major_bussiness_note.replaceAll('http://localhost:8001', backUrl));
+                //investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
+                //majorBussinessRef.current.getInstance().setHTML(response.data?.major_bussiness_note.replaceAll('http://localhost:8001', backUrl));
                 shareRef.current.getInstance().setHTML(response.data?.share_note.replaceAll('http://localhost:8001', backUrl));
                 capitalChangeRef.current.getInstance().setHTML(response.data?.capital_change_note.replaceAll('http://localhost:8001', backUrl));
-                investmentIndicatorRef.current.getInstance().setHTML(response.data?.investment_indicator_note.replaceAll('http://localhost:8001', backUrl));
+                //investmentIndicatorRef.current.getInstance().setHTML(response.data?.investment_indicator_note.replaceAll('http://localhost:8001', backUrl));
                 etcRef.current.getInstance().setHTML(response.data?.etc_note.replaceAll('http://localhost:8001', backUrl));
                 
             } else {
@@ -170,17 +171,17 @@ const MMasterSubscribeEdit = () => {
             formData.append('operating_profit_list', JSON.stringify(operating_profit_list));
             formData.append('company_overview_note', companyOverviewRef.current.getInstance().getHTML());
             formData.append('investment_point_list', JSON.stringify(investment_point_list));
-            formData.append('investment_point_note', investmentIndicatorRef.current.getInstance().getHTML());
+            //formData.append('investment_point_note', investmentIndicatorRef.current.getInstance().getHTML());
             formData.append('major_bussiness_list', JSON.stringify(major_bussiness_list));
             formData.append('major_bussiness_img', content);
             formData.append('major_bussiness_text', $('.major_bussiness_text').val());
-            formData.append('major_bussiness_note', majorBussinessRef.current.getInstance().getHTML());
+           // formData.append('major_bussiness_note', majorBussinessRef.current.getInstance().getHTML());
             formData.append('share_note', shareRef.current.getInstance().getHTML());
             formData.append('capital_change_img', content2);
             formData.append('capital_change_text', $('.capital_change_text').val());
             formData.append('capital_change_note', capitalChangeRef.current.getInstance().getHTML());
             formData.append('investment_indicator_img', content3);
-            formData.append('investment_indicator_note', investmentIndicatorRef.current.getInstance().getHTML());
+            //formData.append('investment_indicator_note', investmentIndicatorRef.current.getInstance().getHTML());
             formData.append('etc_note', etcRef.current.getInstance().getHTML());
 
             if (params.pk > 0) {
@@ -421,10 +422,9 @@ const MMasterSubscribeEdit = () => {
                                             </Table>
                                             <SectorAddButton onClick={() => { setInvestmentPointList([...investmentPointList, ...[{}]]) }}>+추가</SectorAddButton>
                                         </Container>
-                                        <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
+                                        {/* <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
 
                                         <div id="editor">
-                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                             <Editor
                                                 placeholder="내용을 입력해주세요."
                                                 previewStyle="vertical"
@@ -451,7 +451,7 @@ const MMasterSubscribeEdit = () => {
                                                     }
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -498,10 +498,9 @@ const MMasterSubscribeEdit = () => {
                                         <div>
                                             <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
                                         </div>
-                                        <Input className='major_bussiness_text' />
+                                        {/* <Input className='major_bussiness_text' />
                                         <Title>&nbsp;&nbsp;&nbsp;(3) 설명</Title>
                                         <div id="editor">
-                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                             <Editor
                                                 placeholder="내용을 입력해주세요."
                                                 previewStyle="vertical"
@@ -528,7 +527,7 @@ const MMasterSubscribeEdit = () => {
                                                     }
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -582,7 +581,7 @@ const MMasterSubscribeEdit = () => {
                                         <div>
                                             <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
                                         </div>
-                                        <Input className='capital_change_text' />
+                                        {/* <Input className='capital_change_text' /> */}
                                         <div id="editor">
                                             {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                             <Editor
@@ -636,10 +635,9 @@ const MMasterSubscribeEdit = () => {
                                         <div>
                                             <input type="file" id="file3" onChange={addFile3} style={{ display: 'none' }} />
                                         </div>
-                                        <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
+                                        {/* <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
 
                                         <div id="editor">
-                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                             <Editor
                                                 placeholder="내용을 입력해주세요."
                                                 previewStyle="vertical"
@@ -666,12 +664,12 @@ const MMasterSubscribeEdit = () => {
                                                     }
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Title>6. 추가 내용들</Title>
+                                        <Title>6. 특이 변동사항</Title>
                                         <div id="editor">
                                             {/* <Picker onEmojiClick={onEmojiClick} /> */}
                                             <Editor

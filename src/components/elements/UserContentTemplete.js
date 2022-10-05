@@ -152,3 +152,18 @@ max-width:700px;
 width:100%;
 margin:0 auto;
 `
+export const Table = styled.table`
+font-size:${props => props.theme.size.font4};
+width:90%;
+margin:0 auto;
+text-align:center;
+border-collapse: collapse;
+`
+export const Tr = styled.tr`
+width:100%;
+height:26px;
+border-bottom:1px solid ${props => props.theme.color.font4};
+`
+export const Td = styled.td`
+border-bottom:1px solid ${props => props.theme.color.font4};
+`

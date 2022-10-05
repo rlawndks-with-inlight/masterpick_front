@@ -6,22 +6,7 @@ import axios from "axios";
 import { backUrl } from "../data/Data";
 import AddButton from "./elements/button/AddButton";
 import theme from "../styles/theme";
-
-const Table = styled.table`
-font-size:${props => props.theme.size.font4};
-width:90%;
-margin:0 auto;
-text-align:center;
-border-collapse: collapse;
-`
-const Tr = styled.tr`
-width:100%;
-height:26px;
-border-bottom:1px solid ${props => props.theme.color.font4};
-`
-const Td = styled.td`
-border-bottom:1px solid ${props => props.theme.color.font4};
-`
+import { Table, Tr, Td } from "./elements/UserContentTemplete";
 const ContentTable = (props) => {
     const navigate = useNavigate();
     const { columns, data, click, schema, isPointer, addSubscribeMaster } = props;
@@ -69,14 +54,14 @@ const ContentTable = (props) => {
                             <>
                                 <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}` }}>
                                     {column.type == 'img' ?
-                                        <img src={backUrl+item[column.column]} style={{height:'36px'}} />  ?? "---"
+                                        <img src={backUrl + item[column.column]} style={{ height: '36px' }} /> ?? "---"
                                         :
                                         null}
-                                        {column.type == 'is_subscribe' ?
-                                        <AddButton style={{width:'84px',background:`${item[column.column]?theme.color.background1:'#fff'}`,color:`${item[column.column]?'#fff':theme.color.font1}`,border:`1px solid ${theme.color.background1}`}}
-                                        onClick={()=>(item[column.column]?null:addSubscribeMaster(item.pk))}>
-                                            {item[column.column]?'구독완료':'구독'}
-                                            </AddButton> ?? "---"
+                                    {column.type == 'is_subscribe' ?
+                                        <AddButton style={{ width: '84px', background: `${item[column.column] ? theme.color.background1 : '#fff'}`, color: `${item[column.column] ? '#fff' : theme.color.font1}`, border: `1px solid ${theme.color.background1}` }}
+                                            onClick={() => (item[column.column] ? null : addSubscribeMaster(item.pk))}>
+                                            {item[column.column] ? '구독완료' : '구독'}
+                                        </AddButton> ?? "---"
                                         :
                                         null}
                                     {column.type == 'text' ?
@@ -91,12 +76,16 @@ const ContentTable = (props) => {
                                         commarNumber(item[column.column]) ?? "---"
                                         :
                                         null}
+                                    {column.type == 'month' ?
+                                        commarNumber(item[column.column]) + '月'
+                                        :
+                                        null}
                                     {column.type == 'day' ?
-                                        item[column.column] + '일'
+                                        commarNumber(item[column.column]) + '일'
                                         :
                                         null}
                                     {column.type == 'percent' ?
-                                        `${item[column.column] >= 0 ? '+' : '-'}` + item[column.column] + '%'
+                                        `${item[column.column] >= 0 ? '+' : '-'}` + commarNumber(item[column.column]) + '%'
                                         :
                                         null}
                                     {column.type == 'delete' ?

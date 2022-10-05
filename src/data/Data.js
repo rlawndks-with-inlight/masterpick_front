@@ -88,6 +88,17 @@ export const objManagerListContent = {
             { name: '삭제', width: 8, type: 'delete', column: 'delete' }
         ],
     },
+    must_read: {
+        breadcrumb: '필독사항',
+        schema: 'must_read',
+        zColumn: [
+            { name: '제목', width: 38, type: 'text', column: 'title' },
+            { name: '생성시간', width: 38, type: 'text', column: 'date' },
+            { name: '노출여부', width: 8, type: 'status', column: 'status' },
+            { name: '수정', width: 8, type: 'edit', column: 'edit' },
+            { name: '삭제', width: 8, type: 'delete', column: 'delete' }
+        ],
+    },
 }
 export const getManagerListApi = (table, num) => {
     let str = "";

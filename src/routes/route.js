@@ -37,6 +37,7 @@ import MIssueCategoryEdit from '../pages/Manager/MIssueCategoryEdit';
 import MFeatureCategoryEdit from '../pages/Manager/MFeatureCategoryEdit';
 import MVideoEdit from '../pages/Manager/MVideoEdit';
 import MNoticeEdit from '../pages/Manager/MNoticeEdit';
+import MMustReadEdit from '../pages/Manager/MMustReadEdit';
 import MSettingEdit from '../pages/Manager/MSettingEdit';
 
 import MItemEdit from '../pages/Manager/MItemEdit';
@@ -89,10 +90,11 @@ const zRoute = [
     // { link: '/manager/setting', element: <MSetting /> },
     //{ link: '/manager/edit/video/:pk', element: <MVideoEdit /> },
     { link: '/manager/edit/notice/:pk', element: <MNoticeEdit /> },
+    { link: '/manager/edit/must_read/:pk', element: <MMustReadEdit /> },
     //{ link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit /> },
    // { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit /> },
-    { link: '/manager/edit/setting', element: <MSettingEdit /> },
-    { link: '/manager/edit/main/:category', element: <MMainEdit /> },
+   { link: '/manager/edit/setting/:category', element: <MSettingEdit /> },
+   { link: '/manager/edit/main/:category', element: <MMainEdit /> },
     { link: '/manager/edit/:table/:pk', element: <MItemEdit /> },
     { link: '/manager/list/:table/:pk', element: <MItemList /> },
     { link: '/manager/list/:table', element: <MItemList /> },

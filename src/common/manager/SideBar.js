@@ -11,13 +11,14 @@ import { AiOutlineQuestionCircle, AiOutlineRotateLeft } from 'react-icons/ai'
 import { SiYoutubemusic } from 'react-icons/si'
 import { RiPagesLine } from 'react-icons/ri'
 import axios from 'axios';
+import $ from 'jquery'
 const Wrappers = styled.div`
 display:flex;
 flex-direction:column;
 width:250px;
 min-height:100vh;
 box-shadow:0 2px 4px rgb(15 34 58 / 12%);
-z-index:5;
+z-index:25;
 position:fixed;
 background:#fff;
 overflow-y:auto;
@@ -98,6 +99,7 @@ const SideBar = () => {
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
 
     const [mainCategoryDisplay, setMainCategoryDisplay] = useState(false)
+    const [settingCategoryDisplay, setSettingCategoryDisplay] = useState(false)
     const zMain = [
         { name: '메인 배너', param: 'main_img' },
         { name: '이달의 BEST 수익률', param: 'best_master_yield_list' },
@@ -105,25 +107,12 @@ const SideBar = () => {
         { name: '주간/월간 BEST 수익', param: 'best_list' },
         { name: '배너등록', param: 'banner_img' },
     ]
-    const zSidebar = [
-        // { name: '회원관리', link: '/manager/list/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/list/user'] },
-        // { name: '회원통계', link: '/manager/statistic/user', icon: <BsPerson />, level: 40, allow_list: ['/manager/statistic/user'] },
-        // { name: '메인페이지', link: '/manager/edit/main', icon: <RiPagesLine />, level: 40, allow_list: ['/manager/edit/main'] },
-        //{ name: '접속자현황', link: '/manager/list/user', icon: <MdOutlineAccessTime /> },
-        //{ name: '회원통계', link: '/manager/list/user', icon: <IoStatsChartSharp /> },
-        { name: '필독!활용법', link: '/manager/edit/setting', icon: <AiOutlineRotateLeft />, level: 40, allow_list: ['/manager/edit/setting'] },
-        { name: '거장관리', link: '/manager/list/master', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/master'] },
-        { name: '구독전용', link: '/manager/list/master_subscribe', icon: <SiYoutubemusic />, level: 40, allow_list: ['/manager/list/master_subscribe'] },
-        //{ name: '채널관리', link: '/manager/list/channel', icon: <FaChalkboardTeacher />, level: 40, allow_list: ['/manager/list/channel'] },
-        // { name: '하루1단어', link: '/manager/list/oneword', icon: <WiDayHaze />, level: 40, allow_list: ['/manager/list/oneword'] },
-        // { name: '하루1종목', link: '/manager/list/oneevent', icon: <WiDayHaze />, level: 40, allow_list: ['/manager/list/oneevent'] },
-        // { name: '핵심테마', link: '/manager/list/theme', icon: <IoLogoReact />, level: 40, allow_list: ['/manager/list/theme'] },
-        // { name: '전문가칼럼', link: '/manager/list/strategy', icon: <SiMicrostrategy />, level: 30, allow_list: ['/manager/list/strategy'] },
-        // { name: '핵심이슈 카테고리', link: '/manager/list/issue_category', icon: <MdNotificationImportant />, level: 40, allow_list: ['/manager/list/issue_category'] },
-        // { name: '핵심이슈', link: '/manager/list/issue', icon: <MdNotificationImportant />, level: 40, allow_list: ['/manager/list/issue', '/manager/list/issue/1', '/manager/list/issue/2', '/manager/list/issue/3', '/manager/list/issue/4', '/manager/list/issue/5', '/manager/list/issue/6', '/manager/list/issue/7', '/manager/list/issue/8', '/manager/list/issue/9'] },
-        // { name: '핵심비디오', link: '/manager/list/video', icon: <BsCameraVideo />, level: 30 },
-        //{ name: '문의관리', link: '/manager/list/inquiry', icon: <AiOutlineQuestionCircle />, level: 40 },
-    ];
+    const zSetting = [
+        { name: '메인 배너', param: '/manager/edit/setting/main_img' },
+        { name: '소개', param: '/manager/edit/setting/introduce' },
+        { name: '활용법', param: '/manager/edit/setting/how_to_use' },
+        { name: '필독사항', param: '/manager/list/must_read' },
+    ]
     const [display, setDisplay] = useState('none');
     useEffect(() => {
         if (localStorage.getItem('auth')) {
@@ -137,6 +126,12 @@ const SideBar = () => {
             setZMaster(response?.data);
         }
         fetchPost()
+        // $('html').on('click', function (e) {
+        //     console.log($(e.target).attr('class'))
+        //     if ($(e.target).parents('.header-container').length < 1 && $(e.target).attr('class') != 'hamburgur-button') {
+        //         setDisplay('none')
+        //     }
+        // });
     }, [])
     const onClickMenu = (link) => {
         if (link == '/manager/list/issue') {
@@ -147,6 +142,8 @@ const SideBar = () => {
             changeMasterDisplay();
         } else if (link == '/manager/edit/main') {
             changeMainCategoryDisplay();
+        } else if (link == '/manager/edit/setting') {
+            changeSettingCategoryDisplay();
         } else {
             navigate(link);
         }
@@ -163,12 +160,15 @@ const SideBar = () => {
     const changeMainCategoryDisplay = () => {
         setMainCategoryDisplay(!mainCategoryDisplay)
     }
+    const changeSettingCategoryDisplay = () => {
+        setSettingCategoryDisplay(!settingCategoryDisplay)
+    }
     return (
         <>
-            <HambergurContainer onClick={() => { setDisplay('flex') }}>
-                <GiHamburgerMenu />
+            <HambergurContainer className='hamburgur-button' onClick={() => { setDisplay('flex') }}>
+                <GiHamburgerMenu className='hamburgur-button'/>
             </HambergurContainer>
-            <Wrappers display={display} className='scroll-css'>
+            <Wrappers display={display} className='scroll-css header-container'>
                 <HambergurContainer onClick={() => { setDisplay('none') }}>
                     <GiHamburgerMenu />
                 </HambergurContainer>
@@ -253,33 +253,84 @@ const SideBar = () => {
                         <>
                         </>
                     }
-                    {zSidebar.map((item, index) => (
+
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
                         <>
-                            {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= item.level ?
+                            {['/manager/edit/setting'].includes(location.pathname) ?
                                 <>
-                                    {item.allow_list.includes(location.pathname) ?
-                                        <>
-                                            <SelectMenuContent key={index} onClick={() => { onClickMenu(`${item.link}`) }}>
-                                                {item.icon}
-                                                <MenuText>{item.name}</MenuText>
-                                            </SelectMenuContent>
-                                        </>
-                                        :
-                                        <>
-                                            <MenuContent key={index} onClick={() => { onClickMenu(`${item.link}`) }}>
-                                                {item.icon}
-                                                <MenuText>{item.name}</MenuText>
-                                            </MenuContent>
-                                        </>}
+                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/edit/setting`) }}>
+                                        <AiOutlineRotateLeft />
+                                        <MenuText>{'필독!활용법'}</MenuText>
+                                    </SelectMenuContent>
                                 </>
                                 :
                                 <>
-                                </>
-                            }
-
-
+                                    <MenuContent onClick={() => { onClickMenu(`/manager/edit/setting`) }}>
+                                        <AiOutlineRotateLeft />
+                                        <MenuText>{'필독!활용법'}</MenuText>
+                                    </MenuContent>
+                                </>}
                         </>
-                    ))}
+                        :
+                        <>
+                        </>
+                    }
+                    {settingCategoryDisplay ?
+                        <>
+                            {zSetting.map((item, idx) => (
+                                <>
+                                    <MenuContent key={idx} onClick={() => { navigate(`${item.param}`) }} style={{ color: `${location.pathname == `${item.param}` ? '#000' : ''}` }}>
+                                        <MenuText style={{ marginLeft: '15px' }}>{item.name}</MenuText>
+                                    </MenuContent>
+                                </>
+                            ))}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                        <>
+                            {['/manager/list/master'].includes(location.pathname) ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/master`) }}>
+                                        <FaChalkboardTeacher />
+                                        <MenuText>{'거장관리'}</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/master`) }}>
+                                        <FaChalkboardTeacher />
+                                        <MenuText>{'거장관리'}</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                        <>
+                            {['/manager/list/master_subscribe'].includes(location.pathname) ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/master_subscribe`) }}>
+                                        <SiYoutubemusic />
+                                        <MenuText>{'구독전용'}</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/master_subscribe`) }}>
+                                        <SiYoutubemusic />
+                                        <MenuText>{'구독전용'}</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
                     {issueMasterDisplay ?
                         <>
                             {zMaster.map((item, idx) => (

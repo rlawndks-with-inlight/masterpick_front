@@ -2,30 +2,38 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import theme from '../../styles/theme';
-import SelectSubType from '../../components/elements/SelectSubType';
-import { zTalk, zTheme } from '../../data/TestData';
-import SubType from '../../components/elements/SubType';
-import testImg from '../../assets/images/test/test5.jpg';
 import axios from 'axios';
-import { backUrl, slideSetting } from '../../data/Data';
-import { getIframeLinkByLink, stringToHTML } from '../../functions/utils';
-import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv, Width90Component } from '../../components/elements/UserContentTemplete';
-import ThemeCard from '../../components/ThemeCard'
-import VideoCard from '../../components/VideoCard';
+import { Wrappers, Content, Width90Component, ViewerContainer } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import SelectTypeComponent from '../../components/SelectTypeComponent';
-import { useCallback } from 'react';
-import $ from 'jquery'
+import { Viewer } from '@toast-ui/react-editor';
+import { backUrl } from '../../data/Data';
+const Table = styled.div`
+font-size:${props => props.theme.size.font4};
+width:90%;
+margin:0 auto;
+text-align:center;
+border-collapse: collapse;
+display:flex;
+flex-direction:column;
+`
+const Tr = styled.div`
+width:100%;
+height:36px;
+display:flex;
+cursor:pointer;
+border-bottom:1px solid ${props => props.theme.color.font4};
+`
+const Td = styled.div`
+margin:auto 0;
+`
 const HowToUse = () => {
     const navigate = useNavigate();
     const [typeNum, setTypeNum] = useState(0)
     const [setting, setSetting] = useState({});
     const [loading, setLoading] = useState(false);
-
+    const [mustReadList, setMustReadList] = useState([])
 
     const zMenu = [
         { title: '소개', column: 'introduce' },
@@ -45,47 +53,101 @@ const HowToUse = () => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get('/api/setting')
-            let obj = response.data;
             setSetting(response.data);
-            obj.note = stringToHTML(obj[zMenu[typeNum]['column']], backUrl)
-            
             setLoading(false)
-            await new Promise((r) => setTimeout(r, 100));
-            $('.note').html(obj.note)
-            $('.note > img').css("width", "100%")
         }
         fetchPost();
     }, [])
-    const selectTypeNum = useCallback((num) => {
+    const selectTypeNum = async (num) => {
         setTypeNum(num);
-        let obj = setting;
-        obj.note = stringToHTML(obj[zMenu[num]['column']], backUrl)
-        $('.note').html(obj.note)
-        $('.note > img').css("width", "100%")
-        $('.note > img').css("max-width", "700px")
-    }, [setting])
+        if (num == 2) {
+            const { data: response } = await axios.get('/api/items?table=must_read')
+            let list = response.data ?? [];
+            for (var i = 0; i < list.length; i++) {
+                list[i].display = 'none';
+            }
+            setMustReadList(list)
+        }
+    }
+    const displayMustRead = (idx) => {
+        let list = [...mustReadList];
+        for (var i = 0; i < list.length; i++) {
+            if (i == idx) {
+                if (list[i].display == 'none') {
+                    list[i].display = 'flex';
+                } else {
+                    list[i].display = 'none';
+                }
+            }
+        }
+        setMustReadList(list);
+    }
     return (
         <>
             <Wrappers className='wrappers'>
-                {loading?
-                <>
-                <Loading/>
-                </>
-                :
-                <>
-                <Content>
-                    <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
-                </Content>
-                <Width90Component>
-                    <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
-                </Width90Component>
-                <Width90Component style={{ minHeight: '128px', background: `${theme.color.background3}` }}>
-                    <div style={{ padding: '16px' }} className="note">
-                    </div>
-                </Width90Component>
-                </>
+                {loading ?
+                    <>
+                        <Loading />
+                    </>
+                    :
+                    <>
+                        <Content>
+                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
+                        </Content>
+                        <Width90Component>
+                            <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
+                        </Width90Component>
+                        <Width90Component style={{ minHeight: '128px', background: `${typeNum == 2 ? '#fff' : theme.color.background3}` }}>
+                            {typeNum == 0 ?
+                                <>
+                                    <ViewerContainer style={{ width: '90%' }}>
+                                        <Viewer initialValue={setting?.introduce ?? `<body></body>`} />
+                                    </ViewerContainer>
+                                </>
+                                :
+                                <>
+                                </>
+                            }
+                            {typeNum == 1 ?
+                                <>
+                                    <ViewerContainer style={{ width: '90%' }}>
+                                        <Viewer initialValue={setting?.how_to_use ?? `<body></body>`} />
+                                    </ViewerContainer>
+                                </>
+                                :
+                                <>
+                                </>
+                            }
+                            {typeNum == 2 ?
+                                <>
+                                    <Table>
+                                        <Tr>
+                                            <Td style={{ width: '65%' }}>제목</Td>
+                                            <Td style={{ width: '35%' }}>등록일</Td>
+                                        </Tr>
+                                        {mustReadList && mustReadList.map((item, idx) => (
+                                            <>
+                                                <Tr onClick={() => { displayMustRead(idx) }}>
+                                                    <Td style={{ width: '65%' }}>{item.title}</Td>
+                                                    <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
+                                                </Tr>
+                                                <ViewerContainer style={{ width: '100%',display:item.display,background:theme.color.background3 }}>
+                                                    <Viewer initialValue={setting?.how_to_use ?? `<body></body>`} />
+                                                </ViewerContainer>
+                                            </>
+                                        ))}
+                                    </Table>
+                                </>
+                                :
+                                <>
+
+                                </>
+                            }
+
+                        </Width90Component>
+                    </>
                 }
-                
+
 
             </Wrappers>
         </>

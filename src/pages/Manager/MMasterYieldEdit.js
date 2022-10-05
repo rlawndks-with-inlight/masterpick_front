@@ -118,7 +118,7 @@ const MMasterYieldEdit = () => {
         }
 
         const ws = XLSX.utils.aoa_to_sheet([
-            ['종목명', '매수가','수익률','보유기간']
+            ['종목명', '매수가','매도가','수익률','매도月']
         ]);
         sector_list.map((data) => {
             XLSX.utils.sheet_add_aoa(
@@ -127,6 +127,7 @@ const MMasterYieldEdit = () => {
                     [
                         data['name'],
                         data['purchase_price'],
+                        data['sell_price'],
                         data['yield'],
                         data['period']
                     ]
@@ -163,7 +164,7 @@ const MMasterYieldEdit = () => {
                                             <Td>매수가</Td>
                                             <Td>매도가</Td>
                                             <Td>수익률</Td>
-                                            <Td>보유기간</Td>
+                                            <Td>매도月</Td>
                                             <Td style={{ width: '20%' }}>삭제</Td>
                                         </Tr>
                                         {sectorList && sectorList.map((item, idx) => (

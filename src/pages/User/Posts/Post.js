@@ -12,7 +12,7 @@ import firstPartnersImg from '../../../assets/images/test/first-partners.svg'
 import { AiFillCaretDown } from 'react-icons/ai'
 import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
-
+import { logoSrc } from "../../../data/Data";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -102,17 +102,53 @@ const Post = () => {
     const chartRef = useRef(null);
     const donut_data = {
         labels: [],
+        labelSuffix: "%",
         datasets: [
-          {
-            label: '# of Votes',
-            data: [],
-            backgroundColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
-            borderColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
-            borderWidth: 1,
-          },
+            {
+                label: '# of Votes',
+                data: [],
+                backgroundColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+                borderColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+                borderWidth: 1,
+                
+            },
+            
         ],
+        
+    };
+    const options = {
+        // animation: {
+        //   animateScale: true
+        // },
+        // circumference: 1.5 * Math.PI,
+        // rotation: 0.75 * Math.PI,
+        tooltips: {
+          // enabled: false,
+          callbacks: {
+            label: (tooltipItem, data) => {
+              // Get the dataset label, global label or fall back to empty label
+              let label =
+                (data.labels &&
+                  data.labels[
+                    tooltipItem.index
+                  ]) ||
+                data.labels[tooltipItem.index] ||
+                "";
+              if (label) {
+                label += ": ";
+              }
+      
+              // Apply the value and suffix
+              label +=
+                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] +
+                (data.datasets[tooltipItem.datasetIndex].labelSuffix || "");
+      
+              return label;
+            }
+          }
+        }
       };
-    
+  
     const [loading, setLoading] = useState(false)
 
     const [isShowDonut, setIsShowDonut] = useState(false)
@@ -125,8 +161,8 @@ const Post = () => {
     const [investmentPointList, setInvestmentPointList] = useState([])//투자포인트-막대그래프
     const [investmentPointDetailDisplay, setInvestmentPointDetailDisplay] = useState(false)
     const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
-    const [donutObj, setDonutObj] = useState(donut_data??{})
-
+    const [donutObj, setDonutObj] = useState(donut_data ?? {})
+    const [etcNoteDisplay, setEtcNoteDisplay] = useState(true)
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
@@ -144,7 +180,7 @@ const Post = () => {
 
             let major_bussiness_list = JSON.parse(response?.data?.major_bussiness_list);
             setMajorBussinessList(major_bussiness_list);
-            let donut_obj = {...donut_data};
+            let donut_obj = { ...donut_data };
             donut_obj.labels = [];
             donut_obj.datasets[0].data = [];
 
@@ -153,23 +189,29 @@ const Post = () => {
                     donut_obj.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
                     donut_obj.datasets[0].data.push(parseFloat(major_bussiness_list[i].percent))
                 }
-                setDonutObj({...donut_obj})
+                setDonutObj({ ...donut_obj })
             }
-            
+
             await new Promise((r) => setTimeout(r, 100));
             //note
             obj.main_note = obj.main_note.replaceAll('http://localhost:8001', backUrl);
             obj.company_overview_note = obj.company_overview_note.replaceAll('http://localhost:8001', backUrl);
-            obj.investment_point_note = obj.investment_point_note.replaceAll('http://localhost:8001', backUrl);
-            obj.major_bussiness_note = obj.major_bussiness_note.replaceAll('http://localhost:8001', backUrl);
+            // obj.investment_point_note = obj.investment_point_note.replaceAll('http://localhost:8001', backUrl);
+            //obj.major_bussiness_note = obj.major_bussiness_note.replaceAll('http://localhost:8001', backUrl);
             obj.share_note = obj.share_note.replaceAll('http://localhost:8001', backUrl);
             obj.capital_change_note = obj.capital_change_note.replaceAll('http://localhost:8001', backUrl);
-            obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
+            //obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
             obj.etc_note = obj.etc_note.replaceAll('http://localhost:8001', backUrl);
-            $('.toastui-editor-contents').attr("style", "max-width:500px !important;")
+            let etc_text_in_note = obj.etc_note.replaceAll("<p>", "")
+            etc_text_in_note = etc_text_in_note.replaceAll("</p>", "")
+            etc_text_in_note = etc_text_in_note.replaceAll("<br>", "")
+            if (!etc_text_in_note) {
+                setEtcNoteDisplay(false)
+            }
+            $('.toastui-editor-contents').attr("style", "max-width:500px !important;");
             $('.note > body').css('margin', '0');
-            $('.donutchart').css("width", '100%')
-            $('.donutchart').attr("style", "width:100% !important;")
+            $('.donutchart').css("width", '100%');
+            $('.donutchart').attr("style", "width:100% !important;");
 
             setItem(obj);
             await new Promise((r) => setTimeout(r, 100));
@@ -183,11 +225,11 @@ const Post = () => {
             setPercent(per);
         })
     }, [])
-    
+
     useEffect(() => {
-        setDonutObj({...donutObj})
-        
-    },[chartRef])
+        setDonutObj({ ...donutObj })
+
+    }, [chartRef])
     // 1-1,2-4,3-5,4-2
     return (
         <>
@@ -200,7 +242,7 @@ const Post = () => {
                     <>
                         <Content>
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '16px 0 32px 0' }}>
-                                <img src={firstPartnersImg} style={{ height: '50px' }} />
+                                <img src={logoSrc} style={{ height: '50px' }} />
                                 <img src={backUrl + item.master_profile_img} style={{ height: '72px' }} />
                             </div>
                             <div style={{ display: 'flex', margin: '8px auto 8px 0' }}>
@@ -220,7 +262,7 @@ const Post = () => {
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer'}}>
+                            <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer' }}>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
                             </div>
@@ -302,27 +344,27 @@ const Post = () => {
                                 <>
                                 </>
                             }
-                            <ViewerContainer>
+                            {/* <ViewerContainer>
                                 <Viewer initialValue={item?.investment_point_note ?? `<body></body>`} />
-                            </ViewerContainer>
+                            </ViewerContainer> */}
                             <TitleStyle>3. 주요 사업</TitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
-                                    
-                                   <Doughnut data={donutObj.labels.length>0?donutObj:donut_data} ref={chartRef} />
 
-                                    
+                                    <Doughnut data={donutObj.labels.length > 0 ? donutObj : donut_data}  />
+
+
                                 </DonutContainer>
                                 <DonutExplainContainer>
                                     <Img src={backUrl + item?.major_bussiness_img} />
-                                    <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
+                                    {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                         {item?.major_bussiness_text}
-                                    </div>
+                                    </div> */}
                                 </DonutExplainContainer>
                             </div>
-                            <ViewerContainer>
+                            {/* <ViewerContainer>
                                 <Viewer initialValue={item?.major_bussiness_note ?? `<body></body>`} />
-                            </ViewerContainer>
+                            </ViewerContainer> */}
                             <TitleStyle>4. 지배구조, 자본금 변동사항</TitleStyle>
                             <SubTitleStyle>(1) 최대주주 및 특수관계인 지분</SubTitleStyle>
                             <ViewerContainer>
@@ -330,21 +372,29 @@ const Post = () => {
                             </ViewerContainer>
                             <SubTitleStyle>(2) 자본금 변동사항</SubTitleStyle>
                             <Img src={backUrl + item?.capital_change_img} />
-                            <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
+                            {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                 {item?.capital_change_text}
-                            </div>
+                            </div> */}
                             <ViewerContainer>
                                 <Viewer initialValue={item?.capital_change_note ?? `<body></body>`} />
                             </ViewerContainer>
                             <TitleStyle>5. 투자 지표</TitleStyle>
                             <Img src={backUrl + item?.investment_indicator_img} />
-                            <ViewerContainer>
+                            {/* <ViewerContainer>
                                 <Viewer initialValue={item?.investment_indicator_note ?? `<body></body>`} />
-                            </ViewerContainer>
-                            <TitleStyle>6. 추가 내용들</TitleStyle>
-                            <ViewerContainer>
-                                <Viewer initialValue={item?.etc_note ?? `<body></body>`} />
-                            </ViewerContainer>
+                            </ViewerContainer> */}
+                            {etcNoteDisplay ?
+                                <>
+                                    <TitleStyle>6. 특이 변동사항</TitleStyle>
+                                    <ViewerContainer>
+                                        <Viewer initialValue={item?.etc_note ?? `<body></body>`} />
+                                    </ViewerContainer>
+                                </>
+                                :
+                                <>
+                                </>
+                            }
+
                         </Content>
                     </>
                 }

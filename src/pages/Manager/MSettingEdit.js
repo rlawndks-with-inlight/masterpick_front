@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams, useLocation } from 'react-router-dom';
 import ManagerWrappers from '../../components/elements/ManagerWrappers';
 import SideBar from '../../common/manager/SideBar';
 import ManagerContentWrappers from '../../components/elements/ManagerContentWrappers';
@@ -48,11 +48,10 @@ margin: 24px;
 const MSettingEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const editorRef = useRef();
     const introduceRef = useRef();
     const howToUseRef = useRef();
-    const mustReadRef = useRef();
     const [myNick, setMyNick] = useState("")
     const [url, setUrl] = useState('')
     const [setting, setSetting] = useState({});
@@ -60,19 +59,24 @@ const MSettingEdit = () => {
     const [formData] = useState(new FormData())
     const [noteFormData] = useState(new FormData());
     useEffect(() => {
+        formData.delete('master')
+        formData.delete('introduce')
+        formData.delete('howToUse')
+        formData.delete('category')
+        formData.delete('pk')
         async function fetchPost() {
             const { data: response } = await axios.get('/api/setting');
             setSetting(response.data ?? {});
+            console.log(response)
             if (response.data) {
                 setUrl(backUrl + response.data.main_img);
-                introduceRef.current.getInstance().setHTML(response.data.introduce.replaceAll('http://localhost:8001', backUrl));
-                howToUseRef.current.getInstance().setHTML(response.data.how_to_use.replaceAll('http://localhost:8001', backUrl));
-                mustReadRef.current.getInstance().setHTML(response.data.must_read.replaceAll('http://localhost:8001', backUrl));
+                if (params.category == 'introduce') introduceRef.current.getInstance().setHTML(response.data.introduce.replaceAll('http://localhost:8001', backUrl));
+                if (params.category == 'how_to_use') howToUseRef.current.getInstance().setHTML(response.data.how_to_use.replaceAll('http://localhost:8001', backUrl));
             }
         }
         $('div.toastui-editor-defaultUI-toolbar > div:nth-child(4)').append(`<button type="button" class='emoji' aria-label='이모티콘' style='font-size:18px;'>🙂</button>`);
         fetchPost();
-    }, [])
+    }, [location])
     useEffect(() => {
         $('button.emoji').on('click', function () {
             $('.emoji-picker-react').attr('style', 'display: flex !important')
@@ -82,31 +86,17 @@ const MSettingEdit = () => {
         })
     }, [])
     const editSetting = async () => {
-        if (!url && !content) {
-            alert("필요값이 비어있습니다.");
-        } else {
 
-            formData.append('master', content);
-            formData.append('introduce', introduceRef.current.getInstance().getHTML());
-            formData.append('howToUse', howToUseRef.current.getInstance().getHTML());
-            formData.append('mustRead', mustReadRef.current.getInstance().getHTML());
-
-            if (setting.main_img) {
-                if (window.confirm("정말 수정하시겠습니까?")) {
-                    formData.append('pk', setting?.pk);
-                    const { data: response } = await axios.post('/api/updatesetting', formData);
-                    if (response.result > 0) {
-                        alert("성공적으로 수정되었습니다.")
-                    }
-                }
-            } else {
-                if (window.confirm("정말 추가하시겠습니까?")) {
-                    const { data: response } = await axios.post('/api/addsetting', formData);
-                    if (response.result > 0) {
-                        alert("성공적으로 추가되었습니다.")
-                    }
-                }
-
+        if (window.confirm("정말 수정하시겠습니까?")) {
+            if (params.category == 'main_img') formData.append('master', content);
+            if (params.category == 'introduce') formData.append('introduce', introduceRef.current.getInstance().getHTML());
+            if (params.category == 'how_to_use') formData.append('howToUse', howToUseRef.current.getInstance().getHTML());
+            formData.append('category', params.category);
+            formData.append('pk', setting?.pk);
+            const { data: response } = await axios.post('/api/updatesetting', formData);
+            if (response.result > 0) {
+                alert("성공적으로 수정되었습니다.");
+                window.location.reload();
             }
         }
     }
@@ -128,129 +118,112 @@ const MSettingEdit = () => {
                 <ManagerContentWrappers>
                     <Breadcrumb title={'필독!활용법'} nickname={myNick} />
                     <Card>
+                        {params.category == 'main_img' ?
+                            <>
+                                <Row>
+                                    <Col>
+                                        <Title>메인 배너</Title>
+                                        <ImageContainer for="file1">
 
-                        <Row>
-                            <Col>
-                                <Title>메인 배너</Title>
-                                <ImageContainer for="file1">
+                                            {url ?
+                                                <>
+                                                    <Img src={url} alt="#"
+                                                    />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </>
+                            :
+                            <>
+                            </>}
+                        {params.category == 'introduce' ?
+                            <>
+                                <Row>
+                                    <Col>
+                                        <Title>소개</Title>
+                                        <div id="editor" className='editor1'>
+                                            <Picker onEmojiClick={onEmojiClick} />
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={introduceRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                    {url ?
-                                        <>
-                                            <Img src={url} alt="#"
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
                                             />
-                                        </>
-                                        :
-                                        <>
-                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                        </>}
-                                </ImageContainer>
-                                <div>
-                                    <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>소개</Title>
-                                <div id="editor" className='editor1'>
-                                    <Picker onEmojiClick={onEmojiClick} />
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={introduceRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </>
+                            :
+                            <>
+                            </>}
+                        {params.category == 'how_to_use' ?
+                            <>
+                                <Row>
+                                    <Col>
+                                        <Title>활용법</Title>
+                                        <div id="editor" className='editor2'>
+                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            <Editor
+                                                placeholder="내용을 입력해주세요."
+                                                previewStyle="vertical"
+                                                height="600px"
+                                                initialEditType="wysiwyg"
+                                                useCommandShortcut={false}
+                                                useTuiEditorEmoji={true}
+                                                hideModeSwitch={true}
+                                                plugins={[colorSyntax]}
+                                                language="ko-KR"
+                                                ref={howToUseRef}
+                                                hooks={{
+                                                    addImageBlobHook: async (blob, callback) => {
 
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>활용법</Title>
-                                <div id="editor" className='editor2'>
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={howToUseRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
-
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Title>필독사항</Title>
-                                <div id="editor" className='editor3'>
-                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
-                                    <Editor
-                                        placeholder="내용을 입력해주세요."
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="wysiwyg"
-                                        useCommandShortcut={false}
-                                        useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
-                                        language="ko-KR"
-                                        ref={mustReadRef}
-                                        hooks={{
-                                            addImageBlobHook: async (blob, callback) => {
-
-                                                noteFormData.append('note', blob);
-                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
-                                                if (response.result > 0) {
-                                                    callback(backUrl + response.data.filename)
-                                                    noteFormData.delete('note');
-                                                } else {
-                                                    noteFormData.delete('note');
-                                                    return;
-                                                }
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
+                                                        noteFormData.append('note', blob);
+                                                        const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                        if (response.result > 0) {
+                                                            callback(backUrl + response.data.filename)
+                                                            noteFormData.delete('note');
+                                                        } else {
+                                                            noteFormData.delete('note');
+                                                            return;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </>
+                            :
+                            <>
+                            </>}
                     </Card>
                     <ButtonContainer>
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
