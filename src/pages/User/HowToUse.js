@@ -11,9 +11,8 @@ import { Viewer } from '@toast-ui/react-editor';
 import { backUrl } from '../../data/Data';
 const Table = styled.div`
 font-size:${props => props.theme.size.font4};
-width:90%;
+width:100%;
 margin:0 auto;
-text-align:center;
 border-collapse: collapse;
 display:flex;
 flex-direction:column;
@@ -131,7 +130,7 @@ const HowToUse = () => {
                                                     <Td style={{ width: '65%' }}>{item.title}</Td>
                                                     <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
                                                 </Tr>
-                                                <ViewerContainer style={{ width: '100%',display:item.display,background:theme.color.background3 }}>
+                                                <ViewerContainer style={{ width: '100%',maxWidth:'900px',display:item.display,background:theme.color.background3 }}>
                                                     <Viewer initialValue={setting?.how_to_use ?? `<body></body>`} />
                                                 </ViewerContainer>
                                             </>
