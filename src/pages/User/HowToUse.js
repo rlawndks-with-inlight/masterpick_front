@@ -19,10 +19,13 @@ flex-direction:column;
 `
 const Tr = styled.div`
 width:100%;
+text-align:center;
 height:36px;
 display:flex;
 cursor:pointer;
+background:#fff;
 border-bottom:1px solid ${props => props.theme.color.font4};
+border-top:1px solid ${props => props.theme.color.font4};
 `
 const Td = styled.div`
 margin:auto 0;
@@ -96,7 +99,7 @@ const HowToUse = () => {
                         <Width90Component>
                             <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
                         </Width90Component>
-                        <Width90Component style={{ minHeight: '128px', background: `${typeNum == 2 ? '#fff' : theme.color.background3}` }}>
+                        <Width90Component style={{  background: `${theme.color.background3}` }}>
                             {typeNum == 0 ?
                                 <>
                                     <ViewerContainer style={{ width: '90%' }}>
@@ -120,7 +123,7 @@ const HowToUse = () => {
                             {typeNum == 2 ?
                                 <>
                                     <Table>
-                                        <Tr>
+                                        <Tr style={{background:'#f7f9fc'}}>
                                             <Td style={{ width: '65%' }}>제목</Td>
                                             <Td style={{ width: '35%' }}>등록일</Td>
                                         </Tr>
@@ -130,7 +133,7 @@ const HowToUse = () => {
                                                     <Td style={{ width: '65%' }}>{item.title}</Td>
                                                     <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
                                                 </Tr>
-                                                <ViewerContainer style={{ width: '100%',maxWidth:'900px',display:item.display,background:theme.color.background3 }}>
+                                                <ViewerContainer style={{ width: '90%',maxWidth:'900px',display:item.display,background:theme.color.background3 }}>
                                                     <Viewer initialValue={setting?.how_to_use ?? `<body></body>`} />
                                                 </ViewerContainer>
                                             </>
