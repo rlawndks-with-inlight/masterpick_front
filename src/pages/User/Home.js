@@ -235,7 +235,7 @@ const Home = () => {
                                 </Banner>
                             </>
                         ))}
-                        <BannerImg src={backUrl + setting?.recommendation_banner_img}
+                        <BannerImg src={backUrl + setting?.recommendation_banner_img} alt="#"
                             onClick={() => navigate('/masterevent')} />
                         <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
 
