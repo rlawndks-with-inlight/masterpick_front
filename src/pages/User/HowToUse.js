@@ -94,7 +94,7 @@ const HowToUse = () => {
                     :
                     <>
                         <Content>
-                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
+                            <img src={backUrl + setting?.main_img} alt="#" style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                         </Content>
                         <Width90Component>
                             <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />

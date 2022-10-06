@@ -152,7 +152,7 @@ const Home = () => {
                     :
                     <>
                         <Content>
-                            <img src={backUrl + setting?.main_img} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
+                            <img src={backUrl + setting?.main_img} alt="#" style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                         </Content>
 
                         <Title>이달의 BEST 수익률</Title>
@@ -160,7 +160,7 @@ const Home = () => {
                             <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }} onClick={() => navigate(`/yield`)}>
                                 <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '50%', position: 'relative' }}>
                                     <div style={{ display: 'flex', position: 'absolute', alignItems: 'center', top: '6px', left: '20%' }}>
-                                        <img src={backUrl + bestMasterObj?.profile_img ?? ''} style={{ height: '75px', marginRight: '5vw' }} />
+                                        <img src={backUrl + bestMasterObj?.profile_img ?? ''} alt="#" style={{ height: '75px', marginRight: '5vw' }} />
                                         <div style={{ color: '#670D0D', fontSize: theme.size.font5 }}>{bestMasterObj?.name ?? ''}</div>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@ const Home = () => {
                                 ]}
                                     data={bestMonthList} />
                             </div>
-                            <img src={backUrl + setting?.banner_img} style={{ width: '90%', maxWidth: '900px', margin: '0 auto', marginTop: '16px', cursor: 'pointer' }}
+                            <img src={backUrl + setting?.banner_img} alt="#" style={{ width: '90%', maxWidth: '900px', margin: '0 auto', marginTop: '16px', cursor: 'pointer' }}
                                 onClick={() => navigate('/masterlist')} />
                         </Content>
                     </>}

@@ -18,7 +18,7 @@ const Loading = () => {
     return (
         <>
             <LoadingContainer>
-                <img src={loadingGif} style={{width:'100px',margin:'35vh auto auto auto'}}/>
+                <img src={loadingGif} alt="#" style={{width:'100px',margin:'35vh auto auto auto'}}/>
             </LoadingContainer>
         </>
     )

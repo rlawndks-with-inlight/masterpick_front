@@ -31,7 +31,7 @@ const MasterCard = (props) => {
     return (
         <>
             <Card style={{ background: item.background_color }} onClick={() => { navigate(`/master/${item.pk}`, { state: { name: item.name, nickname: item.nickname, img: item.profile_img } }) }}>
-                <img style={{ position: 'absolute', bottom: '0', left: '5%', height: '90%' }} src={backUrl + item.profile_img} />
+                <img style={{ position: 'absolute', bottom: '0', left: '5%', height: '90%' }} alt="#" src={backUrl + item.profile_img} />
                 <TextContainer>
                     <div style={{ marginTop: '8px' }}>{item.name} 전문가</div>
                     <div style={{ marginTop: '8px', wordBreak: 'break-all' }}>"{item.motto}"</div>

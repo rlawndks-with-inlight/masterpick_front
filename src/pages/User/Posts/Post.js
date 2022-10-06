@@ -262,8 +262,8 @@ const Post = () => {
                     <>
                         <Content>
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '16px 0 32px 0' }}>
-                                <img src={logoSrc} style={{ height: '50px' }} />
-                                <img src={backUrl + item.master_profile_img} style={{ height: '72px' }} />
+                                <img src={logoSrc} style={{ height: '50px' }} alt="#" />
+                                <img src={backUrl + item.master_profile_img} style={{ height: '72px' }} alt="#" />
                             </div>
                             <div style={{ display: 'flex', margin: '8px auto 8px 0' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
@@ -271,7 +271,7 @@ const Post = () => {
                                     <div style={{ fontSize: theme.size.font5 }}>매수기준가 {commarNumber(item?.base_price ?? '0')}원 ({item?.capture_date} 기준)</div>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
-                                    <img src={zWeather[item?.weather ?? 0].icon} style={{ height: '27px' }} />
+                                    <img src={zWeather[item?.weather ?? 0].icon} alt="#"  style={{ height: '27px' }} />
                                     <div style={{ fontSize: theme.size.font5 }}>투자날씨</div>
                                 </div >
                                 <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
@@ -376,7 +376,7 @@ const Post = () => {
 
                                 </DonutContainer>
                                 <DonutExplainContainer>
-                                    <Img src={backUrl + item?.major_bussiness_img} />
+                                    <Img src={backUrl + item?.major_bussiness_img} alt="#"  />
                                     {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                         {item?.major_bussiness_text}
                                     </div> */}
@@ -397,7 +397,7 @@ const Post = () => {
                                 <Viewer initialValue={item?.share_note ?? `<body></body>`} />
                             </ViewerContainer> */}
                             <SubTitleStyle>(2) 자본금 변동사항</SubTitleStyle>
-                            <Img src={backUrl + item?.capital_change_img} />
+                            <Img src={backUrl + item?.capital_change_img} alt="#"  />
                             {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                 {item?.capital_change_text}
                             </div> */}
@@ -405,7 +405,7 @@ const Post = () => {
                                 <Viewer initialValue={item?.capital_change_note ?? `<body></body>`} />
                             </ViewerContainer>
                             <TitleStyle>5. 투자 지표</TitleStyle>
-                            <Img src={backUrl + item?.investment_indicator_img} />
+                            <Img src={backUrl + item?.investment_indicator_img} alt="#"  />
                             {/* <ViewerContainer>
                                 <Viewer initialValue={item?.investment_indicator_note ?? `<body></body>`} />
                             </ViewerContainer> */}

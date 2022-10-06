@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Title, Wrappers } from "../../../components/elements/UserContentTemplete";
-import { backUrl } from "../../../data/Data";
-import defaultImg from '../../../assets/images/icon/default-profile.png'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MdEdit } from 'react-icons/md';

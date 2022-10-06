@@ -19,7 +19,7 @@ const RightImgCard = (props) => {
                         ))}
                     </div>
                 </div>
-                <img src={props.item.img} style={{ width: '37.5%' }} />
+                <img src={props.item.img} alt="#" style={{ width: '37.5%' }} />
 
             </div>
         </>

@@ -58,7 +58,7 @@ export const Title = (props) =>{
     return (
         <>
         <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
-        <TitleImg src={thumbImg}/>
+        <TitleImg src={thumbImg} alt="#"/>
         <TitleStyle>
             {props?.children??""}
         </TitleStyle>
@@ -73,7 +73,7 @@ export const ImgTitle = (props) =>{
     return (
         <>
         <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
-        <TitleImg src={props.img}/>
+        <TitleImg src={props.img} alt="#"/>
         <TitleStyle>
             {props?.children??""}
         </TitleStyle>

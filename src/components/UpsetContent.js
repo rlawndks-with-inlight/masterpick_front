@@ -4,7 +4,7 @@ export default function UpsetContent(props) {
 
   return (
     <>
-    <img src={upsetImg} style={{width:'6rem',paddingTop:'3rem'}} />
+    <img src={upsetImg} alt="#" style={{width:'6rem',paddingTop:'3rem'}} />
     <div style={{paddingTop:'1rem'}}>{props.content}</div>
     </>
   );

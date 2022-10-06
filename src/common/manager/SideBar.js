@@ -173,7 +173,7 @@ const SideBar = () => {
                     <GiHamburgerMenu />
                 </HambergurContainer>
                 <LogoWrappers>
-                    <img src={logo} style={{ height: '40px', width: 'auto' }} />
+                    <img src={logo} alt="#" style={{ height: '40px', width: 'auto' }} />
                 </LogoWrappers>
                 <div style={{ maxHeight: '80vh', paddingBottom: '32px' }}>
                     {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?

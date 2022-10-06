@@ -227,7 +227,7 @@ const Headers = () => {
                   </>
                   :
                   <>
-                    <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} onClick={() => { navigate('/') }} />
+                    <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { navigate('/') }} />
                   </>}
               </div>
               <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -247,7 +247,7 @@ const Headers = () => {
             ))}
           </div>
           <div style={{ position: 'absolute', right: '48%', top: '0.5rem' }}>
-            <img src={logo} style={{ height: '5rem' }} onClick={() => { navigate('/') }} />
+            <img src={logo} style={{ height: '5rem' }} onClick={() => { navigate('/') }} alt="#" />
           </div>
           <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', justifyContent: 'space-between' }}>
             <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />

@@ -175,7 +175,7 @@ const MVideoEdit = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <Title><img src={youtubeShare} style={{ width: '100%', maxWidth: '500px' }} /></Title>
+                                <Title><img src={youtubeShare} alt="#" style={{ width: '100%', maxWidth: '500px' }} /></Title>
                             </Col>
                         </Row>
                         <Row>

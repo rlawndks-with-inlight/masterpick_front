@@ -1,25 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import theme from '../../styles/theme';
-import SelectSubType from '../../components/elements/SelectSubType';
-import { zTalk, zTheme } from '../../data/TestData';
-import SubType from '../../components/elements/SubType';
-import testImg from '../../assets/images/test/test5.jpg';
 import axios from 'axios';
-import { backUrl, slideSetting } from '../../data/Data';
-import { getIframeLinkByLink } from '../../functions/utils';
-import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv } from '../../components/elements/UserContentTemplete';
-import ThemeCard from '../../components/ThemeCard'
-import VideoCard from '../../components/VideoCard';
+import { Wrappers } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import MasterSlide from '../../components/MasterSlide';
-import MasterContentSlide from '../../components/MasterContentSlide';
-import PleaseSelectMaster from '../../components/PleaseSelectMaster';
 import ContentTable from '../../components/ContentTable';
 
 const SubscriptionOnly = () => {

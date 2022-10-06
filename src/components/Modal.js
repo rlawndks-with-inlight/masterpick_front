@@ -82,7 +82,7 @@ const Modal = (props) => {
                 
                 <ModalOverlay onClick={handleModal} />
                 <ModalContent>
-                <img src={logo} style={{position:'absolute',zIndex:5,top:'28px',width:'48px'}} />
+                <img src={logo} alt="#" style={{position:'absolute',zIndex:5,top:'28px',width:'48px'}} />
                     <XButton onClick={handleModal}>
                         X
                     </XButton>

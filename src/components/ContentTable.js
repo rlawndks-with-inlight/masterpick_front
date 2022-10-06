@@ -54,7 +54,7 @@ const ContentTable = (props) => {
                             <>
                                 <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}` }}>
                                     {column.type == 'img' ?
-                                        <img src={backUrl + item[column.column]} style={{ height: '36px' }} /> ?? "---"
+                                        <img src={backUrl + item[column.column]} alt="#" style={{ height: '36px' }} /> ?? "---"
                                         :
                                         null}
                                     {column.type == 'is_subscribe' ?

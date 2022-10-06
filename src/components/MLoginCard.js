@@ -128,7 +128,7 @@ const MLoginCard = () => {
         <>
             <WrapperForm onSubmit={onLogin} id='login_form'>
                 <Title>
-                    <img src={logo} style={{ height: '50px', width: 'auto' }} />
+                    <img src={logo} alt="#" style={{ height: '50px', width: 'auto' }} />
                 </Title>
                 <CategoryName>ID</CategoryName>
                 <Input placeholder='input id' type={'text'} className='id' onKeyPress={onKeyPressId} />

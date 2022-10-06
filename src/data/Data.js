@@ -32,12 +32,12 @@ export const localization = {
     locale: 'ko',
 }
 export const zBottomMenu = [
-    { name: '필독!활용법', link: '/howtouse', icon: <img src={bottomMenuImg1} className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg1} className='menu-icon' />, allowList: ['/howtouse'] },
-    // { name: '핵심비디오', link: '/videolist', icon: <img src={playImg} className='menu-icon' />, activeIcon: <img src={playActiveImg} className='menu-icon' />, allowList: ['/videolist'] },
-    { name: '대가프로필', link: '/masterlist', icon: <img src={bottomMenuImg2} className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg2} className='menu-icon' />, allowList: ['/masterlist'] },
-    { name: '대가종목', link: '/masterevent', icon: <img src={bottomMenuImg3} className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg3} className='menu-icon' />, allowList: ['/masterevent'] },
-    { name: '수익률', link: '/yield', icon: <img src={bottomMenuImg4} className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg4} className='menu-icon' />, allowList: ['/yield'] },
-    { name: '구독전용', link: '/subscriptiononly', icon: <img src={bottomMenuImg5} className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg5} className='menu-icon' />, allowList: ['/subscriptiononly'] }
+    { name: '필독!활용법', link: '/howtouse', icon: <img src={bottomMenuImg1} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg1} alt="#" className='menu-icon' />, allowList: ['/howtouse'] },
+    // { name: '핵심비디오', link: '/videolist', icon: <img src={playImg} alt="#" className='menu-icon' />, activeIcon: <img src={playActiveImg} alt="#" className='menu-icon' />, allowList: ['/videolist'] },
+    { name: '대가프로필', link: '/masterlist', icon: <img src={bottomMenuImg2} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg2} alt="#" className='menu-icon' />, allowList: ['/masterlist'] },
+    { name: '대가종목', link: '/masterevent', icon: <img src={bottomMenuImg3} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg3} alt="#" className='menu-icon' />, allowList: ['/masterevent'] },
+    { name: '수익률', link: '/yield', icon: <img src={bottomMenuImg4} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg4} alt="#" className='menu-icon' />, allowList: ['/yield'] },
+    { name: '구독전용', link: '/subscriptiononly', icon: <img src={bottomMenuImg5} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg5} alt="#" className='menu-icon' />, allowList: ['/subscriptiononly'] }
 ];
 export const cardDefaultColor = {
     font: "#000",
