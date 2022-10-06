@@ -5,10 +5,14 @@ import theme from './styles/theme'
 import App from '../src/pages/App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from 'styled-components';
+import { HelmetProvider } from 'react-helmet-async';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
-  <App />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
   </ThemeProvider>
 );
 reportWebVitals();

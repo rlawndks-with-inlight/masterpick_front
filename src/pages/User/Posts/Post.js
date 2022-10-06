@@ -15,6 +15,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { logoSrc } from "../../../data/Data";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import MetaTag from "../../../components/MetaTag";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -165,12 +166,14 @@ const Post = () => {
     const [shareList, setShareList] = useState([])//최대주주 및 특수관계인 지분
     const [donutShareObj, setDonutShareObj] = useState(donut_data ?? {})
     const [etcNoteDisplay, setEtcNoteDisplay] = useState(true)
-
+    const [title, setTitle] = useState("")
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get(`/api/getmastercontent?table=${params.table}&pk=${params.pk}`)
             let obj = response.data;
+            console.log()
+            setTitle("masterpick - 구독전용 / "+obj.name)
             //list
             let take_list = JSON.parse(response?.data?.take_list);
             setTakeList(take_list);
@@ -250,6 +253,7 @@ const Post = () => {
     return (
         <>
             <Wrappers className="wrapper" maxWidth={700}>
+                <MetaTag title={title} />
                 {loading ?
                     <>
                         <Loading />

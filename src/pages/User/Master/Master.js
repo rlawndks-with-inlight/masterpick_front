@@ -3,12 +3,12 @@ import { Wrappers, Title, TransparentButton, ViewerContainer } from "../../../co
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { backUrl } from "../../../data/Data";
 import MasterSlide from "../../../components/MasterSlide";
 import MasterCard from "../../../components/MasterCard";
-import $ from 'jquery'
 import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
+import MetaTag from "../../../components/MetaTag";
+
 const Button = styled.button`
 width:364px;
 margin:0 auto;
@@ -58,13 +58,13 @@ const Master = () => {
     const [sectorList, setSectorList] = useState([])
     const [sectorMax, setSectorMax] = useState(0)
     const [loading, setLoading] = useState(false);
-
+    const [title, setTitle] = useState("");
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
             setItem(response.data)
-            
+            setTitle("masterpick - 대가프로필 / "+response.data.name)
             let sector_list = JSON.parse(response.data?.sector_list);
             sector_list = sector_list.sort(function (a, b) {
                 return b.percent - a.percent
@@ -103,6 +103,7 @@ const Master = () => {
     return (
         <>
             <Wrappers>
+                <MetaTag title={title} />
                 <MasterSlide />
                 <Title>대가 프로필</Title>
                 <div style={{ margin: '0 2px 24px auto' }}>

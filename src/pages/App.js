@@ -7,6 +7,7 @@ import Footer from '../common/Footer';
 
 import { zRoute } from '../routes/route';
 import ScrollToTopButton from '../components/ScrollToTopButton';
+import MetaTag from '../components/MetaTag';
 const App = () => {
 
     return (
@@ -14,7 +15,7 @@ const App = () => {
             <Router>
                 <Headers />
                 <ScrollToTop />
-
+                <MetaTag />
                 <>
                     <Routes>
                         {zRoute.map((route, idx) => (
@@ -25,9 +26,9 @@ const App = () => {
 
                     </Routes>
                 </>
-                <ScrollToTopButton/>
+                <ScrollToTopButton />
                 <BottomMenu />
-                <Footer/>
+                <Footer />
 
             </Router>
         </>
