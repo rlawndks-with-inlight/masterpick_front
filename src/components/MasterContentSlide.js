@@ -38,7 +38,6 @@ const MasterYieldSlide = (props) => {
     const params = useParams();
     const [masterList, setMasterList] = useState([])
     useEffect(() => {
-        console.log(1)
         async function fetchPosts() {
             const { data: response } = await axios.get('/api/items?table=master');
             setMasterList(response.data);

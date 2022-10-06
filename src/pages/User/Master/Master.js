@@ -60,9 +60,6 @@ const Master = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log(params)
-    }, [params])
-    useEffect(() => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)

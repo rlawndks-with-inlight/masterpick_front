@@ -96,7 +96,6 @@ const Home = () => {
 
             let best_master_yield_list = JSON.parse(response?.data?.best_master_yield_list);//컨텐츠에 쓸것
             let best_master_yield_obj = JSON.parse(response?.data?.best_master_yield_list);
-            console.log(best_master_yield_list)
             setBestMasterYieldList(bestMasterObj)
             let recommendation_list = JSON.parse(response?.data?.recommendation_list);
 

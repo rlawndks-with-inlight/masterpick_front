@@ -64,7 +64,6 @@ const HowToUse = () => {
         setTypeNum(num);
         if (num == 2) {
             const { data: response } = await axios.get('/api/items?table=must_read')
-            console.log(response)
             let list = response.data ?? [];
             for (var i = 0; i < list.length; i++) {
                 list[i].display = 'none';

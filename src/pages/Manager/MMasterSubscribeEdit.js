@@ -73,7 +73,6 @@ const MMasterSubscribeEdit = () => {
             setMasterList(masterresponse?.data ?? []);
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/item?table=master_subscribe&pk=${params.pk}`);
-                console.log(response)
                 $('.name').val(response?.data?.name);
                 $('.base_price').val(response?.data?.base_price);
                 $('.capture_date').val(response?.data?.capture_date);

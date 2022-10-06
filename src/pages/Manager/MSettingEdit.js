@@ -69,7 +69,6 @@ const MSettingEdit = () => {
         async function fetchPost() {
             const { data: response } = await axios.get('/api/setting');
             setSetting(response.data ?? {});
-            console.log(response)
             if (response.data) {
                 setUrl(backUrl + response.data.main_img);
                 if (params.category == 'introduce') introduceRef.current.getInstance().setHTML(response.data.introduce.replaceAll('http://localhost:8001', backUrl));

@@ -32,7 +32,6 @@ const MMasterYieldEdit = () => {
                 });
                 let sector_list = response.data;
                 setSectorList(sector_list);
-                console.log(response)
                 await new Promise((r) => setTimeout(r, 100));
                 for (var i = 0; i < sector_list.length; i++) {
                     $(`.sector-td-1-${i}`).val(sector_list[i]?.name);

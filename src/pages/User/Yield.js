@@ -60,7 +60,6 @@ const Yield = () => {
             overlap_list.push(num);
         }
         setOverlapList(overlap_list)
-        console.log(overlap_list)
         const { data: response } = await axios.post('/api/getmastercontents',{
             table:'master_yield',
             order:'yield',

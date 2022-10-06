@@ -73,7 +73,6 @@ const MasterEvent = () => {
             overlap_list.push(num);
         }
         setOverlapList(overlap_list)
-        console.log(overlap_list)
         let obj =  {
             table: 'master_event',
             order: 'level',

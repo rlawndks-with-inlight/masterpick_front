@@ -105,9 +105,7 @@ const MMainEdit = () => {
             setMasterImg(backUrl + masterResponse.data[0].profile_img);
 
             const { data: response } = await axios.get('/api/getmaincontent');
-            console.log(response)
             let best_obj = JSON.parse(response.data.best_master_yield_list);
-            console.log(best_obj)
             for (var i = 0; i < Object.keys(best_obj).length; i++) {
                 $(`.best_master_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield)
                 $(`.best_master_yield_title-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield_title)
