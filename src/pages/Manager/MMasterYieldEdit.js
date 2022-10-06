@@ -7,24 +7,13 @@ import SideBar from '../../common/manager/SideBar';
 import ManagerContentWrappers from '../../components/elements/ManagerContentWrappers';
 import axios from 'axios';
 import Breadcrumb from '../../common/manager/Breadcrumb';
-import { AiFillFileImage } from 'react-icons/ai'
 import ButtonContainer from '../../components/elements/button/ButtonContainer';
 import AddButton from '../../components/elements/button/AddButton';
 import CancelButton from '../../components/elements/button/CancelButton';
 import $ from 'jquery';
-import { addItem, updateItem } from '../../functions/utils';
 import { Card, Title, Input, Select, Row, Col, ImageContainer, Table, Tr, Td, SectorInput, SectorAddButton, Container } from '../../components/elements/ManagerTemplete';
-import { backUrl } from '../../data/Data';
-import theme from '../../styles/theme';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
 import { RiDeleteBinLine } from 'react-icons/ri'
 import ExcelComponent from '../../components/ExcelComponent';
-import { useCallback } from 'react';
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import readXlsxFile from 'read-excel-file'

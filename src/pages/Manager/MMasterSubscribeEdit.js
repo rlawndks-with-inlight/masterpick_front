@@ -22,6 +22,8 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import fontSize from "tui-editor-plugin-font-size";
+import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 import { RiDeleteBinLine } from 'react-icons/ri'
 import Loading from '../../components/Loading';
 
@@ -38,6 +40,8 @@ const MMasterSubscribeEdit = () => {
     const [operatingProfitList, setOperatingProfitList] = useState([])//영업이익
     const [investmentPointList, setInvestmentPointList] = useState([])//투자포인트-막대그래프
     const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
+    const [shareList, setShareList] = useState([])//최대주주 및 특수관계인 지분-원형그래프
+    
     //표-end
 
     //file-start
@@ -108,6 +112,14 @@ const MMasterSubscribeEdit = () => {
                     $(`.majorBussiness-td-2-${i}`).val(major_bussiness_list[i]?.price);
                     $(`.majorBussiness-td-3-${i}`).val(major_bussiness_list[i]?.percent);
                 }
+                let share_list = JSON.parse(response?.data?.share_list);
+                setShareList(share_list);
+                await new Promise((r) => setTimeout(r, 100));
+                for (var i = 0; i < share_list.length; i++) {
+                    $(`.share-td-1-${i}`).val(share_list[i]?.element);
+                    $(`.share-td-2-${i}`).val(share_list[i]?.price);
+                    $(`.share-td-3-${i}`).val(share_list[i]?.percent);
+                }
                 setUrl(backUrl + response.data?.major_bussiness_img);
                 setUrl2(backUrl + response.data?.capital_change_img);
                 setUrl3(backUrl + response.data?.investment_indicator_img);
@@ -115,7 +127,7 @@ const MMasterSubscribeEdit = () => {
                 companyOverviewRef.current.getInstance().setHTML(response.data?.company_overview_note.replaceAll('http://localhost:8001', backUrl));
                 //investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
                 //majorBussinessRef.current.getInstance().setHTML(response.data?.major_bussiness_note.replaceAll('http://localhost:8001', backUrl));
-                shareRef.current.getInstance().setHTML(response.data?.share_note.replaceAll('http://localhost:8001', backUrl));
+                // shareRef.current.getInstance().setHTML(response.data?.share_note.replaceAll('http://localhost:8001', backUrl));
                 capitalChangeRef.current.getInstance().setHTML(response.data?.capital_change_note.replaceAll('http://localhost:8001', backUrl));
                 //investmentIndicatorRef.current.getInstance().setHTML(response.data?.investment_indicator_note.replaceAll('http://localhost:8001', backUrl));
                 etcRef.current.getInstance().setHTML(response.data?.etc_note.replaceAll('http://localhost:8001', backUrl));
@@ -159,6 +171,14 @@ const MMasterSubscribeEdit = () => {
                 )
             }
         }
+        let share_list = [];
+        for (var i = 0; i < shareList.length; i++) {
+            if ($(`.share-tr-${i}`).css('display') != 'none') {
+                share_list.push(
+                    { element: $(`.share-td-1-${i}`).val(), price: $(`.share-td-2-${i}`).val(), percent: $(`.share-td-3-${i}`).val() }
+                )
+            }
+        }
         if (window.confirm("저장 하시겠습니까?")) {
             formData.append('name', $('.name').val());
             formData.append('base_price', $('.base_price').val());
@@ -176,7 +196,8 @@ const MMasterSubscribeEdit = () => {
             formData.append('major_bussiness_img', content);
             formData.append('major_bussiness_text', $('.major_bussiness_text').val());
            // formData.append('major_bussiness_note', majorBussinessRef.current.getInstance().getHTML());
-            formData.append('share_note', shareRef.current.getInstance().getHTML());
+            //formData.append('share_note', shareRef.current.getInstance().getHTML());
+            formData.append('share_list', JSON.stringify(share_list));
             formData.append('capital_change_img', content2);
             formData.append('capital_change_text', $('.capital_change_text').val());
             formData.append('capital_change_note', capitalChangeRef.current.getInstance().getHTML());
@@ -293,7 +314,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={mainRef}
                                                 hooks={{
@@ -375,7 +396,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={companyOverviewRef}
                                                 hooks={{
@@ -433,7 +454,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={investmentPointRef}
                                                 hooks={{
@@ -509,7 +530,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={majorBussinessRef}
                                                 hooks={{
@@ -534,8 +555,28 @@ const MMasterSubscribeEdit = () => {
                                     <Col>
                                         <Title>4. 지배구조, 자본금 변동사항</Title>
                                         <Title>&nbsp;&nbsp;&nbsp;(1) 최대주주 및 특수관계인 지분</Title>
-                                        <div id="editor">
-                                            {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                        <Container>
+                                            <Table>
+                                                <Tr>
+                                                    <Td>성명</Td>
+                                                    <Td>주식수</Td>
+                                                    <Td>지분율</Td>
+                                                    <Td style={{ width: '20%' }}>삭제</Td>
+                                                </Tr>
+                                                {shareList && shareList.map((item, idx) => (
+                                                    <>
+                                                        <Tr className={`share-tr-${idx}`}>
+                                                            <Td ><SectorInput className={`share-td-1-${idx}`} /></Td>
+                                                            <Td ><SectorInput className={`share-td-2-${idx}`} /> </Td>
+                                                            <Td ><SectorInput className={`share-td-3-${idx}`} /> </Td>
+                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.share-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                        </Tr>
+                                                    </>
+                                                ))}
+                                            </Table>
+                                            <SectorAddButton onClick={() => { setShareList([...shareList, ...[{}]]) }}>+추가</SectorAddButton>
+                                        </Container>
+                                        {/* <div id="editor">
                                             <Editor
                                                 placeholder="내용을 입력해주세요."
                                                 previewStyle="vertical"
@@ -544,7 +585,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={shareRef}
                                                 hooks={{
@@ -562,7 +603,7 @@ const MMasterSubscribeEdit = () => {
                                                     }
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                         <Title>&nbsp;&nbsp;&nbsp;(2) 자본금 변동사항</Title>
                                         <ImageContainer for="file2">
                                             {url2 ?
@@ -592,7 +633,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={capitalChangeRef}
                                                 hooks={{
@@ -646,7 +687,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={investmentIndicatorRef}
                                                 hooks={{
@@ -680,7 +721,7 @@ const MMasterSubscribeEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={etcRef}
                                                 hooks={{

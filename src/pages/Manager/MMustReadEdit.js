@@ -24,6 +24,8 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import { backUrl, cardDefaultColor } from '../../data/Data';
 import { objManagerListContent } from '../../data/Data';
 import Picker from 'emoji-picker-react';
+import fontSize from "tui-editor-plugin-font-size";
+import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 const MMustReadEdit = () => {
     const { pathname } = useLocation();
     const params = useParams();
@@ -114,7 +116,7 @@ const MMustReadEdit = () => {
                                         initialEditType="wysiwyg"
                                         useCommandShortcut={false}
                                         hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
+                                        plugins={[colorSyntax,fontSize]}
                                         language="ko-KR"
                                         ref={noteRef}
                                         onChange={onChangeEditor}

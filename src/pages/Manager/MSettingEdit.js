@@ -23,6 +23,8 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import Picker from 'emoji-picker-react';
+import fontSize from "tui-editor-plugin-font-size";
+import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 const ImageContainer = styled.label`
 border: 2px dashed ${props => props.theme.color.manager.font3};
 margin:12px auto 6px 24px;
@@ -159,7 +161,7 @@ const MSettingEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={introduceRef}
                                                 hooks={{
@@ -199,7 +201,7 @@ const MSettingEdit = () => {
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
                                                 hideModeSwitch={true}
-                                                plugins={[colorSyntax]}
+                                                plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={howToUseRef}
                                                 hooks={{

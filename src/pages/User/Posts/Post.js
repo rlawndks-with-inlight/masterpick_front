@@ -162,7 +162,10 @@ const Post = () => {
     const [investmentPointDetailDisplay, setInvestmentPointDetailDisplay] = useState(false)
     const [majorBussinessList, setMajorBussinessList] = useState([])//주요사업-원형그래프
     const [donutObj, setDonutObj] = useState(donut_data ?? {})
+    const [shareList, setShareList] = useState([])//최대주주 및 특수관계인 지분
+    const [donutShareObj, setDonutShareObj] = useState(donut_data ?? {})
     const [etcNoteDisplay, setEtcNoteDisplay] = useState(true)
+
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
@@ -183,7 +186,6 @@ const Post = () => {
             let donut_obj = { ...donut_data };
             donut_obj.labels = [];
             donut_obj.datasets[0].data = [];
-
             if (major_bussiness_list.length > 0) {
                 for (var i = 0; i < major_bussiness_list.length; i++) {
                     donut_obj.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
@@ -192,13 +194,27 @@ const Post = () => {
                 setDonutObj({ ...donut_obj })
             }
 
+            let share_list = JSON.parse(response?.data?.share_list);
+            setShareList(share_list);
+            let donut_share_obj = { ...donut_data };
+            donut_share_obj.labels = [];
+            donut_share_obj.datasets[0].data = [];
+
+            if (share_list?.length??0 > 0) {
+                for (var i = 0; i < share_list.length??0; i++) {
+                    donut_share_obj.labels.push(share_list[i].element + `(${commarNumber(share_list[i].price)}주)`)
+                    donut_share_obj.datasets[0].data.push(parseFloat(share_list[i].percent))
+                }
+                setDonutShareObj({ ...donut_share_obj })
+            }
+
             await new Promise((r) => setTimeout(r, 100));
             //note
             obj.main_note = obj.main_note.replaceAll('http://localhost:8001', backUrl);
             obj.company_overview_note = obj.company_overview_note.replaceAll('http://localhost:8001', backUrl);
             // obj.investment_point_note = obj.investment_point_note.replaceAll('http://localhost:8001', backUrl);
             //obj.major_bussiness_note = obj.major_bussiness_note.replaceAll('http://localhost:8001', backUrl);
-            obj.share_note = obj.share_note.replaceAll('http://localhost:8001', backUrl);
+            //obj.share_note = obj.share_note.replaceAll('http://localhost:8001', backUrl);
             obj.capital_change_note = obj.capital_change_note.replaceAll('http://localhost:8001', backUrl);
             //obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
             obj.etc_note = obj.etc_note.replaceAll('http://localhost:8001', backUrl);
@@ -367,9 +383,15 @@ const Post = () => {
                             </ViewerContainer> */}
                             <TitleStyle>4. 지배구조, 자본금 변동사항</TitleStyle>
                             <SubTitleStyle>(1) 최대주주 및 특수관계인 지분</SubTitleStyle>
-                            <ViewerContainer>
+                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                <DonutContainer>
+                                    <Doughnut data={donutShareObj.labels.length > 0 ? donutShareObj : donut_data}  />
+                                </DonutContainer>
+                                <DonutExplainContainer/>
+                            </div>
+                            {/* <ViewerContainer>
                                 <Viewer initialValue={item?.share_note ?? `<body></body>`} />
-                            </ViewerContainer>
+                            </ViewerContainer> */}
                             <SubTitleStyle>(2) 자본금 변동사항</SubTitleStyle>
                             <Img src={backUrl + item?.capital_change_img} />
                             {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>

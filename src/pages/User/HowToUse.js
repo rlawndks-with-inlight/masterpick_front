@@ -64,6 +64,7 @@ const HowToUse = () => {
         setTypeNum(num);
         if (num == 2) {
             const { data: response } = await axios.get('/api/items?table=must_read')
+            console.log(response)
             let list = response.data ?? [];
             for (var i = 0; i < list.length; i++) {
                 list[i].display = 'none';
@@ -134,7 +135,7 @@ const HowToUse = () => {
                                                     <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
                                                 </Tr>
                                                 <ViewerContainer style={{ width: '90%',maxWidth:'900px',display:item.display,background:theme.color.background3 }}>
-                                                    <Viewer initialValue={setting?.how_to_use ?? `<body></body>`} />
+                                                    <Viewer initialValue={item?.note ?? `<body></body>`} />
                                                 </ViewerContainer>
                                             </>
                                         ))}
