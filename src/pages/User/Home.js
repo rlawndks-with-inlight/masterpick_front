@@ -60,6 +60,18 @@ cursor:pointer;
     width:90%;
 }
 `
+const BestMasterContainer = styled.div`
+display: flex;
+position: absolute;
+align-items: center; 
+top: 6px;
+left: 20%;
+font-size: ${props=>props.theme.size.font3};
+@media screen and (max-width:700px) {
+    font-size: ${props=>props.theme.size.font4};
+    left: 4%;
+}
+`
 const Home = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
@@ -158,16 +170,16 @@ const Home = () => {
                         <Title>이달의 BEST 수익률</Title>
                         <Content>
                             <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }} onClick={() => navigate(`/yield`)}>
-                                <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '50%', position: 'relative' }}>
-                                    <div style={{ display: 'flex', position: 'absolute', alignItems: 'center', top: '6px', left: '20%' }}>
-                                        <img src={backUrl + bestMasterObj?.profile_img ?? ''} alt="#" style={{ height: '75px', marginRight: '5vw' }} />
-                                        <div style={{ color: '#670D0D', fontSize: theme.size.font5 }}>{bestMasterObj?.name ?? ''}</div>
-                                    </div>
+                                <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '40%', position: 'relative' }}>
+                                    <BestMasterContainer>
+                                        <img src={backUrl + bestMasterObj?.profile_img ?? ''} alt="#" style={{ height: '75px', marginRight: '2vw' }} />
+                                        <div style={{ color: '#670D0D' }}>{bestMasterObj?.name ?? ''}</div>
+                                    </BestMasterContainer>
                                 </div>
-                                <div style={{ position: 'relative', width: '50%', display: 'flex' }}>
-                                    <div style={{ margin: 'auto', alignItems: 'center', textAlign: 'center', fontSize: `${theme.size.font2}`, fontWeight: 'bold' }}>
-                                        <div style={{ marginBottom: '4px' }}>누적 수익률</div>
-                                        <div style={{ marginTop: '4px', color: '#FB0000' }}>+{commarNumber(bestMasterObj?.yield ?? '0')}%</div>
+                                <div style={{ position: 'relative', width: '60%', display: 'flex' }}>
+                                    <div style={{ margin: 'auto', alignItems: 'center', textAlign: 'center', fontSize: `${theme.size.font2}`, fontWeight: 'bold',display:'flex' }}>
+                                        <div>누적 수익률</div>
+                                        <div style={{  color: '#FB0000' }}>+{commarNumber(bestMasterObj?.yield ?? '0')}%</div>
                                     </div>
 
                                 </div>
@@ -254,9 +266,10 @@ const Home = () => {
                                 <ContentTable columns={[
                                     { name: "거장명", column: "master_name", width: 25, type: 'text' },
                                     { name: "종목명", column: "name", width: 25, type: 'text' },
-                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
+                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000',bold:true },
                                     { name: "보유기간", column: "days", width: 25, type: 'text' }
                                 ]}
+                                    columnsBold={true}
                                     data={bestList} />
                             </div>
                             <div style={{ display: `${dayType == 1 ? '' : 'none'}` }}>

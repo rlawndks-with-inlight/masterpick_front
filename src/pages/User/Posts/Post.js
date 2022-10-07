@@ -16,7 +16,16 @@ import { logoSrc } from "../../../data/Data";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import MetaTag from "../../../components/MetaTag";
-
+import thermometer1 from '../../../assets/images/icon/thermometer/thermometer1.svg'
+import thermometer2 from '../../../assets/images/icon/thermometer/thermometer2.svg'
+import thermometer3 from '../../../assets/images/icon/thermometer/thermometer3.svg'
+import thermometer4 from '../../../assets/images/icon/thermometer/thermometer4.svg'
+import thermometer5 from '../../../assets/images/icon/thermometer/thermometer5.svg'
+import thermometer6 from '../../../assets/images/icon/thermometer/thermometer6.svg'
+import thermometer7 from '../../../assets/images/icon/thermometer/thermometer7.svg'
+import thermometer8 from '../../../assets/images/icon/thermometer/thermometer8.svg'
+import thermometer9 from '../../../assets/images/icon/thermometer/thermometer9.svg'
+import weatherPopupImg from '../../../assets/images/icon/thermometer/weather-popup.svg'
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Progress = styled.progress`
@@ -54,6 +63,7 @@ margin-right:16px;
 cursor:pointer;
 margin-left:16px;
 margin-bottom:8px;
+margin-top:8px;
 `
 const Content = styled.div`
 margin:0 auto 1rem 0;
@@ -97,10 +107,58 @@ width:100%;
 max-width:700px;
 margin:0 auto;
 `
+const TwoButtonContainer = styled.div`
+width: 100%;
+max-width: 500px;
+margin: 16px auto;
+display: flex;
+background: #E4E4E4;
+border-radius: 20px;
+height: 48px;
+font-size: ${props => props.theme.size.font3};
+cursor: pointer;
+padding:2px;
+outline:none;
+-webkit-tap-highlight-color : transparent;
+`
+const PopupImg = styled.img`
+position: absolute; 
+right: 17%;
+top:-3%;
+height: 133px;
+@media screen and (max-width:700px) {
+    right: 22vw;
+}
+`
 const Post = () => {
     const params = useParams();
 
     const chartRef = useRef(null);
+    const chart2Ref = useRef(null);
+    const thermometer_list = [
+        { image_src: '', }
+    ]
+    const getThermometerByNumber = (num) => {
+        if (num >= 97) {
+            return { image_src: thermometer1, temperature: num };
+        } else if (num >= 88) {
+            return { image_src: thermometer2, temperature: num };
+        } else if (num >= 72) {
+            return { image_src: thermometer3, temperature: num };
+        } else if (num >= 65) {
+            return { image_src: thermometer4, temperature: num };
+        } else if (num >= 50) {
+            return { image_src: thermometer5, temperature: num };
+        } else if (num >= 37) {
+            return { image_src: thermometer6, temperature: num };
+        } else if (num >= 25) {
+            return { image_src: thermometer7, temperature: num };
+        } else if (num >= 12) {
+            return { image_src: thermometer8, temperature: num };
+        } else {
+            return { image_src: thermometer9, temperature: num };
+        }
+    }
     const donut_data = {
         labels: [],
         labelSuffix: "%",
@@ -111,45 +169,28 @@ const Post = () => {
                 backgroundColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
                 borderColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
                 borderWidth: 1,
-                
+
             },
-            
+
         ],
-        
+
     };
-    const options = {
-        // animation: {
-        //   animateScale: true
-        // },
-        // circumference: 1.5 * Math.PI,
-        // rotation: 0.75 * Math.PI,
-        tooltips: {
-          // enabled: false,
-          callbacks: {
-            label: (tooltipItem, data) => {
-              // Get the dataset label, global label or fall back to empty label
-              let label =
-                (data.labels &&
-                  data.labels[
-                    tooltipItem.index
-                  ]) ||
-                data.labels[tooltipItem.index] ||
-                "";
-              if (label) {
-                label += ": ";
-              }
-      
-              // Apply the value and suffix
-              label +=
-                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] +
-                (data.datasets[tooltipItem.datasetIndex].labelSuffix || "");
-      
-              return label;
-            }
-          }
-        }
-      };
-  
+    const donut_share_data = {
+        labels: [],
+        labelSuffix: "%",
+        datasets: [
+            {
+                label: '# of Votes',
+                data: [],
+                backgroundColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+                borderColor: ['#f7efef', '#f8e0df', '#f6c6c4', '#f5ae8f', '#f2c096', '#e6a975', '#f7c15f', '#ffa700', '#ec8733', '#f06d00'],
+                borderWidth: 1,
+
+            },
+
+        ],
+
+    };
     const [loading, setLoading] = useState(false)
 
     const [isShowDonut, setIsShowDonut] = useState(false)
@@ -167,13 +208,14 @@ const Post = () => {
     const [donutShareObj, setDonutShareObj] = useState(donut_data ?? {})
     const [etcNoteDisplay, setEtcNoteDisplay] = useState(true)
     const [title, setTitle] = useState("")
+
+    const [weatherPopupDisplay, setWeatherPopupDisplay] = useState(false)
     useEffect(() => {
         async function fetchPost() {
             setLoading(true)
             const { data: response } = await axios.get(`/api/getmastercontent?table=${params.table}&pk=${params.pk}`)
             let obj = response.data;
-            console.log()
-            setTitle("masterpick - 구독전용 / "+obj.name)
+            setTitle("masterpick - 구독전용 / " + obj.name)
             //list
             let take_list = JSON.parse(response?.data?.take_list);
             setTakeList(take_list);
@@ -186,41 +228,39 @@ const Post = () => {
 
             let major_bussiness_list = JSON.parse(response?.data?.major_bussiness_list);
             setMajorBussinessList(major_bussiness_list);
-            let donut_obj = { ...donut_data };
+            let donut_obj = donut_data;
             donut_obj.labels = [];
             donut_obj.datasets[0].data = [];
-            if (major_bussiness_list.length > 0) {
+            if (major_bussiness_list.length ?? 0 > 0) {
                 for (var i = 0; i < major_bussiness_list.length; i++) {
                     donut_obj.labels.push(major_bussiness_list[i].element + `(${commarNumber(major_bussiness_list[i].price)}원)`)
                     donut_obj.datasets[0].data.push(parseFloat(major_bussiness_list[i].percent))
                 }
-                setDonutObj({ ...donut_obj })
+                setDonutObj(donut_obj)
             }
-
             let share_list = JSON.parse(response?.data?.share_list);
             setShareList(share_list);
-            let donut_share_obj = { ...donut_data };
+            let donut_share_obj = donut_share_data;
             donut_share_obj.labels = [];
             donut_share_obj.datasets[0].data = [];
 
-            if (share_list?.length??0 > 0) {
-                for (var i = 0; i < share_list.length??0; i++) {
+            if (share_list?.length ?? 0 > 0) {
+                for (var i = 0; i < share_list.length ?? 0; i++) {
                     donut_share_obj.labels.push(share_list[i].element + `(${commarNumber(share_list[i].price)}주)`)
                     donut_share_obj.datasets[0].data.push(parseFloat(share_list[i].percent))
                 }
                 setDonutShareObj({ ...donut_share_obj })
             }
-
             await new Promise((r) => setTimeout(r, 100));
             //note
-            obj.main_note = obj.main_note.replaceAll('http://localhost:8001', backUrl);
-            obj.company_overview_note = obj.company_overview_note.replaceAll('http://localhost:8001', backUrl);
-            // obj.investment_point_note = obj.investment_point_note.replaceAll('http://localhost:8001', backUrl);
+            obj.main_note = (obj.main_note ?? "").replaceAll('http://localhost:8001', backUrl);
+            obj.company_overview_note = (obj.company_overview_note ?? "").replaceAll('http://localhost:8001', backUrl);
+            obj.investment_point_note = (obj.investment_point_note ?? "").replaceAll('http://localhost:8001', backUrl);
             //obj.major_bussiness_note = obj.major_bussiness_note.replaceAll('http://localhost:8001', backUrl);
             //obj.share_note = obj.share_note.replaceAll('http://localhost:8001', backUrl);
-            obj.capital_change_note = obj.capital_change_note.replaceAll('http://localhost:8001', backUrl);
+            obj.capital_change_note = (obj.capital_change_note ?? "").replaceAll('http://localhost:8001', backUrl);
             //obj.investment_indicator_note = obj.investment_indicator_note.replaceAll('http://localhost:8001', backUrl);
-            obj.etc_note = obj.etc_note.replaceAll('http://localhost:8001', backUrl);
+            obj.etc_note = (obj.etc_note ?? "").replaceAll('http://localhost:8001', backUrl);
             let etc_text_in_note = obj.etc_note.replaceAll("<p>", "")
             etc_text_in_note = etc_text_in_note.replaceAll("</p>", "")
             etc_text_in_note = etc_text_in_note.replaceAll("<br>", "")
@@ -245,14 +285,24 @@ const Post = () => {
         })
     }, [])
 
-    useEffect(() => {
-        setDonutObj({ ...donutObj })
-
-    }, [chartRef])
+    const onChangeWheatherDisplay = () => {
+        setWeatherPopupDisplay(!weatherPopupDisplay);
+    }
     // 1-1,2-4,3-5,4-2
     return (
         <>
             <Wrappers className="wrapper" maxWidth={700}>
+                {/* {weatherPopupDisplay ?
+                    <>
+                        <div style={{ position: 'absolute', width: '1000vw', height: '1000vh', zIndex: '50', top: '-100vw', left: '-100vh', opacity: '0.5', background: '#666' }} onClick={onChangeWheatherDisplay}>
+                        </div>
+                        
+                    </>
+                    :
+                    <>
+                    </>
+                } */}
+
                 <MetaTag title={title} />
                 {loading ?
                     <>
@@ -261,31 +311,40 @@ const Post = () => {
                     :
                     <>
                         <Content>
-                            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '16px 0 32px 0' }}>
+                            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '16px 0 32px 0', position: 'relative' }}>
                                 <img src={logoSrc} style={{ height: '50px' }} alt="#" />
-                                <img src={backUrl + item.master_profile_img} style={{ height: '72px' }} alt="#" />
+                                <img src={backUrl + item.master_profile_img} style={{ height: '96px' }} alt="#" />
+                                {weatherPopupDisplay?
+                                <>
+                                <PopupImg src={weatherPopupImg} />    
+                                </>
+                                :
+                                <>
+                                </>}
                             </div>
-                            <div style={{ display: 'flex', margin: '8px auto 8px 0' }}>
+                            <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
                                     <div style={{ fontSize: theme.size.font1, fontWeight: 'bold', color: '#FB0000', marginBottom: '4px' }}>{item?.name}</div>
                                     <div style={{ fontSize: theme.size.font5 }}>매수기준가 {commarNumber(item?.base_price ?? '0')}원 ({item?.capture_date} 기준)</div>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
-                                    <img src={zWeather[item?.weather ?? 0].icon} alt="#"  style={{ height: '27px' }} />
-                                    <div style={{ fontSize: theme.size.font5 }}>투자날씨</div>
-                                </div >
-                                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                                    <div style={{ height: '21px', margin: 'auto', marginTop: '6px' }}>{item?.score}</div>
-                                    <div style={{ fontSize: theme.size.font5 }}>투자점수</div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px', cursor: 'pointer' }} onClick={onChangeWheatherDisplay}>
+                                        <img src={zWeather[item?.weather ?? 0].icon} alt="#" style={{ height: '27px', marginBottom: '4px' }} />
+                                        <div style={{ fontSize: theme.size.font5 }}>투자날씨</div>
+                                    </div >
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }} onClick={() => { }}>
+                                        <img src={getThermometerByNumber(item?.score ?? 0).image_src} alt="#" style={{ height: '27px', marginBottom: '4px' }} />
+                                        <div style={{ fontSize: theme.size.font5 }}>투자점수</div>
+                                    </div >
                                 </div>
                             </div>
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <div style={{ width: '100%', maxWidth: '500px', margin: '16px auto', display: 'flex', background: '#E4E4E4', borderRadius: '20px', height: '48px', fontSize: theme.size.font3, cursor: 'pointer' }}>
+                            <TwoButtonContainer>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
-                            </div>
+                            </TwoButtonContainer>
                             <div style={{ display: 'flex', maxWidth: '500px', width: '100%', margin: '16px auto', overflowX: 'auto' }}>
                                 {typeNum == 0 ?
                                     <>
@@ -347,7 +406,7 @@ const Post = () => {
                                     <InvestmentPointDetail>
                                         {investmentPointList.map((post, idx) => (
                                             <>
-                                                <div style={{ display: 'flex', flexDirection: 'column', width: '50%', fontWeight: 'bold', fontSize: theme.size.font3 }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', width: '50%', fontWeight: 'bold', fontSize: theme.size.font3,marginBottom:'22px' }}>
                                                     <div style={{ display: 'flex', marginBottom: '4px' }}>
                                                         <div style={{ marginRight: '4px' }}>{post.element}</div>
                                                         <div style={{ color: '#FB0000' }}>{post.score}</div>
@@ -364,19 +423,19 @@ const Post = () => {
                                 <>
                                 </>
                             }
-                            {/* <ViewerContainer>
+                            <ViewerContainer>
                                 <Viewer initialValue={item?.investment_point_note ?? `<body></body>`} />
-                            </ViewerContainer> */}
+                            </ViewerContainer>
                             <TitleStyle>3. 주요 사업</TitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
 
-                                    <Doughnut data={donutObj.labels.length > 0 ? donutObj : donut_data}  />
+                                    <Doughnut data={donutObj.labels.length > 0 ? donutObj : donut_data} />
 
 
                                 </DonutContainer>
                                 <DonutExplainContainer>
-                                    <Img src={backUrl + item?.major_bussiness_img} alt="#"  />
+                                    <Img src={backUrl + item?.major_bussiness_img} alt="#" />
                                     {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                         {item?.major_bussiness_text}
                                     </div> */}
@@ -389,15 +448,15 @@ const Post = () => {
                             <SubTitleStyle>(1) 최대주주 및 특수관계인 지분</SubTitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
-                                    <Doughnut data={donutShareObj.labels.length > 0 ? donutShareObj : donut_data}  />
+                                    <Doughnut data={donutShareObj.labels.length > 0 ? donutShareObj : donut_data} />
                                 </DonutContainer>
-                                <DonutExplainContainer/>
+                                <DonutExplainContainer />
                             </div>
                             {/* <ViewerContainer>
                                 <Viewer initialValue={item?.share_note ?? `<body></body>`} />
                             </ViewerContainer> */}
                             <SubTitleStyle>(2) 자본금 변동사항</SubTitleStyle>
-                            <Img src={backUrl + item?.capital_change_img} alt="#"  />
+                            <Img src={backUrl + item?.capital_change_img} alt="#" />
                             {/* <div style={{ marginLeft: 'auto', fontSize: theme.size.font4 }}>
                                 {item?.capital_change_text}
                             </div> */}
@@ -405,7 +464,7 @@ const Post = () => {
                                 <Viewer initialValue={item?.capital_change_note ?? `<body></body>`} />
                             </ViewerContainer>
                             <TitleStyle>5. 투자 지표</TitleStyle>
-                            <Img src={backUrl + item?.investment_indicator_img} alt="#"  />
+                            <Img src={backUrl + item?.investment_indicator_img} alt="#" />
                             {/* <ViewerContainer>
                                 <Viewer initialValue={item?.investment_indicator_note ?? `<body></body>`} />
                             </ViewerContainer> */}

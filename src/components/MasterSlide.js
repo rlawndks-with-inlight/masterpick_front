@@ -11,7 +11,6 @@ import $ from 'jquery'
 const Img = styled.div`
 width: 107px;
 height: 62px;
-margin: 8px;
 background:#fff;
 border:1px solid #707070;
 cursor:pointer;
@@ -20,10 +19,10 @@ background-size: contain;
 background-repeat: no-repeat; 
 background-position: center center; 
 background-blend-mode: multiply;
+position:relative;
 @media screen and (max-width:1000px) {
     width:15.666666vw;
     height:8.8715596vw;
-    margin:1vw;
 }
 @media screen and (max-width:600px) {
     width:18.566666vw;
@@ -43,42 +42,46 @@ const MasterSlide = (props) => {
         }
         fetchPosts();
     }, [])
-    const makeMarginImg = (idx) =>{
-        if(idx%7==0){
+    const makeMarginImg = (idx) => {
+        if (idx % 7 == 0) {
             return '1.6666vw 1.6666vw 1.6666vw auto'
-        }else if(idx%7==3){
+        } else if (idx % 7 == 3) {
             return '1.6666vw auto 1.6666vw 1.6666vw'
-        }else if(idx%7==4){
+        } else if (idx % 7 == 4) {
             return '1.6666vw 1.6666vw 1.6666vw 11vw'
-        }else if(idx%7==6){
+        } else if (idx % 7 == 6) {
             return '1.6666vw 11vw 1.6666vw 1.6666vw'
-        }else{
-            return '1.6666vw'
+        } else {
+            return '1.6666vw 1.6666vw 1.6666vw 1.6666vw'
         }
     }
-    useEffect(()=>{
-        if(isPhoto){
+    useEffect(() => {
+        if (isPhoto) {
         }
-    },[])
+    }, [])
     return (
         <>
-            <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}`,display:`${isPhoto?'flex':''}`,flexWrap:`${isPhoto?'wrap':''}` }}>
+            <SelectSubType className='subtype-container' style={{ marginBottom: '16px', width: `${width ? width : ''}`, display: `${isPhoto ? 'flex' : ''}`, flexWrap: `${isPhoto ? 'wrap' : ''}` }}>
                 {masterList.map((item, index) => (
                     <>
                         {isPhoto ?
                             <>
                                 {overlapList ?
                                     <>
-                                        {
-
-                                        }
-                                        <Img style={{backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}`,margin:`${window.innerWidth<=700?makeMarginImg(index):''}`}} 
-                                        onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
+                                        <div style={{display:'flex',flexDirection:'column',textAlign:'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : '8px'}`}}>
+                                            <Img style={{ backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}` }}
+                                                onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
+                                                <div style={{ fontSize:theme.size.font5,marginTop:'8px',color:`${overlapList.includes(item.pk) ? theme.color.background1 : theme.color.font2}`}}>{item.name.substring(0,8)}</div>
+                                        </div>
+                                        
                                     </>
                                     :
                                     <>
-                                        <Img style={{backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`,opacity: `${params.pk == item.pk || num == item.pk ? '1' : '0.5'}`}} 
-                                        onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
+                                        <div style={{display:'flex',flexDirection:'column',textAlign:'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : ''}`}}>
+                                            <Img style={{ backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${params.pk == item.pk || num == item.pk ? '1' : '0.5'}` }}
+                                                onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
+                                                <div style={{ fontSize:theme.size.font5,marginTop:'8px'}}>{item.name.substring(0,10)}</div>
+                                        </div>
                                     </>
                                 }
                             </>

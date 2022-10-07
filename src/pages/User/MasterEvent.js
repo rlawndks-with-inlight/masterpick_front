@@ -108,9 +108,9 @@ const MasterEvent = () => {
                                 <p style={{ margin: 'auto' }}>TOP 5 보러가기</p>
                             </ScreenDiv>
                             <ContentTable columns={[
-                                { name: "대가이름", column: "master_name", width: 25, type: 'text' },
-                                { name: "종목명", column: "name", width: 50, type: 'text' },
-                                { name: "등급", column: "level", width: 25, type: 'star' }
+                                { name: "대가이름", column: "master_name", width: "", type: 'text' },
+                                { name: "종목명", column: "name",  width: "", type: 'text' },
+                                { name: "등급", column: "level",  width: "", type: 'star' }
                             ]}
                                 data={posts} />
                         </div>

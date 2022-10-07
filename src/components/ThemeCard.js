@@ -9,7 +9,7 @@ const Card = styled.div`
 width: 48%; 
 display: flex;
 margin-bottom: 16px;
-height: 200px;
+height: 180px;
 background: #fff;
 cursor:pointer;
 @media screen and (max-width:1000px) {
@@ -17,7 +17,7 @@ cursor:pointer;
 }
 @media screen and (max-width:700px) {
     width: 100%; 
-    height: 40vw;
+    height: 36vw;
     min-height:150px;
 }
 `
@@ -26,7 +26,7 @@ width: 125px;
 height: 180px;
 margin: 10px;
 background:#fff;
-border:1px solid #707070;
+// border:1px solid #707070;
 @media screen and (max-width:1000px) {
     width:12.5vw;
     height: 18vw;
@@ -42,10 +42,7 @@ const Title = styled.div`
 font-size:${theme.size.font2}; 
 font-weight: bold;
 margin-bottom:auto;
-@media screen and (max-width:1200px) {
-}
-@media screen and (max-width:700px) {
-}
+
 `
 const TextContainer = styled.div`
 padding: 16px;
@@ -72,12 +69,10 @@ align-item:center;
 font-weight:bold;
 margin:auto;
 `
-const Date = styled.div`
-font-size: ${theme.size.font5};
-margin-top: 16px;
-@media screen and (max-width:500px) {
-    margin-top: 6px;
-}
+const BottomContent = styled.div` 
+display: flex;
+flex-direction: column;
+margin-top: auto;
 `
 const MasterCard = (props) => {
     const { data } = props;
@@ -109,9 +104,9 @@ const MasterCard = (props) => {
                 }} />
 
                 <TextContainer>
-                    <Title> {data?.name ?? ""} 전문가</Title>
+                    <Title>투자대가 {data?.name ?? ""}</Title>
                     <Title> {data?.motto ?? ""}</Title>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginTop: 'auto' }}>
+                    <BottomContent>
                         <Hash>
                             <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
                         </Hash>
@@ -119,7 +114,7 @@ const MasterCard = (props) => {
                             <SubType style={{ background: theme.color.background2 }} onClick={()=>navigate(`/master/${data.pk}`)}>투자전략</SubType>
                             <SubType style={{ background: theme.color.background2 }} onClick={addSubscribeMaster}>가입하기</SubType>
                         </div>
-                    </div>
+                    </BottomContent>
                 </TextContainer>
             </Card>
         </>

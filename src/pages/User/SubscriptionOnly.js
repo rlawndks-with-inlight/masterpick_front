@@ -74,10 +74,10 @@ const SubscriptionOnly = () => {
                     <>
                         <div style={{ position: 'relative' }}>
                             <ContentTable columns={[
-                                { name: "대가명", column: "master_name", width: 25, type: 'text' },
-                                { name: "종목명", column: "name", width: 25, type: 'text' },
-                                { name: "기준가", column: "base_price", width: 25, type: 'number' },
-                                { name: "포착일시", column: "capture_date", width: 25, type: 'text' },
+                                { name: "대가명", column: "master_name", width: "", type: 'text' },
+                                { name: "종목명", column: "name", width: "", type: 'text' },
+                                { name: "기준가", column: "base_price", width: "", type: 'number' },
+                                { name: "포착일시", column: "capture_date", width: "", type: 'text' },
                             ]} click={'/post/master_subscribe'}
                                 isPointer={true}
                                 data={posts} />

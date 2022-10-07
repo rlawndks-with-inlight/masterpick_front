@@ -8,6 +8,7 @@ import MasterCard from "../../../components/MasterCard";
 import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
 import MetaTag from "../../../components/MetaTag";
+import { commarNumber } from "../../../functions/utils";
 
 const Button = styled.button`
 width:364px;
@@ -116,7 +117,10 @@ const Master = () => {
                     :
                     <>
                         <MasterCard item={item} />
-
+                        <Title>대가 수익률</Title>
+                        <ViewerContainer style={{width:'90%',color:'#FB0000',fontWeight:'bold'}}>
+                        <div>+ {commarNumber(item.yield??0)}%</div>
+                        </ViewerContainer>
                         <Title>대가 투자원칙</Title>
                         <ViewerContainer style={{width:'90%'}}>
                             <Viewer initialValue={item?.investment_principle ?? `<body></body>`} />

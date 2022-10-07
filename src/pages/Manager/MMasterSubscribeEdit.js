@@ -124,12 +124,13 @@ const MMasterSubscribeEdit = () => {
                 setUrl3(backUrl + response.data?.investment_indicator_img);
                 mainRef.current.getInstance().setHTML(response.data?.main_note.replaceAll('http://localhost:8001', backUrl));
                 companyOverviewRef.current.getInstance().setHTML(response.data?.company_overview_note.replaceAll('http://localhost:8001', backUrl));
-                //investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
+                investmentPointRef.current.getInstance().setHTML(response.data?.investment_point_note.replaceAll('http://localhost:8001', backUrl));
                 //majorBussinessRef.current.getInstance().setHTML(response.data?.major_bussiness_note.replaceAll('http://localhost:8001', backUrl));
                 // shareRef.current.getInstance().setHTML(response.data?.share_note.replaceAll('http://localhost:8001', backUrl));
                 capitalChangeRef.current.getInstance().setHTML(response.data?.capital_change_note.replaceAll('http://localhost:8001', backUrl));
                 //investmentIndicatorRef.current.getInstance().setHTML(response.data?.investment_indicator_note.replaceAll('http://localhost:8001', backUrl));
                 etcRef.current.getInstance().setHTML(response.data?.etc_note.replaceAll('http://localhost:8001', backUrl));
+                
                 
             } else {
 
@@ -190,7 +191,7 @@ const MMasterSubscribeEdit = () => {
             formData.append('operating_profit_list', JSON.stringify(operating_profit_list));
             formData.append('company_overview_note', companyOverviewRef.current.getInstance().getHTML());
             formData.append('investment_point_list', JSON.stringify(investment_point_list));
-            //formData.append('investment_point_note', investmentIndicatorRef.current.getInstance().getHTML());
+            formData.append('investment_point_note', investmentPointRef.current.getInstance().getHTML());
             formData.append('major_bussiness_list', JSON.stringify(major_bussiness_list));
             formData.append('major_bussiness_img', content);
             formData.append('major_bussiness_text', $('.major_bussiness_text').val());
@@ -442,8 +443,6 @@ const MMasterSubscribeEdit = () => {
                                             </Table>
                                             <SectorAddButton onClick={() => { setInvestmentPointList([...investmentPointList, ...[{}]]) }}>+추가</SectorAddButton>
                                         </Container>
-                                        {/* <Title>&nbsp;&nbsp;&nbsp;(2) 설명</Title>
-
                                         <div id="editor">
                                             <Editor
                                                 placeholder="내용을 입력해주세요."
@@ -471,7 +470,7 @@ const MMasterSubscribeEdit = () => {
                                                     }
                                                 }}
                                             />
-                                        </div> */}
+                                        </div>
                                     </Col>
                                 </Row>
                                 <Row>

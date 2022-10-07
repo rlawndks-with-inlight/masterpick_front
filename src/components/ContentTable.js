@@ -9,7 +9,7 @@ import theme from "../styles/theme";
 import { Table, Tr, Td } from "./elements/UserContentTemplete";
 const ContentTable = (props) => {
     const navigate = useNavigate();
-    const { columns, data, click, schema, isPointer, addSubscribeMaster } = props;
+    const { columns, data, click, schema, isPointer, addSubscribeMaster, columnsBold } = props;
     const onClickEvent = (str) => {
         if (str) {
             navigate(str)
@@ -41,7 +41,7 @@ const ContentTable = (props) => {
     return (
         <>
             <Table>
-                <Tr>
+                <Tr style={{fontWeight:`${columnsBold?'bold':''}`}}>
                     {columns.map((item, idx) => (
                         <>
                             <Td style={{ width: item.width }}>{item.name}</Td>
@@ -52,7 +52,7 @@ const ContentTable = (props) => {
                     <Tr onClick={() => { click ? onClickEvent(`${click + '/' + item.pk}`) : onClickEvent(``) }}>
                         {columns.map((column, idx) => (
                             <>
-                                <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}` }}>
+                                <Td style={{ width: column.width, color: `${column.color ? column.color : ''}`, cursor: `${isPointer ? 'pointer' : ''}`,fontWeight:`${column.bold?'bold':''}` }}>
                                     {column.type == 'img' ?
                                         <img src={backUrl + item[column.column]} alt="#" style={{ height: '36px' }} /> ?? "---"
                                         :

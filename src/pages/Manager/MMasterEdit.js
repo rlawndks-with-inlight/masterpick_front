@@ -46,6 +46,7 @@ const MMasterEdit = () => {
             if (params.pk > 0) {
                 const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
                 $('.name').val(response.data.name)
+                $('.yield').val(response.data.yield)
                 setUrl(backUrl + response.data.profile_img)
                 $('.background-color').val(response.data.background_color)
                 $('.motto').val(response.data.motto)
@@ -85,6 +86,7 @@ const MMasterEdit = () => {
         } else {
 
             formData.append("name", $(`.name`).val());
+            formData.append("yield", $(`.yield`).val());
             formData.append("backgroundColor", $(`.background-color`).val());
             formData.append("motto", $(`.motto`).val());
             formData.append("master", content);
@@ -179,6 +181,10 @@ const MMasterEdit = () => {
                             <Col>
                                 <Title>카드 배경색</Title>
                                 <Input type={'color'} className='background-color' style={{ background: '#fff', height: '36px', width: '220px' }} />
+                            </Col>
+                            <Col>
+                                <Title>대가 수익률</Title>
+                                <Input className='yield' placeholder='only number' />
                             </Col>
                         </Row>
                         <Row>
