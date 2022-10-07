@@ -322,18 +322,19 @@ const Post = () => {
                                 <>
                                 </>}
                             </div>
-                            <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between' ,alignItems:'end'}}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
                                     <div style={{ fontSize: theme.size.font1, fontWeight: 'bold', color: '#FB0000', marginBottom: '4px' }}>{item?.name}</div>
                                     <div style={{ fontSize: theme.size.font5 }}>매수기준가 {commarNumber(item?.base_price ?? '0')}원 ({item?.capture_date} 기준)</div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'end' }}>
                                     <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px', cursor: 'pointer' }} onClick={onChangeWheatherDisplay}>
                                         <img src={zWeather[item?.weather ?? 0].icon} alt="#" style={{ height: '27px', marginBottom: '4px' }} />
                                         <div style={{ fontSize: theme.size.font5 }}>투자날씨</div>
                                     </div >
-                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }} onClick={() => { }}>
-                                        <img src={getThermometerByNumber(item?.score ?? 0).image_src} alt="#" style={{ height: '27px', marginBottom: '4px' }} />
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px',textAlign:'center' }} onClick={() => { }}>
+                                        <img src={getThermometerByNumber(item?.score ?? 0).image_src} alt="#" style={{ height: '30px' }} />
+                                        <div style={{ fontSize: theme.size.font4,margin:'2px 0' }}>{item?.score}</div>
                                         <div style={{ fontSize: theme.size.font5 }}>투자점수</div>
                                     </div >
                                 </div>

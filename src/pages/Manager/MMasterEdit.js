@@ -30,6 +30,7 @@ const MMasterEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
 
+    const yieldRef = useRef();
     const principleRef = useRef();
     const styleRef = useRef();
 
@@ -50,6 +51,7 @@ const MMasterEdit = () => {
                 setUrl(backUrl + response.data.profile_img)
                 $('.background-color').val(response.data.background_color)
                 $('.motto').val(response.data.motto)
+                yieldRef.current.getInstance().setHTML(response.data.yield.replaceAll('http://localhost:8001', backUrl));
                 principleRef.current.getInstance().setHTML(response.data.investment_principle.replaceAll('http://localhost:8001', backUrl));
                 styleRef.current.getInstance().setHTML(response.data.investment_style.replaceAll('http://localhost:8001', backUrl));
                 let sector_list = JSON.parse(response.data.sector_list);
@@ -86,11 +88,11 @@ const MMasterEdit = () => {
         } else {
 
             formData.append("name", $(`.name`).val());
-            formData.append("yield", $(`.yield`).val());
             formData.append("backgroundColor", $(`.background-color`).val());
             formData.append("motto", $(`.motto`).val());
             formData.append("master", content);
             formData.append("sectorList", JSON.stringify(sector_list));
+            formData.append('yield', yieldRef.current.getInstance().getHTML());//대가 수익률
             formData.append('principle', principleRef.current.getInstance().getHTML());//투자원칙
             formData.append('style', styleRef.current.getInstance().getHTML());//투자스타일
 
@@ -182,9 +184,40 @@ const MMasterEdit = () => {
                                 <Title>카드 배경색</Title>
                                 <Input type={'color'} className='background-color' style={{ background: '#fff', height: '36px', width: '220px' }} />
                             </Col>
-                            <Col>
+                           
+                        </Row>
+                        <Row>
+                        <Col>
                                 <Title>대가 수익률</Title>
-                                <Input className='yield' placeholder='only number' />
+                                <div id="editor">
+                                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                    <Editor
+                                        placeholder="내용을 입력해주세요."
+                                        previewStyle="vertical"
+                                        height="600px"
+                                        initialEditType="wysiwyg"
+                                        useCommandShortcut={false}
+                                        useTuiEditorEmoji={true}
+                                        hideModeSwitch={true}
+                                        plugins={[colorSyntax,fontSize]}
+                                        language="ko-KR"
+                                        ref={yieldRef}
+                                        hooks={{
+                                            addImageBlobHook: async (blob, callback) => {
+
+                                                noteFormData.append('note', blob);
+                                                const { data: response } = await axios.post('/api/addimage', noteFormData);
+                                                if (response.result > 0) {
+                                                    callback(backUrl + response.data.filename)
+                                                    noteFormData.delete('note');
+                                                } else {
+                                                    noteFormData.delete('note');
+                                                    return;
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </div>
                             </Col>
                         </Row>
                         <Row>
@@ -200,7 +233,7 @@ const MMasterEdit = () => {
                                         useCommandShortcut={false}
                                         useTuiEditorEmoji={true}
                                         hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
+                                        plugins={[colorSyntax,fontSize]}
                                         language="ko-KR"
                                         ref={principleRef}
                                         hooks={{
@@ -234,7 +267,7 @@ const MMasterEdit = () => {
                                         useCommandShortcut={false}
                                         useTuiEditorEmoji={true}
                                         hideModeSwitch={true}
-                                        plugins={[colorSyntax]}
+                                        plugins={[colorSyntax,fontSize]}
                                         language="ko-KR"
                                         ref={styleRef}
                                         hooks={{

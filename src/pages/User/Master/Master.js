@@ -118,8 +118,8 @@ const Master = () => {
                     <>
                         <MasterCard item={item} />
                         <Title>대가 수익률</Title>
-                        <ViewerContainer style={{width:'90%',color:'#FB0000',fontWeight:'bold'}}>
-                        <div>+ {commarNumber(item.yield??0)}%</div>
+                        <ViewerContainer style={{width:'90%'}}>
+                            <Viewer initialValue={item?.yield ?? `<body></body>`} />
                         </ViewerContainer>
                         <Title>대가 투자원칙</Title>
                         <ViewerContainer style={{width:'90%'}}>
