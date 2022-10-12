@@ -51,7 +51,8 @@ const Yield = () => {
             order:'yield',
             desc:true,
             status: 1,
-            overlap_list:overlap_list
+            pk:num
+            //overlap_list:overlap_list
         })
         setPosts(response.data)
         setLoading(false);
@@ -59,7 +60,7 @@ const Yield = () => {
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} overlapList={overlapList} status={1} />
+                <MasterSlide onClickMaster={onClickMaster} schema={'master_yield'} num={typeNum} width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />

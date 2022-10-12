@@ -30,7 +30,7 @@ position:relative;
 }
 `
 const MasterSlide = (props) => {
-    let { onClickMaster, num, isPhoto, overlapList, width, status } = props;
+    let { onClickMaster, num, isPhoto, overlapList, width, status, schema } = props;
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const params = useParams();
@@ -39,6 +39,16 @@ const MasterSlide = (props) => {
         async function fetchPosts() {
             const { data: response } = await axios.get(`/api/items?table=master${status ? `&status=1` : ''}`);
             setMasterList(response.data);
+            if (schema == 'master_yield') {
+                let list = [...response.data];
+                list.unshift({
+                    pk: 0,
+                    name: '전체보기',
+                })
+                setMasterList(list)
+            }else if(schema == 'master_event'){
+                onClickMaster(response.data[0].pk)
+            }
         }
         fetchPosts();
     }, [])
@@ -68,19 +78,19 @@ const MasterSlide = (props) => {
                             <>
                                 {overlapList ?
                                     <>
-                                        <div style={{display:'flex',flexDirection:'column',textAlign:'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : '8px'}`}}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : '8px'}` }}>
                                             <Img style={{ backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${overlapList.includes(item.pk) ? '1' : '0.5'}` }}
                                                 onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
-                                                <div style={{ fontSize:theme.size.font5,marginTop:'8px',color:`${overlapList.includes(item.pk) ? theme.color.background1 : theme.color.font2}`}}>{item.name.substring(0,8)}</div>
+                                            <div style={{ fontSize: theme.size.font5, marginTop: '8px', color: `${overlapList.includes(item.pk) ? theme.color.background1 : theme.color.font2}` }}>{item.name.substring(0, 8)}</div>
                                         </div>
-                                        
+
                                     </>
                                     :
                                     <>
-                                        <div style={{display:'flex',flexDirection:'column',textAlign:'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : ''}`}}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', margin: `${window.innerWidth <= 700 ? makeMarginImg(index) : ''}` }}>
                                             <Img style={{ backgroundImage: `url(${backUrl + item?.profile_img ?? ""})`, opacity: `${params.pk == item.pk || num == item.pk ? '1' : '0.5'}` }}
                                                 onClick={() => { onClickMaster ? onClickMaster(item.pk) : navigate(`/master/${item.pk}`) }} />
-                                                <div style={{ fontSize:theme.size.font5,marginTop:'8px'}}>{item.name.substring(0,10)}</div>
+                                            <div style={{ fontSize: theme.size.font5, marginTop: '8px', color: `${params.pk == item.pk || num == item.pk ? theme.color.background1 : theme.color.font2}` }}>{item.name.substring(0, 10)}</div>
                                         </div>
                                     </>
                                 }

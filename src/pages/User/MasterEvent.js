@@ -10,7 +10,7 @@ import $ from 'jquery'
 import MasterSlide from '../../components/MasterSlide';
 const ScreenDiv = styled.div`
 width:90%;
-height:134px;
+height:260px;
 position:absolute;
 background:linear-gradient(to left, #FFB92B, #FB8200);
 opacity:0.97;
@@ -77,13 +77,10 @@ const MasterEvent = () => {
             table: 'master_event',
             order: 'level',
             desc: true,
-            status: 1
+            status: 1,
+            pk:num
         }
-        if(num==0){
-            setOverlapList([]);
-        }else{
-            obj.overlap_list = overlap_list;
-        }
+        
         const { data: response } = await axios.post(`/api/getmastercontents`, obj)
         setPosts(response.data)
         setLoading(false);
@@ -93,10 +90,10 @@ const MasterEvent = () => {
             <Wrappers className='wrappers'>
                 <Content>
                     <Title>대가들의 종목</Title>
-                        <TransparentButton style={{ position: 'absolute', top: '25px', right: '0',background:'#fff',border:'none', fontWeight:'bold' }}
-                        onClick={()=>onClickMaster(0)}>전체보기</TransparentButton>
+                        {/* <TransparentButton style={{ position: 'absolute', top: '25px', right: '0',background:'#fff',border:'none', fontWeight:'bold' }}
+                        onClick={()=>onClickMaster(0)}>전체보기</TransparentButton> */}
                 </Content>
-                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} overlapList={overlapList} width={'90%'} status={1} />
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} schema={'master_event'}  width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />
@@ -105,7 +102,7 @@ const MasterEvent = () => {
                     <>
                         <div style={{ position: 'relative' }}>
                             <ScreenDiv onClick={() => navigate('/masterlist')}>
-                                <p style={{ margin: 'auto' }}>TOP 5 보러가기</p>
+                                <p style={{ margin: 'auto' }}>TOP 10 보러가기</p>
                             </ScreenDiv>
                             <ContentTable columns={[
                                 { name: "대가이름", column: "master_name", width: "", type: 'text' },
