@@ -116,8 +116,7 @@ const MMasterSubscribeEdit = () => {
                 await new Promise((r) => setTimeout(r, 100));
                 for (var i = 0; i < share_list.length; i++) {
                     $(`.share-td-1-${i}`).val(share_list[i]?.element);
-                    $(`.share-td-2-${i}`).val(share_list[i]?.price);
-                    $(`.share-td-3-${i}`).val(share_list[i]?.percent);
+                    $(`.share-td-2-${i}`).val(share_list[i]?.percent);
                 }
                 setUrl(backUrl + response.data?.major_bussiness_img);
                 setUrl2(backUrl + response.data?.capital_change_img);
@@ -175,7 +174,7 @@ const MMasterSubscribeEdit = () => {
         for (var i = 0; i < shareList.length; i++) {
             if ($(`.share-tr-${i}`).css('display') != 'none') {
                 share_list.push(
-                    { element: $(`.share-td-1-${i}`).val(), price: $(`.share-td-2-${i}`).val(), percent: $(`.share-td-3-${i}`).val() }
+                    { element: $(`.share-td-1-${i}`).val(), percent: $(`.share-td-2-${i}`).val() }
                 )
             }
         }
@@ -557,7 +556,6 @@ const MMasterSubscribeEdit = () => {
                                             <Table>
                                                 <Tr>
                                                     <Td>성명</Td>
-                                                    <Td>주식수</Td>
                                                     <Td>지분율</Td>
                                                     <Td style={{ width: '20%' }}>삭제</Td>
                                                 </Tr>
@@ -566,7 +564,6 @@ const MMasterSubscribeEdit = () => {
                                                         <Tr className={`share-tr-${idx}`}>
                                                             <Td ><SectorInput className={`share-td-1-${idx}`} /></Td>
                                                             <Td ><SectorInput className={`share-td-2-${idx}`} /> </Td>
-                                                            <Td ><SectorInput className={`share-td-3-${idx}`} /> </Td>
                                                             <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.share-tr-${idx}`).css('display', 'none') }} /></Td>
                                                         </Tr>
                                                     </>

@@ -246,7 +246,7 @@ const Post = () => {
 
             if (share_list?.length ?? 0 > 0) {
                 for (var i = 0; i < share_list.length ?? 0; i++) {
-                    donut_share_obj.labels.push(share_list[i].element + `(${commarNumber(share_list[i].price)}주)`)
+                    donut_share_obj.labels.push(share_list[i].element)
                     donut_share_obj.datasets[0].data.push(parseFloat(share_list[i].percent))
                 }
                 setDonutShareObj({ ...donut_share_obj })
