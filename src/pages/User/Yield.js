@@ -71,7 +71,7 @@ const Yield = () => {
                             <ContentTable columns={[
                                 { name: "대가명", column: "master_name", width: "", type: 'text' },
                                 { name: "종목명", column: "name", width: "", type: 'text' },
-                                { name: "매수가", column: "purchase_price", width: 30, type: 'number' },
+                                { name: "매수가", column: "purchase_price", type: 'number' },
                                 { name: "매도가", column: "sell_price", width: "", type: 'number' },
                                 { name: "수익률", column: "yield", width: "", type: 'percent' },
                                 { name: "매도月", column: "period", width: "", type: 'text' }

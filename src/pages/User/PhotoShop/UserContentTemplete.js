@@ -154,10 +154,10 @@ margin:0 auto;
 `
 export const Table = styled.table`
 font-size:${props => props.theme.size.font4};
-width:100%;
+width:90%;
+margin:0 auto;
 text-align:center;
 border-collapse: collapse;
-min-width:350px;
 `
 export const Tr = styled.tr`
 width:100%;

@@ -191,6 +191,28 @@ const Post = () => {
         ],
 
     };
+    const donut_option = {
+        plugins: {
+          datalabels: {
+            backgroundColor: function(context) {
+              return context.dataset.backgroundColor;
+            },
+            formatter: (val, context) => `${val}%`,
+            borderRadius: 25,
+            borderWidth: 3,
+            color: "black",
+            font: {
+              weight: "bold"
+            },
+            padding: 6
+          },
+          tooltip: {
+            callbacks: {
+              label: (ttItem) => `${ttItem.label}: ${ttItem.parsed}%`
+            }
+          }
+        }
+      }
     const [loading, setLoading] = useState(false)
 
     const [isShowDonut, setIsShowDonut] = useState(false)
@@ -314,15 +336,15 @@ const Post = () => {
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '16px 0 32px 0', position: 'relative' }}>
                                 <img src={logoSrc} style={{ height: '50px' }} alt="#" />
                                 <img src={backUrl + item.master_profile_img} style={{ height: '96px' }} alt="#" />
-                                {weatherPopupDisplay?
-                                <>
-                                <PopupImg src={weatherPopupImg} />    
-                                </>
-                                :
-                                <>
-                                </>}
+                                {weatherPopupDisplay ?
+                                    <>
+                                        <PopupImg src={weatherPopupImg} />
+                                    </>
+                                    :
+                                    <>
+                                    </>}
                             </div>
-                            <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between' ,alignItems:'end'}}>
+                            <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between', alignItems: 'end' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
                                     <div style={{ fontSize: theme.size.font1, fontWeight: 'bold', color: '#FB0000', marginBottom: '4px' }}>{item?.name}</div>
                                     <div style={{ fontSize: theme.size.font5 }}>매수기준가 {commarNumber(item?.base_price ?? '0')}원 ({item?.capture_date} 기준)</div>
@@ -332,9 +354,9 @@ const Post = () => {
                                         <img src={zWeather[item?.weather ?? 0].icon} alt="#" style={{ height: '27px', marginBottom: '4px' }} />
                                         <div style={{ fontSize: theme.size.font5 }}>투자날씨</div>
                                     </div >
-                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px',textAlign:'center' }} onClick={() => { }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px', textAlign: 'center' }} onClick={() => { }}>
                                         <img src={getThermometerByNumber(item?.score ?? 0).image_src} alt="#" style={{ height: '30px' }} />
-                                        <div style={{ fontSize: theme.size.font4,margin:'2px 0' }}>{item?.score}</div>
+                                        <div style={{ fontSize: theme.size.font4, margin: '2px 0' }}>{item?.score}</div>
                                         <div style={{ fontSize: theme.size.font5 }}>투자점수</div>
                                     </div >
                                 </div>
@@ -407,7 +429,7 @@ const Post = () => {
                                     <InvestmentPointDetail>
                                         {investmentPointList.map((post, idx) => (
                                             <>
-                                                <div style={{ display: 'flex', flexDirection: 'column', width: '50%', fontWeight: 'bold', fontSize: theme.size.font3,marginBottom:'22px' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', width: '50%', fontWeight: 'bold', fontSize: theme.size.font3, marginBottom: '22px' }}>
                                                     <div style={{ display: 'flex', marginBottom: '4px' }}>
                                                         <div style={{ marginRight: '4px' }}>{post.element}</div>
                                                         <div style={{ color: '#FB0000' }}>{post.score}</div>
@@ -431,7 +453,7 @@ const Post = () => {
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
 
-                                    <Doughnut data={donutObj.labels.length > 0 ? donutObj : donut_data} />
+                                    <Doughnut data={donutObj.labels.length > 0 ? donutObj : donut_data} options={donut_option} />
 
 
                                 </DonutContainer>
@@ -449,7 +471,7 @@ const Post = () => {
                             <SubTitleStyle>(1) 최대주주 및 특수관계인 지분</SubTitleStyle>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                 <DonutContainer>
-                                    <Doughnut data={donutShareObj.labels.length > 0 ? donutShareObj : donut_data} />
+                                    <Doughnut data={donutShareObj.labels.length > 0 ? donutShareObj : donut_data} options={donut_option} />
                                 </DonutContainer>
                                 <DonutExplainContainer />
                             </div>

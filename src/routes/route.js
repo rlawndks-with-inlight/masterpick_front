@@ -46,6 +46,7 @@ import MChannelEdit from '../pages/Manager/MChannelEdit';
 import Notice from '../pages/User/Notice/Notice';
 import MMainEdit from '../pages/Manager/MMainEdit';
 import MUserStatistic from '../pages/Manager/MUserStatistic';
+import PhotoShop from '../pages/User/PhotoShop/PhotoShop';
 
 const zRoute = [
     { link: '/', element: <Home />, title: "홈" },
@@ -98,5 +99,9 @@ const zRoute = [
     { link: '/manager/edit/:table/:pk', element: <MItemEdit />, title: "관리자" },
     { link: '/manager/list/:table/:pk', element: <MItemList />, title: "관리자" },
     { link: '/manager/list/:table', element: <MItemList />, title: "관리자" },
+
+
+    { link: '/photoshop', element: <PhotoShop />, title: "" },
+    
 ]
 export { zRoute }
