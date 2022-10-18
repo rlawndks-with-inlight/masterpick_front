@@ -9,7 +9,7 @@ margin:-15vh auto;
 width:100vw;
 height:100vh;
 display:flex;
-z-index:5;
+z-index:100;
 margin:0;
 }
 

@@ -99,6 +99,29 @@ export const objManagerListContent = {
             { name: '삭제', width: 8, type: 'delete', column: 'delete' }
         ],
     },
+    notice: {
+        breadcrumb: '공지',
+        schema: 'notice',
+        zColumn: [
+            { name: '제목', width: 38, type: 'text', column: 'title' },
+            { name: '생성시간', width: 38, type: 'text', column: 'date' },
+            { name: '노출여부', width: 8, type: 'status', column: 'status' },
+            { name: '수정', width: 8, type: 'edit', column: 'edit' },
+            { name: '삭제', width: 8, type: 'delete', column: 'delete' }
+        ],
+    },
+    alarm: {
+        breadcrumb: '푸시알람',
+        schema: 'alarm',
+        zColumn: [
+            { name: '제목', width: 25, type: 'text', column: 'title' },
+            { name: '타입', width: 25, type: 'alarm_type', column: 'type' },
+            { name: '생성시간', width: 26, type: 'text', column: 'date' },
+            { name: '노출여부', width: 8, type: 'status', column: 'status' },
+            { name: '수정', width: 8, type: 'edit', column: 'edit' },
+            { name: '삭제', width: 8, type: 'delete', column: 'delete' }
+        ],
+    }
 }
 export const getManagerListApi = (table, num) => {
     let str = "";

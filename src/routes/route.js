@@ -27,6 +27,8 @@ import Master from '../pages/User/Master/Master';
 import Post from '../pages/User/Posts/Post';
 import Video from '../pages/User/Posts/Video';
 
+import Policy from '../pages/User/Policy/Policy';
+
 import MLogin from '../pages/Manager/MLogin';
 import MUserEdit from '../pages/Manager/MUserEdit';
 import MMasterEdit from '../pages/Manager/MMasterEdit';
@@ -46,6 +48,7 @@ import MChannelEdit from '../pages/Manager/MChannelEdit';
 import Notice from '../pages/User/Notice/Notice';
 import MMainEdit from '../pages/Manager/MMainEdit';
 import MUserStatistic from '../pages/Manager/MUserStatistic';
+import MAlarmEdit from '../pages/Manager/MAlarmEdit';
 
 const zRoute = [
     { link: '/', element: <Home />, title: "홈" },
@@ -66,6 +69,8 @@ const zRoute = [
     // { link: '/oneeventlist', element: <OneEventList />, title:"" },
     { link: '/noticelist', element: <NoticeList />, title: "공지사항" },
     { link: '/master/:pk', element: <Master />, title: "" },
+
+    { link: '/policy/:pk', element: <Policy />, title: "" },
 
     { link: '/login', element: <Login />, title: "로그인" },
     { link: '/mypage', element: <MyPage />, title: "마이페이지" },
@@ -90,6 +95,7 @@ const zRoute = [
     // { link: '/manager/setting', element: <MSetting />, title:"" },
     //{ link: '/manager/edit/video/:pk', element: <MVideoEdit />, title:"" },
     { link: '/manager/edit/notice/:pk', element: <MNoticeEdit />, title: "공지사항" },
+    { link: '/manager/edit/alarm/:pk', element: <MAlarmEdit />, title: "알람" },
     { link: '/manager/edit/must_read/:pk', element: <MMustReadEdit />, title: "필독사항" },
     //{ link: '/manager/edit/issue_category/:pk', element: <MIssueCategoryEdit />, title:"" },
     // { link: '/manager/edit/feature_category/:pk', element: <MFeatureCategoryEdit />, title:"" },

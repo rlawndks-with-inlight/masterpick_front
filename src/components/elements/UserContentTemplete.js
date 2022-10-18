@@ -17,12 +17,12 @@ margin-right:auto;
 margin-bottom:6rem;
 min-height:58vh;
 @media screen and (max-width:1050px) { 
-    margin-top:3.5rem;
+    margin-top:4rem;
 }
 `
 
 export const Wrappers = (props) =>{
-    let {maxWidth} = props;
+    let {maxWidth, width_percent} = props;
     const [minHeight, setMinHeight] = useState(500);
     const {pathname} = useLocation();
     useEffect(()=>{
@@ -33,7 +33,7 @@ export const Wrappers = (props) =>{
     },[])
     return (
         <>
-        <WrappersStyle style={{minHeight:`${minHeight}px`,maxWidth:`${maxWidth?maxWidth:''}px`}}>
+        <WrappersStyle style={{minHeight:`${minHeight}px`,maxWidth:`${maxWidth?maxWidth:''}px`,width:`${width_percent?width_percent:''}%`}}>
             {props.children??""}
         </WrappersStyle>
         </>
@@ -166,4 +166,11 @@ border-bottom:1px solid ${props => props.theme.color.font4};
 `
 export const Td = styled.td`
 border-bottom:1px solid ${props => props.theme.color.font4};
+`
+export const SelectType = styled.div`
+display:flex;
+width:100%;
+z-index:5;
+background:#fff;
+margin:16px 0;
 `

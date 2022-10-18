@@ -54,15 +54,15 @@ const MasterSlide = (props) => {
     }, [])
     const makeMarginImg = (idx) => {
         if (idx % 7 == 0) {
-            return '1.6666vw 1.6666vw 1.6666vw auto'
+            return '1.2222vw 1.2222vw 1.2222vw auto'
         } else if (idx % 7 == 3) {
-            return '1.6666vw auto 1.6666vw 1.6666vw'
+            return '1.2222vw auto 1.2222vw 1.2222vw'
         } else if (idx % 7 == 4) {
-            return '1.6666vw 1.6666vw 1.6666vw 11vw'
+            return '1.2222vw 1.2222vw 1.2222vw 11vw'
         } else if (idx % 7 == 6) {
-            return '1.6666vw 11vw 1.6666vw 1.6666vw'
+            return '1.2222vw 11vw 1.2222vw 1.2222vw'
         } else {
-            return '1.6666vw 1.6666vw 1.6666vw 1.6666vw'
+            return '1.2222vw 1.2222vw 1.2222vw 1.2222vw'
         }
     }
     useEffect(() => {

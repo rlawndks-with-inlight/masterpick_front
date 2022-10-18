@@ -41,7 +41,22 @@ border-radius:4px;
     color: #cccccc;
 }
 `
-
+export const Textarea = styled.textarea`
+margin:12px auto 6px 24px;
+width:400px;
+padding:8px;
+border:1px solid #dadde6;
+border-radius:4px;
+outline:none;
+resize:none;
+height:84px;
+::placeholder {
+    color: #cccccc;
+}
+@media screen and (max-width:700px) {
+    width:80%;
+}
+`
 export const Select = styled.select`
 margin:12px auto 6px 24px;
 width:218px;

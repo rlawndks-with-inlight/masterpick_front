@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import logo from '../../assets/images/test/logo.svg'
 import { BiRadioCircle } from 'react-icons/bi'
-import { BsPerson, BsCameraVideo } from 'react-icons/bs'
+import { BsPerson, BsCameraVideo, BsAlarm  } from 'react-icons/bs'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { AiOutlineQuestionCircle, AiOutlineRotateLeft } from 'react-icons/ai'
 import { SiYoutubemusic } from 'react-icons/si'
@@ -344,6 +344,49 @@ const SideBar = () => {
                         :
                         <>
                         </>}
+                        {JSON.parse(localStorage.getItem('auth'))?.user_level??0 >= 40 ?
+                        <>
+                            {'/manager/list/notice' == location.pathname ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu('/manager/list/notice') }}>
+                                        <AiOutlineQuestionCircle />
+                                        <MenuText>공지사항</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu('/manager/list/notice') }}>
+                                        <AiOutlineQuestionCircle />
+                                        <MenuText>공지사항</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    {JSON.parse(localStorage.getItem('auth'))?.user_level??0 >= 40 ?
+                        <>
+                            {'/manager/list/alarm' == location.pathname ?
+                                <>
+                                    <SelectMenuContent onClick={() => { onClickMenu('/manager/list/alarm') }}>
+                                        <BsAlarm />
+                                        <MenuText>푸시알람</MenuText>
+                                    </SelectMenuContent>
+                                </>
+                                :
+                                <>
+                                    <MenuContent onClick={() => { onClickMenu('/manager/list/alarm') }}>
+                                        <BsAlarm />
+                                        <MenuText>푸시알람</MenuText>
+                                    </MenuContent>
+                                </>}
+                        </>
+                        :
+                        <>
+                        </>
+                    }
+                    <div style={{paddingBottom:'36px'}} />
                     {/* {issueCategoryDisplay ?
                         <>
                             {zIssueCategory.map((item, idx) => (

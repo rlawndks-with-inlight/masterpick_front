@@ -23,7 +23,7 @@ background:#fff;
 box-shadow: 5px 10px 10px rgb(0 0 0 / 3%);
 @media screen and (max-width:1050px) { 
   box-shadow:none;
-  height:3rem;
+  height:3.5rem;
 }
 `
 const HeaderContainer = styled.div`
@@ -199,15 +199,22 @@ const Headers = () => {
       }
     }
   }
+  const onClickBell = () => {
+    if (window.flutter_inappwebview) {
+      window.flutter_inappwebview.callHandler('native_alarm_count_zero', {}).then(async function (result) {
+        //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
+      });
+    }
+    navigate('/noticelist');
+  }
   return (
     <>
 
       <Header style={{ display: `${display}` }}>
 
         <HeaderContainer>{/*모바일 */}
-          {isSearch ?
-            <>
-              <IoMdArrowBack style={{ fontSize: '24px' }} onClick={() => setIsSearch(false)} />
+          
+              {/* <IoMdArrowBack style={{ fontSize: '24px' }} onClick={() => setIsSearch(false)} />
               <SearchInput type={'text'} placeholder='두 글자 이상 입력해주세요.' className='search' onKeyPress={onKeyPress} />
               <AiOutlineSearch style={{ fontSize: '24px' }} onClick={() => {
                 if ($('.search').val().length < 2) {
@@ -216,10 +223,8 @@ const Headers = () => {
                   setIsSearch(false);
                   navigate('/search', { state: $('.search').val() });
                 }
-              }} />
-            </>
-            :
-            <>
+              }} /> */}
+           
               <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '80px', alignItems: 'center', justifyContent: 'space-between' }}>
                 {isPost ?
                   <>
@@ -231,11 +236,11 @@ const Headers = () => {
                   </>}
               </div>
               <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
-                <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
+                {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
+                <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
                 <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
               </div>
-            </>
-          }
+         
 
         </HeaderContainer>
         <HeaderMenuContainer>{/* pc */}
@@ -250,20 +255,21 @@ const Headers = () => {
             <img src={logo} style={{ height: '5rem' }} onClick={() => { navigate('/') }} alt="#" />
           </div>
           <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', justifyContent: 'space-between' }}>
-            <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
+            {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
+            <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
             <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
             {isSearch ?
               <>
                 <div style={{ position: 'absolute', top: '72px', right: '48px', background: '#fff', padding: '16px', boxShadow: '0px 2px 8px #00000029', borderRadius: '8px', display: 'flex', alignItems: 'center' }}>
                   <SearchInput type={'text'} placeholder='두 글자 이상 입력해주세요.' className='search-pc' style={{ width: '300px' }} onKeyPress={onKeyPressPc} />
-                  <AiOutlineSearch style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => {
+                  {/* <AiOutlineSearch style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => {
                     if ($('.search-pc').val().length < 2) {
                       alert('두 글자 이상 입력해주세요.');
                     } else {
                       setIsSearch(false);
                       navigate('/search', { state: $('.search-pc').val() });
                     }
-                  }} />
+                  }} /> */}
                 </div>
               </>
               :
