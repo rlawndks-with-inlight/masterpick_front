@@ -6,6 +6,7 @@ import { Wrappers } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import MasterSlide from '../../components/MasterSlide';
 import ContentTable from '../../components/ContentTable';
+import theme from '../../styles/theme';
 
 const SubscriptionOnly = () => {
     const navigate = useNavigate();
@@ -37,14 +38,14 @@ const SubscriptionOnly = () => {
         setLoading(true)
         setTypeNum(num)
         let overlap_list = [...overlapList];
-        if(overlap_list.includes(num)){
-            for(var i = 0; i < overlap_list.length; i++){ 
-                if (overlap_list[i] === num) { 
-                    overlap_list.splice(i, 1); 
-                  i--; 
+        if (overlap_list.includes(num)) {
+            for (var i = 0; i < overlap_list.length; i++) {
+                if (overlap_list[i] === num) {
+                    overlap_list.splice(i, 1);
+                    i--;
                 }
-              }
-        }else{
+            }
+        } else {
             overlap_list.push(num);
         }
         setOverlapList(overlap_list)
@@ -56,7 +57,7 @@ const SubscriptionOnly = () => {
             status: 1,
             is_subscribe: true,
             user_pk: auth_obj?.pk ?? 0,
-            overlap_list:overlap_list
+            overlap_list: overlap_list
         })
         setPosts(response.data)
         setTimeout(() => setLoading(false), 500);
@@ -64,8 +65,13 @@ const SubscriptionOnly = () => {
     return (
         <>
             <Wrappers className='wrappers'>
-                <MasterSlide onClickMaster={onClickMaster} num={typeNum} width={'90%'} is_subscribe={true} overlapList={overlapList} status={1} />
-
+                <MasterSlide onClickMaster={onClickMaster} schema={'master_subscribe'} num={typeNum} width={'90%'} is_subscribe={true} status={1} />
+                <div className='subtype-container' style={{ display: 'flex', width: '90%', margin: '8px auto', alignItems: 'center', fontSize: theme.size.font3, fontWeight: 'bold' }} >
+                    <div style={{ padding: '5px', background: theme.color.background1, marginRight: '4px' }}></div>
+                    <div style={{ marginRight: '4px' }}>매수, 매도는 기준가에서</div>
+                    <div style={{ color: '#ff0000', marginRight: '4px' }}>±3%</div>
+                    <div>이내 권장</div>
+                </div>
                 {loading ?
                     <>
                         <Loading />
@@ -74,13 +80,15 @@ const SubscriptionOnly = () => {
                     <>
                         <div style={{ position: 'relative' }}>
                             <ContentTable columns={[
-                                { name: "대가명", column: "master_name", width: "", type: 'text' },
                                 { name: "종목명", column: "name", width: "", type: 'text' },
                                 { name: "기준가", column: "base_price", width: "", type: 'number' },
-                                { name: "포착일시", column: "capture_date", width: "", type: 'text' },
+                                { name: "기준일", column: "capture_date", width: "", type: 'subscribe_date' },
+                                { name: "종목교체일", column: "exchange_date", width: "", type: 'subscribe_date' },
+                                { name: "기존보유", column: "existing_possession", width: "", type: 'existing_possession' },
                             ]} click={'/post/master_subscribe'}
                                 isPointer={true}
-                                data={posts} />
+                                data={posts}
+                                schema={'master_subscribe'} />
                         </div>
                     </>}
             </Wrappers>

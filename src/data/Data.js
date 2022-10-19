@@ -81,7 +81,7 @@ export const objManagerListContent = {
         zColumn: [
             { name: '종목명', width: 15, type: 'text', column: 'name' },
             { name: '기준가', width: 15, type: 'text', column: 'base_price' },
-            { name: '포착일시', width: 23, type: 'text', column: 'capture_date' },
+            { name: '기준일', width: 23, type: 'text', column: 'capture_date' },
             { name: '생성시간', width: 23, type: 'text', column: 'date' },
             { name: '맨위로', width: 8, type: 'top', column: '' },
             { name: '수정', width: 8, type: 'edit', column: 'edit' },

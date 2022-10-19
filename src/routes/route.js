@@ -82,8 +82,8 @@ const zRoute = [
     { link: '/post/:table/:pk', element: <Post />, title: "" },
     //{ link: '/video/:pk', element: <Video />, title:"" },
 
-    { link: '/manager', element: <MLogin />, title: "관리자로그인" },
-    { link: '/manager/login', element: <MLogin />, title: "관리자로그인" },
+    { link: '/manager', element: <MLogin />, title: "관리자" },
+    { link: '/manager/login', element: <MLogin />, title: "관리자" },
     { link: '/manager/edit/user/:pk', element: <MUserEdit />, title: "회원관리" },
     { link: '/manager/edit/master/:pk', element: <MMasterEdit />, title: "거장관리" },
     { link: '/manager/eventedit/master/:pk', element: <MMasterEventEdit />, title: "거장관리 / 대가종목관리" },

@@ -76,6 +76,8 @@ const MMasterSubscribeEdit = () => {
                 $('.name').val(response?.data?.name);
                 $('.base_price').val(response?.data?.base_price);
                 $('.capture_date').val(response?.data?.capture_date);
+                $('.exchange_date').val(response?.data?.exchange_date);
+                $('.existing_possession').val(response?.data?.existing_possession);
                 $('.score').val(response?.data?.score);
                 $('.weather').val(response?.data?.weather);
                 $('.master_pk').val(response?.data?.master_pk);
@@ -182,6 +184,8 @@ const MMasterSubscribeEdit = () => {
             formData.append('name', $('.name').val());
             formData.append('base_price', $('.base_price').val());
             formData.append('capture_date', $('.capture_date').val());
+            formData.append('exchange_date', $('.exchange_date').val());
+            formData.append('existing_possession', $('.existing_possession').val());
             formData.append('score', $('.score').val());
             formData.append('weather', $('.weather').val());
             formData.append('master_pk', $('.master_pk').val());
@@ -269,9 +273,24 @@ const MMasterSubscribeEdit = () => {
                                         <Input className='base_price' placeholder='숫자를 입력해주세요.' />
                                     </Col>
                                     <Col>
-                                        <Title>포착일시</Title>
+                                        <Title>기준일</Title>
                                         <Input className='capture_date' type={'date'} />
                                     </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Title>종목교체일</Title>
+                                        <Input className='exchange_date' type={'date'} />
+                                    </Col>
+                                    <Col>
+                                        <Title>기존보유</Title>
+                                        <Select className='existing_possession'>
+                                            <option value={0}>신규</option>
+                                            <option value={1}>보유중</option>
+                                            <option value={2}>매도</option>
+                                        </Select>
+                                    </Col>
+                                    
                                 </Row>
                                 <Row>
                                     <Col>

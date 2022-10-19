@@ -46,7 +46,7 @@ const MasterSlide = (props) => {
                     name: '전체보기',
                 })
                 setMasterList(list)
-            }else if(schema == 'master_event'){
+            }else if(schema == 'master_event'||schema == 'master_subscribe'){
                 onClickMaster(response.data[0].pk)
             }
         }

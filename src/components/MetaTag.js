@@ -10,6 +10,7 @@ const MetaTag = props => {
     useEffect(() => {
         for (var i = 0; i < zRoute.length; i++) {
             if (pathname.includes(zRoute[i].link.replace(":pk", "")) && zRoute[i].link != "/") {
+                console.log(zRoute[i])
                 setTitle("masterpick - " + zRoute[i].title)
             }
         }
