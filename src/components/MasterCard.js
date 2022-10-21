@@ -26,6 +26,21 @@ font-weight:bold;
     font-size:${props => props.theme.size.font2};
 }
 `
+const MasterName = styled.div`
+margin-top:8px;
+font-size:${props => props.theme.size.font1};
+@media screen and (max-width:600px) {
+    font-size:${props => props.theme.size.font2};
+}
+`
+const Motto = styled.div`
+margin-top:8px;
+word-break:break-all;
+font-size:${props => props.theme.size.font2};
+@media screen and (max-width:600px) {
+    font-size:${props => props.theme.size.font3};
+}
+`
 const MasterCard = (props) => {
     const navigate = useNavigate();
     const {item} = props;
@@ -34,8 +49,8 @@ const MasterCard = (props) => {
             <Card style={{ background: item.background_color }} onClick={() => { navigate(`/master/${item.pk}`, { state: { name: item.name, nickname: item.nickname, img: item.profile_img } }) }}>
                 <img style={{ position: 'absolute', bottom: '0', left: '5%', height: '90%' }} alt="#" src={backUrl + item.profile_img} />
                 <TextContainer>
-                    <div style={{ marginTop: '8px' }}>{item.name}</div>
-                    <div style={{ marginTop: '8px', wordBreak: 'break-all' }}>"{item.motto}"</div>
+                    <MasterName>{item.name}</MasterName>
+                    <Motto>"{item.motto}"</Motto>
                 </TextContainer>
             </Card>
         </>

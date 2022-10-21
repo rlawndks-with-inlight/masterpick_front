@@ -41,7 +41,6 @@ const Title = styled.div`
 font-size:${theme.size.font2}; 
 font-weight: bold;
 margin-bottom:auto;
-
 `
 const TextContainer = styled.div`
 padding: 16px;
@@ -104,7 +103,7 @@ const MasterCard = (props) => {
 
                 <TextContainer>
                     <Title>투자대가 {data?.name ?? ""}</Title>
-                    <Title> {data?.motto ?? ""}</Title>
+                    <Title style={{fontSize:theme.size.font3}}> {data?.motto ?? ""}</Title>
                     <BottomContent>
                         <Hash>
                             <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
