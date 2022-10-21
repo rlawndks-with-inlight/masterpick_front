@@ -139,8 +139,16 @@ const Headers = () => {
   const [isPost, setIsPost] = useState(false);
   const [searchDisplay, setSearchDisplay] = useState('none')
   const [isSearch, setIsSearch] = useState(false);
+  const [headerImg, setHeaderImg] = useState("");
   useEffect(() => {
-
+    async function fetchPost(){
+        const {data:response} = await axios.get('/api/getmaincontent')
+        console.log(response)
+        setHeaderImg(response.data?.header_img)
+    }
+    fetchPost();
+  }, [])
+  useEffect(() => {
     if (location.pathname.substring(0, 6) == '/post/' || location.pathname.substring(0, 7) == '/video/') {
       setIsPost(true);
     } else {
@@ -213,8 +221,8 @@ const Headers = () => {
       <Header style={{ display: `${display}` }}>
 
         <HeaderContainer>{/*모바일 */}
-          
-              {/* <IoMdArrowBack style={{ fontSize: '24px' }} onClick={() => setIsSearch(false)} />
+
+          {/* <IoMdArrowBack style={{ fontSize: '24px' }} onClick={() => setIsSearch(false)} />
               <SearchInput type={'text'} placeholder='두 글자 이상 입력해주세요.' className='search' onKeyPress={onKeyPress} />
               <AiOutlineSearch style={{ fontSize: '24px' }} onClick={() => {
                 if ($('.search').val().length < 2) {
@@ -224,23 +232,30 @@ const Headers = () => {
                   navigate('/search', { state: $('.search').val() });
                 }
               }} /> */}
-           
-              <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '80px', alignItems: 'center', justifyContent: 'space-between' }}>
-                {isPost ?
-                  <>
-                    <MdNavigateBefore style={{ fontSize: '30px', marginLeft: '-7px' }} onClick={() => { navigate(-1) }} />
-                  </>
-                  :
-                  <>
-                    <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { navigate('/') }} />
-                  </>}
-              </div>
-              <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
-                {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
-                <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
-                <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
-              </div>
-         
+
+          <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '80px', alignItems: 'center', justifyContent: 'space-between' }}>
+            {isPost ?
+              <>
+                <MdNavigateBefore style={{ fontSize: '30px', marginLeft: '-7px' }} onClick={() => { navigate(-1) }} />
+              </>
+              :
+              <>
+                <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { navigate('/') }} />
+              </>}
+          </div>
+          {headerImg?
+          <>
+            <img src={headerImg} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { window.location.href = '/' }} />
+          </>
+          :
+          <>
+          </>}
+          <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
+            <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
+            <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
+          </div>
+
 
         </HeaderContainer>
         <HeaderMenuContainer>{/* pc */}
@@ -254,6 +269,7 @@ const Headers = () => {
           <div style={{ position: 'absolute', right: '48%', top: '0.5rem' }}>
             <img src={logo} style={{ height: '5rem' }} onClick={() => { navigate('/') }} alt="#" />
           </div>
+          
           <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', justifyContent: 'space-between' }}>
             {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
             <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />

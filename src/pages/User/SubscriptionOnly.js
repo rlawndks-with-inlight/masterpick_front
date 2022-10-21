@@ -12,27 +12,11 @@ const SubscriptionOnly = () => {
     const navigate = useNavigate();
     const [subTypeNum, setSubTypeNum] = useState(0)
     const [posts, setPosts] = useState([]);
+    const [downPosts, setDownPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [typeNum, setTypeNum] = useState(0)
     const [overlapList, setOverlapList] = useState([]);
 
-    useEffect(() => {
-        async function fetchPost() {
-            setLoading(true)
-            let auth_obj = JSON.parse(localStorage.getItem('auth'))
-            const { data: response } = await axios.post(`/api/getmastercontents`, {
-                table: 'master_subscribe',
-                order: 'pk',
-                desc: true,
-                status: 1,
-                is_subscribe: true,
-                user_pk: auth_obj?.pk ?? 0
-            })
-            setPosts(response.data)
-            setTimeout(() => setLoading(false), 1000);
-        }
-        fetchPost();
-    }, [])
 
     const onClickMaster = async (num) => {
         setLoading(true)
@@ -59,7 +43,18 @@ const SubscriptionOnly = () => {
             user_pk: auth_obj?.pk ?? 0,
             overlap_list: overlap_list
         })
-        setPosts(response.data)
+        let list = response.data??[];
+        let top_list = [];
+        let down_list = [];
+        for(var i = 0;i<list.length;i++){
+            if(list[i].existing_possession==2){
+                down_list.push(list[i]);
+            }else{
+                top_list.push(list[i]);
+            }
+        }
+        setPosts(top_list)
+        setDownPosts(down_list)
         setTimeout(() => setLoading(false), 500);
     }
     return (
@@ -84,10 +79,23 @@ const SubscriptionOnly = () => {
                                 { name: "기준가", column: "base_price", width: "", type: 'number' },
                                 { name: "기준일", column: "capture_date", width: "", type: 'subscribe_date' },
                                 { name: "종목교체일", column: "exchange_date", width: "", type: 'subscribe_date' },
-                                { name: "기존보유", column: "existing_possession", width: "", type: 'existing_possession' },
+                                { name: "기존보유", column: "existing_possession", width: 70, type: 'existing_possession' },
                             ]} click={'/post/master_subscribe'}
                                 isPointer={true}
                                 data={posts}
+                                schema={'master_subscribe'} />
+                        </div>
+                        <div style={{borderTop:`2px dashed ${theme.color.background1}`,width:'90%',margin:'16px auto'}} />
+                        <div style={{ position: 'relative' }}>
+                            <ContentTable columns={[
+                                { name: "종목명", column: "name", type: 'text' },
+                                { name: "기준가", column: "base_price", width: "", type: 'number' },
+                                { name: "기준일", column: "capture_date", width: "", type: 'subscribe_date' },
+                                { name: "종목교체일", column: "exchange_date", width: "", type: 'subscribe_date' },
+                                { name: "기존보유", column: "existing_possession", width: 70, type: 'existing_possession' },
+                            ]} click={'/post/master_subscribe'}
+                                isPointer={true}
+                                data={downPosts}
                                 schema={'master_subscribe'} />
                         </div>
                     </>}

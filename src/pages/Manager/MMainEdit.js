@@ -57,6 +57,8 @@ const MMainEdit = () => {
     const howToUseRef = useRef();
     const mustReadRef = useRef();
     const [myNick, setMyNick] = useState("")
+    const [headerUrl, setHeaderUrl] = useState('')
+    const [headerContent, setHeaderContent] = useState(undefined)
     const [url, setUrl] = useState('')
     const [content, setContent] = useState(undefined)
     const [url1, setUrl1] = useState('')
@@ -89,9 +91,11 @@ const MMainEdit = () => {
             formData.delete('best_list')
             formData.delete('pk')
             formData.delete('banner')
+            setHeaderUrl('')
             setUrl('')
             setUrl1('')
             setUrl2('')
+            setHeaderContent(undefined)
             setContent(undefined)
             setContent1(undefined)
             setContent2(undefined)
@@ -138,6 +142,8 @@ const MMainEdit = () => {
             }
             setSetting(response.data ?? {});
             if (response.data) {
+                console.log(response)
+                setHeaderUrl(backUrl + response.data.header_img);
                 setUrl(backUrl + response.data.main_img);
                 setUrl1(backUrl + response.data.recommendation_banner_img);
                 setUrl2(backUrl + response.data.banner_img);
@@ -197,6 +203,7 @@ const MMainEdit = () => {
         }
         if (window.confirm("저장하시겠습니까?")) {
             formData.append('category', params.category)
+            if (params.category == 'header_img') formData.append('main', headerContent);
             if (params.category == 'main_img') formData.append('main', content);
             if (params.category == 'best_master_yield_list') formData.append('best_master_yield_list', JSON.stringify(best_obj));
             if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));
@@ -233,6 +240,12 @@ const MMainEdit = () => {
 
         // }
     }
+    const addHeaderFile = (e) => {
+        if (e.target.files[0]) {
+            setHeaderContent(e.target.files[0]);
+            setHeaderUrl(URL.createObjectURL(e.target.files[0]))
+        }
+    };
     const addFile = (e) => {
         if (e.target.files[0]) {
             setContent(e.target.files[0]);
@@ -281,6 +294,32 @@ const MMainEdit = () => {
                 <ManagerContentWrappers>
                     <Breadcrumb title={'메인페이지'} nickname={myNick} />
                     <Card>
+                    {params.category == 'header_img' ?
+                            <>
+                                <Row>
+                                    <Col>
+                                        <Title>헤더 배너</Title>
+                                        <ImageContainer for="file0">
+
+                                            {headerUrl ?
+                                                <>
+                                                    <Img src={headerUrl} alt="#"
+                                                    />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file0" onChange={addHeaderFile} style={{ display: 'none' }} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </>
+                            :
+                            <>
+                            </>}
                         {params.category == 'main_img' ?
                             <>
                                 <Row>
