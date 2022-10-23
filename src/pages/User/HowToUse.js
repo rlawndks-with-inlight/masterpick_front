@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 import SelectTypeComponent from '../../components/SelectTypeComponent';
 import { Viewer } from '@toast-ui/react-editor';
 import { backUrl } from '../../data/Data';
+import $ from 'jquery'
 const Table = styled.div`
 font-size:${props => props.theme.size.font4};
 width:100%;
@@ -23,7 +24,6 @@ text-align:center;
 height:36px;
 display:flex;
 cursor:pointer;
-background:#fff;
 border-bottom:1px solid ${props => props.theme.color.font4};
 border-top:1px solid ${props => props.theme.color.font4};
 `
@@ -57,6 +57,10 @@ const HowToUse = () => {
             const { data: response } = await axios.get('/api/setting')
             setSetting(response.data);
             setLoading(false)
+            if (localStorage.getItem('dark_mode')) {
+                await new Promise((r) => setTimeout(r, 100));
+                $('.toastui-editor-contents p').attr('style', 'color:#fff !important');
+            }
         }
         fetchPost();
     }, [])
@@ -70,8 +74,12 @@ const HowToUse = () => {
             }
             setMustReadList(list)
         }
+        if (localStorage.getItem('dark_mode')) {
+            await new Promise((r) => setTimeout(r, 100));
+            $('.toastui-editor-contents p').attr('style', 'color:#fff !important');
+        }
     }
-    const displayMustRead = (idx) => {
+    const displayMustRead = async (idx) => {
         let list = [...mustReadList];
         for (var i = 0; i < list.length; i++) {
             if (i == idx) {
@@ -83,6 +91,10 @@ const HowToUse = () => {
             }
         }
         setMustReadList(list);
+        if (localStorage.getItem('dark_mode')) {
+            await new Promise((r) => setTimeout(r, 100));
+            $('.toastui-editor-contents p').attr('style', 'color:#fff !important');
+        }
     }
     return (
         <>
@@ -99,7 +111,7 @@ const HowToUse = () => {
                         <Width90Component>
                             <SelectTypeComponent posts={zMenu} num={typeNum} selectTypeNum={selectTypeNum} />
                         </Width90Component>
-                        <Width90Component style={{  background: `${theme.color.background3}` }}>
+                        <Width90Component style={{ background: `${localStorage.getItem('dark_mode') ? '#333' : theme.color.background3}` }}>
                             {typeNum == 0 ?
                                 <>
                                     <ViewerContainer style={{ width: '90%' }}>
@@ -123,17 +135,17 @@ const HowToUse = () => {
                             {typeNum == 2 ?
                                 <>
                                     <Table>
-                                        <Tr style={{background:'#f7f9fc'}}>
+                                        <Tr style={{ background: `${localStorage.getItem('dark_mode') ? '#ccc' : '#f7f9fc'}` }}>
                                             <Td style={{ width: '65%' }}>제목</Td>
                                             <Td style={{ width: '35%' }}>등록일</Td>
                                         </Tr>
                                         {mustReadList && mustReadList.map((item, idx) => (
                                             <>
-                                                <Tr onClick={() => { displayMustRead(idx) }}>
+                                                <Tr onClick={() => { displayMustRead(idx) }} style={{ background: `${localStorage.getItem('dark_mode') ? '#333' : '#fff'}`}}>
                                                     <Td style={{ width: '65%' }}>{item.title}</Td>
                                                     <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
                                                 </Tr>
-                                                <ViewerContainer style={{ width: '90%',maxWidth:'900px',display:item.display,background:theme.color.background3 }}>
+                                                <ViewerContainer style={{ width: '90%', maxWidth: '900px', display: item.display, background: `${localStorage.getItem('dark_mode') ? '#333' : theme.color.background3}`}}>
                                                     <Viewer initialValue={item?.note ?? `<body></body>`} />
                                                 </ViewerContainer>
                                             </>

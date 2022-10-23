@@ -11,6 +11,7 @@ import { backUrl, masterSlideSetting, slideSetting } from '../../data/Data';
 import { Wrappers, Title, Content, Card, Img, WrapDiv, SliderDiv, ImgTitle } from '../../components/elements/UserContentTemplete';
 import Loading from '../../components/Loading';
 import megaphoneIcon from '../../assets/images/icon/megaphone.svg';
+import megaphoneWhiteIcon from '../../assets/images/icon/megaphone-white.svg';
 import theme from '../../styles/theme';
 import ThemeCard from '../../components/ThemeCard';
 import ContentTable from '../../components/ContentTable';
@@ -207,7 +208,7 @@ const Home = () => {
                             </SliderDiv>
 
                         </Content>
-                        <ImgTitle img={megaphoneIcon}>대가의 추천 종목</ImgTitle>
+                        <ImgTitle img={localStorage.getItem('dark_mode')?megaphoneWhiteIcon:megaphoneIcon}>대가의 추천 종목</ImgTitle>
                         <Content>
                             <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
 
@@ -223,7 +224,7 @@ const Home = () => {
                         </Content>
                         {masterList.map((item, idx) => (
                             <>
-                                <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}` }}>
+                                <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}`,background:`${localStorage.getItem('dark_mode')?'#333':theme.color.background3}`,border:`1px solid ${localStorage.getItem('dark_mode')?'#fff':theme.color.background3}` }}>
                                     <BannerContent>
                                         <BannerTitle>종목명</BannerTitle>
                                         <BannerResult>{'비공개'}</BannerResult>
@@ -249,7 +250,7 @@ const Home = () => {
                         ))}
                         <BannerImg src={backUrl + setting?.recommendation_banner_img} alt="#"
                             onClick={() => navigate('/masterevent')} />
-                        <ImgTitle img={megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
+                        <ImgTitle img={localStorage.getItem('dark_mode')?megaphoneWhiteIcon:megaphoneIcon}>주간/월간 BEST 수익</ImgTitle>
 
                         <Content>
                             <div style={{ width: '90%', margin: '0 auto', alignItems: 'end', display: 'flex', flexDirection: 'column' }}>

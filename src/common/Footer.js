@@ -56,7 +56,7 @@ const Footer = () => {
                 </>
                 :
                 <>
-                    <Wrappers>
+                    <Wrappers className="footer">
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <Img src={logo} alt="footer" />
                             <Post onClick={() => navigate('/policy/0')}>이용약관</Post>

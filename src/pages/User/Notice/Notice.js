@@ -51,6 +51,10 @@ const Notice = () => {
             setPost(obj);
             await new Promise((r) => setTimeout(r, 100));
             setTimeout(() => setLoading(false), 1000);
+            if(localStorage.getItem('dark_mode')){
+                await new Promise((r) => setTimeout(r, 1100));
+                $('.toastui-editor-contents p').attr('style','color:#fff !important');
+            }
         }
         if (localStorage.getItem('auth')) {
             setAuth(JSON.parse(localStorage.getItem('auth')));

@@ -4,7 +4,6 @@ overflow-x: auto;
 width: 100%;
 display: -webkit-box;
 display: -ms-flexbox;
-background:#fff;
 margin:0 auto;
 
 @media screen and (max-width:1000px) {

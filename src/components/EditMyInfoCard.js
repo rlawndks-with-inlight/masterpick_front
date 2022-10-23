@@ -173,7 +173,7 @@ const EditMyInfoCard = () => {
         <>
             <WrapperForm>
                 <Title>마이페이지 수정</Title>
-                <SelectType>
+                <SelectType className="select-type">
                     {zType.map((item, idx) => (
                         <>
                             <Type style={{ borderBottom: `4px solid ${typeNum == idx ? theme.color.background1 : '#fff'}`, color: `${typeNum == idx ? theme.color.background1 : '#ccc'}` }} onClick={() => { onChangeTypeNum(idx) }}>{item.title}</Type>

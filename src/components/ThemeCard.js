@@ -10,7 +10,6 @@ width: 48%;
 display: flex;
 margin-bottom: 16px;
 height: 180px;
-background: #fff;
 @media screen and (max-width:1000px) {
     height: 20vw;
 }

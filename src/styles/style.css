@@ -183,3 +183,7 @@ div.note>p>img {
         margin: 0 0.5rem 0 auto;
     }
 }
+.dark-mode {
+    background: #333 !important;
+    color: #fff !important;
+}

@@ -83,7 +83,7 @@ const BottomMenu = () => {
                 }
             }
             if (j == zBottomMenu[i].allowList.length) {
-                arr.push(theme.color.font1);
+                arr.push(localStorage.getItem('dark_mode')?'#fff':theme.color.font1);
             } else {
                 arr.push(theme.color.background1);
             }

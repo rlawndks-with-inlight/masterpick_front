@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const WrapperForm = styled.div`
 width:98%;
-background:#fff;
 max-width:800px;
 margin: 0 auto;
 display:flex;
@@ -13,7 +12,6 @@ export const CategoryName = styled.div`
 width:364px;
 margin:1rem auto 0 auto;
 font-size:15px;
-color:${(props) => props.theme.color.manager.font1};
 font-weight:500;
 margin-top: 36px;
 @media (max-width: 600px) {

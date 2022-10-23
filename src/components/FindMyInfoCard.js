@@ -185,7 +185,7 @@ const FindMyInfoCard = () => {
         <>
             <WrapperForm>
                 <Title>아이디/비밀번호 찾기</Title>
-                <SelectType>
+                <SelectType className="select-type">
                     <Type style={{ borderBottom: `4px solid ${typeNum == 1 ? theme.color.background1 : '#fff'}`, color: `${typeNum == 1 ? theme.color.background1 : '#ccc'}` }} onClick={() => { onChangeTypeNum(1) }}>아이디찾기</Type>
                     <Type style={{ borderBottom: `4px solid ${typeNum == 2 ? theme.color.background1 : '#fff'}`, color: `${typeNum == 2 ? theme.color.background1 : '#ccc'}` }} onClick={() => { onChangeTypeNum(2) }}>비밀번호 찾기</Type>
                 </SelectType>

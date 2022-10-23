@@ -73,14 +73,14 @@ const MasterEvent = () => {
             overlap_list.push(num);
         }
         setOverlapList(overlap_list)
-        let obj =  {
+        let obj = {
             table: 'master_event',
             order: 'level',
             desc: true,
             status: 1,
-            pk:num
+            pk: num
         }
-        
+
         const { data: response } = await axios.post(`/api/getmastercontents`, obj)
         setPosts(response.data)
         setLoading(false);
@@ -90,10 +90,10 @@ const MasterEvent = () => {
             <Wrappers className='wrappers'>
                 <Content>
                     <Title>대가들의 종목</Title>
-                        {/* <TransparentButton style={{ position: 'absolute', top: '25px', right: '0',background:'#fff',border:'none', fontWeight:'bold' }}
+                    {/* <TransparentButton style={{ position: 'absolute', top: '25px', right: '0',background:'#fff',border:'none', fontWeight:'bold' }}
                         onClick={()=>onClickMaster(0)}>전체보기</TransparentButton> */}
                 </Content>
-                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} schema={'master_event'}  width={'90%'} status={1} />
+                <MasterSlide isPhoto={true} onClickMaster={onClickMaster} num={typeNum} schema={'master_event'} width={'90%'} status={1} />
                 {loading ?
                     <>
                         <Loading />
@@ -106,9 +106,10 @@ const MasterEvent = () => {
                             </ScreenDiv>
                             <ContentTable columns={[
                                 { name: "대가이름", column: "master_name", width: "", type: 'text' },
-                                { name: "종목명", column: "name",  width: "", type: 'text' },
-                                { name: "등급", column: "level",  width: "", type: 'star' }
+                                { name: "종목명", column: "name", width: "", type: 'text' },
+                                { name: "등급", column: "level", width: "", type: 'star' }
                             ]}
+                                marginBottom={'200px'}
                                 data={posts} />
                         </div>
                     </>

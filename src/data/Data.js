@@ -1,12 +1,17 @@
 import bottomMenuImg1 from '../assets/images/icon/bottommenu1.svg';
+import bottomMenuWhiteImg1 from '../assets/images/icon/bottommenu1-white.svg';
 import bottomMenuActiveImg1 from '../assets/images/icon/bottommenu1-active.svg';
 import bottomMenuImg2 from '../assets/images/icon/bottommenu2.svg';
+import bottomMenuWhiteImg2 from '../assets/images/icon/bottommenu2-white.svg';
 import bottomMenuActiveImg2 from '../assets/images/icon/bottommenu2-active.svg';
 import bottomMenuImg3 from '../assets/images/icon/bottommenu3.svg';
+import bottomMenuWhiteImg3 from '../assets/images/icon/bottommenu3-white.svg';
 import bottomMenuActiveImg3 from '../assets/images/icon/bottommenu3-active.svg';
 import bottomMenuImg4 from '../assets/images/icon/bottommenu4.svg';
+import bottomMenuWhiteImg4 from '../assets/images/icon/bottommenu4-white.svg';
 import bottomMenuActiveImg4 from '../assets/images/icon/bottommenu4-active.svg';
 import bottomMenuImg5 from '../assets/images/icon/bottommenu5.svg';
+import bottomMenuWhiteImg5 from '../assets/images/icon/bottommenu5-white.svg';
 import bottomMenuActiveImg5 from '../assets/images/icon/bottommenu5-active.svg';
 import logo from '../assets/images/test/logo.svg'
 import weather1 from '../assets/images/icon/weather1.svg';
@@ -22,22 +27,22 @@ export const editorState = {
     editorState: EditorState.createEmpty()
 }
 export const zWeather = [
-    {icon:weather1,name:'맑음: 강력매수'},
-    {icon:weather2,name:'구름 조금: 매수'},
-    {icon:weather3,name:'흐림: 중립'},
-    {icon:weather4,name:'약한비: 매도'},
-    {icon:weather5,name:'비: 강력매도'},
+    { icon: weather1, name: '맑음: 강력매수' },
+    { icon: weather2, name: '구름 조금: 매수' },
+    { icon: weather3, name: '흐림: 중립' },
+    { icon: weather4, name: '약한비: 매도' },
+    { icon: weather5, name: '비: 강력매도' },
 ]
 export const localization = {
     locale: 'ko',
 }
 export const zBottomMenu = [
-    { name: '필독!활용법', link: '/howtouse', icon: <img src={bottomMenuImg1} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg1} alt="#" className='menu-icon' />, allowList: ['/howtouse'] },
+    { name: '필독!활용법', link: '/howtouse', icon: <img src={localStorage.getItem('dark_mode') ? bottomMenuWhiteImg1 : bottomMenuImg1} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg1} alt="#" className='menu-icon' />, allowList: ['/howtouse'] },
     // { name: '핵심비디오', link: '/videolist', icon: <img src={playImg} alt="#" className='menu-icon' />, activeIcon: <img src={playActiveImg} alt="#" className='menu-icon' />, allowList: ['/videolist'] },
-    { name: '대가프로필', link: '/masterlist', icon: <img src={bottomMenuImg2} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg2} alt="#" className='menu-icon' />, allowList: ['/masterlist'] },
-    { name: '대가종목', link: '/masterevent', icon: <img src={bottomMenuImg3} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg3} alt="#" className='menu-icon' />, allowList: ['/masterevent'] },
-    { name: '수익률', link: '/yield', icon: <img src={bottomMenuImg4} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg4} alt="#" className='menu-icon' />, allowList: ['/yield'] },
-    { name: '구독전용', link: '/subscriptiononly', icon: <img src={bottomMenuImg5} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg5} alt="#" className='menu-icon' />, allowList: ['/subscriptiononly'] }
+    { name: '대가프로필', link: '/masterlist', icon: <img src={localStorage.getItem('dark_mode') ? bottomMenuWhiteImg2 : bottomMenuImg2} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg2} alt="#" className='menu-icon' />, allowList: ['/masterlist'] },
+    { name: '대가종목', link: '/masterevent', icon: <img src={localStorage.getItem('dark_mode') ? bottomMenuWhiteImg3 : bottomMenuImg3} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg3} alt="#" className='menu-icon' />, allowList: ['/masterevent'] },
+    { name: '수익률', link: '/yield', icon: <img src={localStorage.getItem('dark_mode') ? bottomMenuWhiteImg4 : bottomMenuImg4} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg4} alt="#" className='menu-icon' />, allowList: ['/yield'] },
+    { name: '구독전용', link: '/subscriptiononly', icon: <img src={localStorage.getItem('dark_mode') ? bottomMenuWhiteImg5 : bottomMenuImg5} alt="#" className='menu-icon' />, activeIcon: <img src={bottomMenuActiveImg5} alt="#" className='menu-icon' />, allowList: ['/subscriptiononly'] }
 ];
 export const cardDefaultColor = {
     font: "#000",
@@ -135,8 +140,8 @@ export const slideSetting = {
     autoplaySpeed: 2500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: (current, next) => {console.log(current)},
-    afterChange: current => {console.log(current)},
+    beforeChange: (current, next) => { console.log(current) },
+    afterChange: current => { console.log(current) },
 }
 export const masterSlideSetting = {
     infinite: false,
@@ -146,6 +151,6 @@ export const masterSlideSetting = {
     autoplaySpeed: 2500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    beforeChange: (current, next) => {console.log(current)},
-    afterChange: current => {console.log(current)},
+    beforeChange: (current, next) => { console.log(current) },
+    afterChange: current => { console.log(current) },
 }

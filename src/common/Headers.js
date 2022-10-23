@@ -141,10 +141,10 @@ const Headers = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [headerImg, setHeaderImg] = useState("");
   useEffect(() => {
-    async function fetchPost(){
-        const {data:response} = await axios.get('/api/getmaincontent')
-        console.log(response)
-        setHeaderImg(response.data?.header_img)
+    async function fetchPost() {
+      const { data: response } = await axios.get('/api/getmaincontent')
+      console.log(response)
+      setHeaderImg(response.data?.header_img)
     }
     fetchPost();
   }, [])
@@ -159,6 +159,18 @@ const Headers = () => {
       $('html').addClass('show-scrollbar');
     } else {
       setDisplay('flex');
+    }
+    if (localStorage.getItem('dark_mode')) {
+      $('body').addClass("dark-mode");
+      $('p').addClass("dark-mode");
+      $('.toastui-editor-contents p').addClass("dark-mode");
+      $('.menu-container').addClass("dark-mode");
+      $('.menu-container').css("border-top", "none");
+      $('.header').addClass("dark-mode");
+      $('.select-type').addClass("dark-mode");
+      $('.footer').addClass("dark-mode");
+    } else {
+
     }
   }, [location])
   const [modal, setModal] = useState("none");
@@ -218,7 +230,7 @@ const Headers = () => {
   return (
     <>
 
-      <Header style={{ display: `${display}` }}>
+      <Header style={{ display: `${display}` }} className="header">
 
         <HeaderContainer>{/*모바일 */}
 
@@ -233,7 +245,7 @@ const Headers = () => {
                 }
               }} /> */}
 
-          <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '80px', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', color: `${localStorage.getItem('dark_mode') ? '#fff' : theme.color.font1}`, fontSize: '1.2rem', width: '80px', alignItems: 'center', justifyContent: 'space-between' }}>
             {isPost ?
               <>
                 <MdNavigateBefore style={{ fontSize: '30px', marginLeft: '-7px' }} onClick={() => { navigate(-1) }} />
@@ -243,14 +255,14 @@ const Headers = () => {
                 <img src={logo} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { navigate('/') }} />
               </>}
           </div>
-          {headerImg?
-          <>
-            <img src={headerImg} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { window.location.href = '/' }} />
-          </>
-          :
-          <>
-          </>}
-          <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
+          {headerImg ?
+            <>
+              <img src={headerImg} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { window.location.href = '/' }} />
+            </>
+            :
+            <>
+            </>}
+          <div style={{ display: 'flex', color: `${localStorage.getItem('dark_mode') ? '#fff' : theme.color.font1}`, fontSize: '1.2rem', width: '70px', alignItems: 'center', justifyContent: 'space-between' }}>
             {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
             <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
             <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
@@ -269,8 +281,8 @@ const Headers = () => {
           <div style={{ position: 'absolute', right: '48%', top: '0.5rem' }}>
             <img src={logo} style={{ height: '5rem' }} onClick={() => { navigate('/') }} alt="#" />
           </div>
-          
-          <div style={{ display: 'flex', color: '#000', fontSize: '1.2rem', width: '70px', justifyContent: 'space-between' }}>
+
+          <div style={{ display: 'flex', color: `${localStorage.getItem('dark_mode') ? '#fff' : theme.color.font1}`, fontSize: '1.2rem', width: '70px', justifyContent: 'space-between' }}>
             {/* <AiOutlineSearch onClick={changeSearchModal} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} /> */}
             <AiOutlineBell onClick={onClickBell} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />
             <AiOutlineSetting onClick={myAuth} style={{ width: '2rem', height: '1.5rem', cursor: 'pointer' }} />

@@ -293,10 +293,13 @@ const Post = () => {
             $('.note > body').css('margin', '0');
             $('.donutchart').css("width", '100%');
             $('.donutchart').attr("style", "width:100% !important;");
-
             setItem(obj);
             await new Promise((r) => setTimeout(r, 100));
             setTimeout(() => setLoading(false), 1500);
+            if(localStorage.getItem('dark_mode')){
+                await new Promise((r) => setTimeout(r, 1600));
+                $('.toastui-editor-contents p').attr('style','color:#fff !important');
+            }
         }
         fetchPost();
 
@@ -305,6 +308,17 @@ const Post = () => {
             let per = Math.floor(($(window).scrollTop() / ($(document).height() - $(window).height())) * 100);
             setPercent(per);
         })
+        if (localStorage.getItem('dark_mode')) {
+            $('body').addClass("dark-mode");
+            $('p').addClass("dark-mode");
+            $('.toastui-editor-contents p').attr("style","color:#fff!important");
+            $('.menu-container').addClass("dark-mode");
+            $('.header').addClass("dark-mode");
+            $('.select-type').addClass("dark-mode");
+            $('.wrappers > .viewer > p').addClass("dark-mode");
+            $('.footer').addClass("dark-mode");
+            $('.viewer > div > div > div > p').addClass("dark-mode");
+        }
     }, [])
 
     const onChangeWheatherDisplay = () => {
@@ -364,7 +378,7 @@ const Post = () => {
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <TwoButtonContainer>
+                            <TwoButtonContainer style={{color:`${localStorage.getItem('dark_mode')?'#333':'#fff'}`}}>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
                             </TwoButtonContainer>

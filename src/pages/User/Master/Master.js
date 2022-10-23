@@ -9,7 +9,8 @@ import Loading from "../../../components/Loading";
 import { Viewer } from '@toast-ui/react-editor';
 import MetaTag from "../../../components/MetaTag";
 import { commarNumber } from "../../../functions/utils";
-
+import theme from "../../../styles/theme";
+import $ from 'jquery'
 const Button = styled.button`
 width:364px;
 margin:0 auto;
@@ -65,7 +66,7 @@ const Master = () => {
             setLoading(true)
             const { data: response } = await axios.get(`/api/item?table=master&pk=${params.pk}`)
             setItem(response.data)
-            setTitle("masterpick - 대가프로필 / "+response.data.name)
+            setTitle("masterpick - 대가프로필 / " + response.data.name)
             let sector_list = JSON.parse(response.data?.sector_list);
             sector_list = sector_list.sort(function (a, b) {
                 return b.percent - a.percent
@@ -79,6 +80,10 @@ const Master = () => {
             setSectorMax(max)
             setSectorList(sector_list)
             setLoading(false)
+            if(localStorage.getItem('dark_mode')){
+                await new Promise((r) => setTimeout(r, 500));
+                $('.toastui-editor-contents p').attr('style','color:#fff !important');
+            }
         }
         fetchPost();
     }, [params])
@@ -108,7 +113,7 @@ const Master = () => {
                 <MasterSlide />
                 <Title>대가 프로필</Title>
                 <div style={{ margin: '0 2px 24px auto' }}>
-                    <TransparentButton onClick={addSubscribeMaster} style={{ position: 'absolute', top: '98px', right: '0' }}>+ 구독</TransparentButton>
+                    <TransparentButton onClick={addSubscribeMaster} style={{ position: 'absolute', top: '98px', right: '0', color: `${localStorage.getItem('dark_mode') ? '#fff' : theme.color.font1}` }}>+ 구독</TransparentButton>
                 </div>
                 {loading ?
                     <>
@@ -118,17 +123,17 @@ const Master = () => {
                     <>
                         <MasterCard item={item} />
                         <Title>대가 수익률</Title>
-                        <ViewerContainer style={{width:'90%'}}>
+                        <ViewerContainer style={{ width: '90%' }}>
                             <Viewer initialValue={item?.yield ?? `<body></body>`} />
                         </ViewerContainer>
                         <Title>대가 투자원칙</Title>
-                        <ViewerContainer style={{width:'90%'}}>
+                        <ViewerContainer style={{ width: '90%' }}>
                             <Viewer initialValue={item?.investment_principle ?? `<body></body>`} />
                         </ViewerContainer>
 
 
                         <Title>대가 투자 스타일</Title>
-                        <ViewerContainer style={{width:'90%'}}>
+                        <ViewerContainer style={{ width: '90%' }}>
                             <Viewer initialValue={item?.investment_style ?? `<body></body>`} />
                         </ViewerContainer>
                         {sectorList && sectorList.length > 0 ?

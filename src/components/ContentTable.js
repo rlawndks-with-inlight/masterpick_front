@@ -9,7 +9,7 @@ import { Table, Tr, Td } from "./elements/UserContentTemplete";
 
 const ContentTable = (props) => {
     const navigate = useNavigate();
-    const { columns, data, click, schema, isPointer, addSubscribeMaster, columnsBold } = props;
+    const { columns, data, click, schema, isPointer, addSubscribeMaster, columnsBold, marginBottom } = props;
     const onClickEvent = (str) => {
         if (str) {
             navigate(str)
@@ -51,7 +51,7 @@ const ContentTable = (props) => {
     }
     return (
         <>
-            <div className='subtype-container' style={{ overflowX: 'auto', display: 'flex', width: '90%', margin: '0 auto' }} >
+            <div className='subtype-container' style={{ overflowX: 'auto', display: 'flex', width: '90%', margin: '0 auto',marginBottom:marginBottom}} >
                 <Table>
                     <Tr style={{ fontWeight: `${columnsBold ? 'bold' : ''}`, fontWeight: `${schema == 'master_subscribe' ? 'bold' : ''}` }}>
                         {columns.map((item, idx) => (

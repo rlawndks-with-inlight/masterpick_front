@@ -4,13 +4,13 @@ import styled from "styled-components";
 import $ from 'jquery'
 import { useState } from "react";
 import thumbImg from '../../assets/images/icon/thumb.svg';
+import thumbWhiteImg from '../../assets/images/icon/thumb-white.svg';
 export const WrappersStyle = styled.div`
 position:relative;
 display:flex;
 flex-direction:column;
 width:100%;
 max-width:1000px;
-background:#fff;
 margin-top:8rem;
 margin-left:auto;
 margin-right:auto;
@@ -58,7 +58,7 @@ export const Title = (props) =>{
     return (
         <>
         <div style={{display:'flex',alignItems:'center',marginTop:'24px',marginBottom:'8px'}} onClick={()=>{navigate(props.link)}}>
-        <TitleImg src={thumbImg} alt="#"/>
+        <TitleImg src={localStorage.getItem('dark_mode')?thumbWhiteImg:thumbImg} alt="#"/>
         <TitleStyle>
             {props?.children??""}
         </TitleStyle>
