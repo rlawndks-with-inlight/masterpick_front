@@ -21,18 +21,6 @@ const SubscriptionOnly = () => {
     const onClickMaster = async (num) => {
         setLoading(true)
         setTypeNum(num)
-        let overlap_list = [...overlapList];
-        if (overlap_list.includes(num)) {
-            for (var i = 0; i < overlap_list.length; i++) {
-                if (overlap_list[i] === num) {
-                    overlap_list.splice(i, 1);
-                    i--;
-                }
-            }
-        } else {
-            overlap_list.push(num);
-        }
-        setOverlapList(overlap_list)
         let auth_obj = JSON.parse(localStorage.getItem('auth'))
         const { data: response } = await axios.post(`/api/getmastercontents`, {
             table: 'master_subscribe',
@@ -41,7 +29,7 @@ const SubscriptionOnly = () => {
             status: 1,
             is_subscribe: true,
             user_pk: auth_obj?.pk ?? 0,
-            overlap_list: overlap_list
+            pk:num
         })
         let list = response.data??[];
         let top_list = [];

@@ -119,6 +119,7 @@ const LoginCard = () => {
                 <CategoryName style={{ marginTop: '0', fontSize: '11px' }}>
                     아직 masterpick 회원이 아니라면?<strong style={{ textDecoration: 'underline', cursor: 'pointer', marginLeft: '12px' }} onClick={() => { navigate('/signup') }}>회원가입</strong>
                 </CategoryName>
+                <Button style={{ marginTop: '36px' }} onClick={()=>navigate('/appsetting')}>설정</Button>
             </WrapperForm>
         </>
     );

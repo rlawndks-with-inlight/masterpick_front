@@ -1,4 +1,4 @@
-
+import './fonts.css'
 
 const size = {
   mobileS: "480px",
@@ -52,11 +52,8 @@ const theme = {
     desktop: `(max-width: ${size.desktop})`,
   },
   font: {
-    thin: "SpoqaHanSansNeo-Thin",
-    light: "SpoqaHanSansNeo-Light",
-    regular: "SpoqaHanSansNeo-Regular",
-    medium: "SpoqaHanSansNeo-Medium",
-
+    Cafe24Ssurround: "Cafe24Ssurround",
+    MYYeongnamnu: "MYYeongnamnu",
   },
   boxShadow: "0px 3px 6px #00000029"
 }

@@ -26,6 +26,7 @@ import Master from '../pages/User/Master/Master';
 
 import Post from '../pages/User/Posts/Post';
 import Video from '../pages/User/Posts/Video';
+import AppSetting from '../pages/User/AppSetting';
 
 import Policy from '../pages/User/Policy/Policy';
 
@@ -69,6 +70,7 @@ const zRoute = [
     // { link: '/oneeventlist', element: <OneEventList />, title:"" },
     { link: '/noticelist', element: <NoticeList />, title: "공지사항" },
     { link: '/master/:pk', element: <Master />, title: "" },
+    { link: '/appsetting', element: <AppSetting />, title: "앱 세팅" },
 
     { link: '/policy/:pk', element: <Policy />, title: "" },
 

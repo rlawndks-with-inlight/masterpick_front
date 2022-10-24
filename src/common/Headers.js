@@ -7,7 +7,7 @@ import logo from '../assets/images/test/logo.svg'
 import { AiOutlineBell, AiOutlineSearch, AiOutlineSetting } from 'react-icons/ai'
 import Modal from '../components/Modal';
 import axios from 'axios'
-import { zBottomMenu } from '../data/Data';
+import { backUrl, zBottomMenu } from '../data/Data';
 import { MdNavigateBefore } from 'react-icons/md';
 import theme from '../styles/theme';
 import { IoMdArrowBack } from 'react-icons/io';
@@ -257,7 +257,7 @@ const Headers = () => {
           </div>
           {headerImg ?
             <>
-              <img src={headerImg} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { window.location.href = '/' }} />
+              <img src={backUrl+headerImg} style={{ height: '2.5rem', marginTop: '0.25rem' }} alt="#" onClick={() => { window.location.href = '/' }} />
             </>
             :
             <>

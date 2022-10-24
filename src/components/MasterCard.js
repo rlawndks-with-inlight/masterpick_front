@@ -16,28 +16,35 @@ position:relative;
 `
 const TextContainer = styled.div`
 width: 50%;
-padding: 20px;
+padding: 20px 20px 0 20px;
+height:130px;
 margin-left: auto;
 text-align: center;
 font-size:${props => props.theme.size.font1};
 font-weight:bold;
+display:flex;
+flex-direction:column;
 @media screen and (max-width:600px) {
-    padding: 10px;
+    padding: 10px 10px 0 10px;
+    height:140px;
     font-size:${props => props.theme.size.font2};
 }
 `
 const MasterName = styled.div`
-margin-top:8px;
 font-size:${props => props.theme.size.font1};
+font-family:${props => props.theme.font.Cafe24Ssurround};
 @media screen and (max-width:600px) {
     font-size:${props => props.theme.size.font2};
 }
 `
 const Motto = styled.div`
-margin-top:8px;
+margin:auto;
 word-break:break-all;
+width:50%;
 font-size:${props => props.theme.size.font2};
+font-family:${props => props.theme.font.MYYeongnamnu};
 @media screen and (max-width:600px) {
+    width:100%;
     font-size:${props => props.theme.size.font3};
 }
 `

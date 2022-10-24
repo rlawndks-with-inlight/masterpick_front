@@ -12,11 +12,11 @@ import { CgToggleOn, CgToggleOff } from 'react-icons/cg';
 const MyCard = styled.div`
 display:flex;
 width:100%;
-height:300px;
+height:250px;
 border:1px solid ${props => props.theme.color.background3};
 @media screen and (max-width:700px) {
     flex-direction:column;
-    height:300px;
+    height:250px;
 }
 `
 const ProfileContainer = styled.div`
@@ -137,19 +137,7 @@ const MyPage = () => {
                             <Category>개인정보동의</Category>
                             <Result>{'동의'}</Result>
                         </Content>
-                        <Content>
-                            <Category>다크모드</Category>
-                            <Result style={{ fontSize: '28px' }}>
-                                {localStorage.getItem('dark_mode') ?
-                                    <>
-                                        <CgToggleOn style={{ color: theme.color.background1,cursor:'pointer' }} onClick={()=>{onChangeDarkMode(0)}} />
-                                    </>
-                                    :
-                                    <>
-                                        <CgToggleOff style={{ color: '#ccc',cursor:'pointer' }} onClick={()=>{onChangeDarkMode(1)}} />
-                                    </>}
-                            </Result>
-                        </Content>
+                        
                     </Container>
                 </MyCard>
                 <Title>서비스 이용내역</Title>
@@ -173,7 +161,9 @@ const MyPage = () => {
                 <LogoutButton onClick={onLogout}>
                     로그아웃
                 </LogoutButton>
-
+                <LogoutButton onClick={() => navigate('/appsetting')}>
+                    설정
+                </LogoutButton>
             </Wrappers>
         </>
     )
