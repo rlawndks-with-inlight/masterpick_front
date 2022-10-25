@@ -16,8 +16,8 @@ position:relative;
 `
 const TextContainer = styled.div`
 width: 50%;
-padding: 20px 20px 0 20px;
-height:130px;
+padding: 25px 20px 0 20px;
+height:125px;
 margin-left: auto;
 text-align: center;
 font-size:${props => props.theme.size.font1};
@@ -25,8 +25,8 @@ font-weight:bold;
 display:flex;
 flex-direction:column;
 @media screen and (max-width:600px) {
-    padding: 10px 10px 0 10px;
-    height:140px;
+    padding: 25px 10px 0 10px;
+    height:125px;
     font-size:${props => props.theme.size.font2};
 }
 `
@@ -42,7 +42,7 @@ margin:auto;
 word-break:break-all;
 width:50%;
 font-size:${props => props.theme.size.font2};
-font-family:${props => props.theme.font.MYYeongnamnu};
+font-family:${props => props.theme.font.Cafe24Ssurround};
 @media screen and (max-width:600px) {
     width:100%;
     font-size:${props => props.theme.size.font3};
