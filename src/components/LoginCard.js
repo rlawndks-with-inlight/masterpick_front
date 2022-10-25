@@ -11,7 +11,7 @@ import { WrapperForm, CategoryName, Input, Button, FlexBox, SnsLogo } from './el
 
 const LoginCard = () => {
     const navigate = useNavigate();
-
+    const [isWebView, setIsWebView] = useState(false);
     useEffect(() => {
         async function isAdmin() {
             const { data: response } = await axios.get('/api/auth', {
@@ -28,8 +28,10 @@ const LoginCard = () => {
             }
         }
         isAdmin();
-
-
+        if (window && window.flutter_inappwebview) {
+            console.log(1)
+            setIsWebView(true)
+        }
     }, [])
     const onLogin = async () => {
         const { data: response } = await axios.post('/api/loginbyid', {
@@ -38,7 +40,20 @@ const LoginCard = () => {
         })
         alert(response.message);
         if (response.result > 0) {
+            let params = {
+                'login_type': 0,
+                'id':$('.id').val()
+            }
+            if (window && window.flutter_inappwebview) {
+                await window.flutter_inappwebview.callHandler('native_app_login', JSON.stringify(params)).then(async function (result) {
+                    //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
+                    // JSON.parse(result)
+                    let obj = JSON.parse(result);
+                });    
+            }
+            
             await localStorage.setItem('auth', JSON.stringify(response.data));
+            
             navigate('/mypage');
         }
     }
@@ -52,43 +67,44 @@ const LoginCard = () => {
             onLogin();
         }
     }
-    const onLoginBySns = async(obj) =>{
-        let objs = {
-            id:obj.id,
-            name:obj.legal_name,
-            nickname:"카카오유저"+new Date().getTime(),
-            phone:obj.phone_number,
-            user_level:0,
-            typeNum:obj.login_type,
-            profile_img:obj.profile_image_url
+    const onLoginBySns = async (obj) => {
+        let nick = "";
+        if (obj.login_type == 1) {
+            nick = "카카오" + new Date().getTime()
+        } else if (obj.login_type == 2) {
+            nick = "네이버" + new Date().getTime()
         }
-        const {data:response} = await axios.post('/api/loginbysns',objs);
-        if(response.result>0){
-            await localStorage.setItem('auth', JSON.stringify(response.data));
-            navigate('/mypage');
-        }else{
-            alert(response.message);
+        let objs = {
+            id: obj.id,
+            name: obj.profile_nickname,
+            nickname: nick,
+            phone: obj.phone_number,
+            user_level: 0,
+            typeNum: obj.login_type,
+            profile_img: obj.profile_image_url
+        }
+        const { data: response } = await axios.post('/api/loginbysns', objs);
+        if (response.result > 0) {
+            if(response.result<=50){//신규유저
+                navigate('/signup',{state:{id:objs.id,typeNum:objs.typeNum,profile_img:objs.profile_img,name:objs.name}})
+            }else{
+                await localStorage.setItem('auth', JSON.stringify(response.data));
+                navigate('/mypage');
+            }
+        } else {
+            //alert(response.message);
         }
     }
-    const kakaoLogin =  () => {
+
+    const snsLogin = async (num) => {
         if (window && window.flutter_inappwebview) {
-            let params = { 'login_type': 1 };
-            window.flutter_inappwebview.callHandler('native_app_login', JSON.stringify(params)).then(async function (result) {
+            var params = { 'login_type': num };
+            await window.flutter_inappwebview.callHandler('native_app_login', JSON.stringify(params)).then(async function (result) {
                 //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
                 // JSON.parse(result)
+                console.log(result)
                 let obj = JSON.parse(result);
                 await onLoginBySns(obj.data);
-            });
-        } else {
-            alert('웹뷰가 아닙니다.');
-        }
-    }
-    const naverLogin = () => {
-        if (window && window.flutter_inappwebview) {
-            var params = { 'login_type': 2 };
-            window.flutter_inappwebview.callHandler('native_app_login', JSON.stringify(params)).then(function (result) {
-                //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
-                // JSON.parse(result)
             });
         } else {
             alert('웹뷰가 아닙니다.');
@@ -113,8 +129,8 @@ const LoginCard = () => {
                 <Button onClick={onLogin}>로그인</Button>
                 <CategoryName style={{ marginTop: '36px' }}>SNS 간편 로그인</CategoryName>
                 <FlexBox>
-                    <SnsLogo src={kakao} onClick={kakaoLogin} />
-                    <SnsLogo src={naver} onClick={naverLogin} />
+                <SnsLogo src={kakao} onClick={() => snsLogin(1)} />
+                    <SnsLogo src={naver} onClick={() => snsLogin(2)} />
                 </FlexBox>
                 <CategoryName style={{ marginTop: '0', fontSize: '11px' }}>
                     아직 masterpick 회원이 아니라면?<strong style={{ textDecoration: 'underline', cursor: 'pointer', marginLeft: '12px' }} onClick={() => { navigate('/signup') }}>회원가입</strong>

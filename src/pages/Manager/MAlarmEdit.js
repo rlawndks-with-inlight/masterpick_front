@@ -83,6 +83,7 @@ const MAlarmEdit = () => {
         } else {
             let obj = {
                 title: $('.title').val(),//제목
+                url: $('.url').val(),//url
                 note: $(`.note`).val(),//내용
                 type: typeNum,//0-즉시, 1-
                 start_date: $(`.start-date`).val(),
@@ -122,6 +123,10 @@ const MAlarmEdit = () => {
                             <Col>
                                 <Title>제목</Title>
                                 <Input className='title' placeholder='제목을 입력해 주세요.' />
+                            </Col>
+                            <Col>
+                                <Title>url</Title>
+                                <Input className='url' placeholder='ex) /masterlist' />
                             </Col>
                         </Row>
                         <Row>

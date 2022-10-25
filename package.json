@@ -86,5 +86,5 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0"
   },
-  "proxy": "http://localhost:8001"
+  "proxy": "https://masterpick.co.kr:8443"
 }

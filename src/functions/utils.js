@@ -104,3 +104,18 @@ export const getIframeLinkByLink = (str) =>{
     
     return ans;
 }
+export const regExp = (type, str) => {//id,pw,nickname,name
+    let reg = undefined;
+    if (type == 'id') {
+        reg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{5,12}$/;
+    } else if (type == 'pw') {
+        reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,15}$/;
+    } else if (type == 'name') {
+        reg = /^[가-힣]{2,5}$/;
+    } else if (type == 'nickname') {
+        reg = /^[가-힣|a-z|A-Z|0-9|]{2,8}$/;
+    } else {
+        return false;
+    }
+    return reg.test(str)
+}

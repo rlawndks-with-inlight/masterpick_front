@@ -8,8 +8,9 @@ import logo from '../assets/images/test/logo.svg'
 import kakao from '../assets/images/icon/kakao.png'
 import naver from '../assets/images/icon/naver.png'
 import { Title } from './elements/UserContentTemplete';
-import { formatPhoneNumber } from '../functions/utils';
-import { WrapperForm, CategoryName, Input, Button, FlexBox, SnsLogo } from './elements/AuthContentTemplete';
+import { formatPhoneNumber, regExp } from '../functions/utils';
+import { WrapperForm, CategoryName, Input, Button, FlexBox, SnsLogo, RegularNotice } from './elements/AuthContentTemplete';
+import { regularExpression } from '../data/Data';
 
 const SignUpCard = () => {
     const location = useLocation();
@@ -25,18 +26,17 @@ const SignUpCard = () => {
     const [isSendSms, setIsSendSms] = useState(false)
     const [fixPhoneNumber, setFixPhoneNumber] = useState("")
     const [typeNum, setTypeNum] = useState(0);
-    useEffect(()=>{
-        if(location.state){
-            $('.id').val(location.state.id);
-            $('.pw').val("111");
-            $('.pw-check').val("111");
-            setTypeNum(location.state.type_num)
-            setIsCheckId(true);
+    const [state, setState] = useState(undefined)
+    useEffect(() => {
+        if (location.state) {
+            setState(location.state)
         }
-    },[])
+    }, [])
     const onCheckId = async () => {
         if (!$('.id').val()) {
             alert('아이디를 입력해주세요.');
+        } else if (!regExp('id', $('.id').val())) {
+            alert('정규식에 맞춰주세요.');
         } else {
             const { data: response } = await axios.post('/api/checkexistid', { id: $('.id').val() });
             alert(response.message);
@@ -93,9 +93,7 @@ const SignUpCard = () => {
         } catch (e) {
             console.log(e)
         }
-
         //console.log(response)
-
     }
     const confirmCoincide = (e) => {
         if (randNum === $('.phone-check').val()) {
@@ -107,26 +105,31 @@ const SignUpCard = () => {
         }
     }
     const onSignUp = async () => {
-        if (!$('.id').val()) {
+        if (!$('.id').val() && !location.state) {
             alert('필수값을 입력해주세요.');
-        } else if (!isCheckId) {
+        } else if (!isCheckId && !location.state) {
             alert('아이디 중복확인을 해주세요.');
-        } else if ($('.pw').val() != $('.pw-check').val()) {
+        } else if (!regExp('pw', $('.pw').val())&& !location.state) {
+            alert('비밀번호 정규식을 지켜주세요.');
+        } else if ($('.pw').val() != $('.pw-check').val() && !location.state) {
             alert('비밀번호가 일치하지 않습니다.');
         } else if (!isCheckPhoneNumber) {
             alert('전화번호 인증을 완료해 주세요.');
+        } else if (!regExp('nickname', $('.nickname').val())) {
+            alert('닉네임 정규식을 지켜주세요.');
         } else if (!isCheckNickname) {
             alert('닉네임 중복확인을 해주세요.');
         } else {
             if (window.confirm('회원가입 하시겠습니까?')) {
                 const { data: response } = await axios.post('/api/adduser', {
-                    id: $('.id').val(),
-                    pw: $('.pw').val(),
-                    name: $('.name').val(),
+                    id: location.state ? state.id : $('.id').val(),
+                    pw: location.state ? "111" : $('.pw').val(),
+                    name: location.state ? state.name : $('.name').val(),
                     nickname: $('.nickname').val(),
                     phone: $('.phone').val(),
                     user_level: 0,
-                    type_num:typeNum
+                    type_num: location.state ? state.typeNum : typeNum,
+                    profile_img: location.state ? state.profile_img : null
                 })
                 if (response.result > 0) {
                     alert('회원가입이 완료되었습니다.');
@@ -135,7 +138,6 @@ const SignUpCard = () => {
                     alert(response.message);
                 }
             }
-
         }
     }
     const onKeyPressId = (e) => {
@@ -178,38 +180,45 @@ const SignUpCard = () => {
         <>
             <WrapperForm onSubmit={onSignUp} id='login_form'>
                 <Title>회원가입</Title>
-                {location.state?
-                <>
-                </>
-                :
-                <>
-                <CategoryName>아이디</CategoryName>
-                <Input placeholder='아이디를 입력해주세요.' type={'text'} className='id' disabled={isCheckId} onKeyPress={onKeyPressId} />
-                <Button onClick={onCheckId} disabled={isCheckId}>{isCheckId ? '사용가능' : '중복확인'}</Button>
-                <CategoryName>비밀번호</CategoryName>
-                <Input placeholder='비밀번호를 입력해주세요.' type={'password'} className='pw' onKeyPress={onKeyPressPw} />
-                <CategoryName>비밀번호 확인</CategoryName>
-                <Input placeholder='비밀번호를 한번더 입력해주세요.' type={'password'} className='pw-check' onKeyPress={onKeyPressPwCheck} />
-                </>
+                {location.state ?
+                    <>
+                    </>
+                    :
+                    <>
+                        <CategoryName>아이디</CategoryName>
+                        <Input placeholder='아이디를 입력해주세요.' type={'text'} className='id' disabled={isCheckId} onKeyPress={onKeyPressId} />
+                        <RegularNotice>5~20자 내의 영문, 숫자 조합만 가능합니다.</RegularNotice>
+                        <Button onClick={onCheckId} disabled={isCheckId}>{isCheckId ? '사용가능' : '중복확인'}</Button>
+                        <CategoryName>비밀번호</CategoryName>
+                        <Input placeholder='비밀번호를 입력해주세요.' type={'password'} className='pw' onKeyPress={onKeyPressPw} />
+                        <RegularNotice>8~15자 내의 영문, 숫자, 특수문자 조합만 가능합니다.</RegularNotice>
+                        <CategoryName>비밀번호 확인</CategoryName>
+                        <Input placeholder='비밀번호를 한번더 입력해주세요.' type={'password'} className='pw-check' onKeyPress={onKeyPressPwCheck} />
+                        <CategoryName>이름</CategoryName>
+                        <Input placeholder='이름을 입력해주세요.' type={'text'} className='name' onKeyPress={onKeyPressName} />
+                        <RegularNotice>실명으로 입력해주세요.</RegularNotice>
+                    </>
                 }
-                
-               
-                <CategoryName>이름</CategoryName>
-                <Input placeholder='이름을 입력해주세요.' type={'text'} className='name' onKeyPress={onKeyPressName} />
+
+
+
                 <CategoryName>닉네임</CategoryName>
                 <Input placeholder='닉네임을 입력해주세요.' type={'text'} className='nickname' onKeyPress={onKeyPressNickname} />
+                <RegularNotice>2~8자 내의 한글, 영문, 숫자 조합만 가능합니다.</RegularNotice>
                 <Button onClick={onCheckNickname} disabled={isCheckNickname}>{isCheckNickname ? '사용가능' : '중복확인'}</Button>
                 <CategoryName>전화번호</CategoryName>
                 <Input placeholder='전화번호를 입력해주세요.' type={'text'} className='phone' disabled={isCheckPhoneNumber} onKeyPress={onKeyPressPhone} />
+                <RegularNotice></RegularNotice>
                 <Button onClick={sendSms} disabled={isCheckPhoneNumber}>인증번호 발송</Button>
-                <Input style={{marginTop:'36px'}} placeholder='인증번호를 입력해주세요.' type={'text'} className='phone-check' disabled={isCheckPhoneNumber} onKeyPress={onKeyPressPhoneCheck} />
+                <Input style={{ marginTop: '36px' }} placeholder='인증번호를 입력해주세요.' type={'text'} className='phone-check' disabled={isCheckPhoneNumber} onKeyPress={onKeyPressPhoneCheck} />
+                <RegularNotice></RegularNotice>
                 <Button onClick={confirmCoincide} disabled={isCheckPhoneNumber}>{isCheckPhoneNumber ? '확인완료' : '인증번호 확인'}</Button>
-                <Button style={{marginTop:'36px'}} onClick={onSignUp}>회원가입</Button>
-                <CategoryName>SNS 간편 회원가입</CategoryName>
+                <Button style={{ marginTop: '36px' }} onClick={onSignUp}>회원가입</Button>
+                {/* <CategoryName>SNS 간편 회원가입</CategoryName>
                 <FlexBox>
                     <SnsLogo src={kakao} />
                     <SnsLogo src={naver} />
-                </FlexBox>
+                </FlexBox> */}
 
             </WrapperForm>
         </>
