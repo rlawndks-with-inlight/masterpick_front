@@ -168,7 +168,7 @@ const EditMyInfoCard = () => {
     return (
         <>
             <WrapperForm>
-                <Title>마이페이지 수정{typeNum}</Title>
+                <Title>마이페이지 수정</Title>
                 <SelectType className="select-type">
                     {zType.map((item, idx) => (
                         <>
