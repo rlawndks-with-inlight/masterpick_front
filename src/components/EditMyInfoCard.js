@@ -131,7 +131,7 @@ const EditMyInfoCard = () => {
             alert("비밀번호를 입력해주세요.");
             return;
         }
-        let obj = { id: myId, pw: $('.pw').val(), type: auth.type };
+        let obj = { id: myId, pw: $('.pw').val()??"111", type: auth.type };
 
         if (num == 0) {
             if (!$('.nickname').val()) {
