@@ -143,7 +143,6 @@ const Headers = () => {
   useEffect(() => {
     async function fetchPost() {
       const { data: response } = await axios.get('/api/getmaincontent')
-      console.log(response)
       setHeaderImg(response.data?.header_img)
     }
     fetchPost();

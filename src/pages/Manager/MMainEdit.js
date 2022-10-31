@@ -142,7 +142,6 @@ const MMainEdit = () => {
             }
             setSetting(response.data ?? {});
             if (response.data) {
-                console.log(response)
                 setHeaderUrl(backUrl + response.data.header_img);
                 setUrl(backUrl + response.data.main_img);
                 setUrl1(backUrl + response.data.recommendation_banner_img);
