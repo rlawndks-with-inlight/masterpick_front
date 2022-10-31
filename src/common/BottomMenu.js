@@ -9,7 +9,7 @@ const Container = styled.aside`
     border-top: 0.1rem solid #e6e6e6;
     position: fixed;
     right: 0;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
     z-index: 5;
     display:none;
@@ -103,7 +103,7 @@ const BottomMenu = () => {
                         </>
                         :
                         <>
-                            <Container className='menu-container'>
+                            <Container className='menu-container' style={{ background: `${localStorage.getItem('dark_mode') ? '#222' : '#fff'}` }}>
                                 <MenuContainer>
                                     {zBottomMenu.map((item, index) => (
                                         <>

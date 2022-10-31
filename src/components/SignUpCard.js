@@ -51,6 +51,8 @@ const SignUpCard = () => {
     const onCheckNickname = async () => {
         if (!$('.nickname').val()) {
             alert('아이디를 입력해주세요.');
+        } else if (!regExp('nickname', $('.nickname').val())) {
+            alert('닉네임 정규식에 맞지 않습니다.');
         } else {
             const { data: response } = await axios.post('/api/checkexistnickname', { nickname: $('.nickname').val() });
             alert(response.message);
@@ -109,7 +111,7 @@ const SignUpCard = () => {
             alert('필수값을 입력해주세요.');
         } else if (!isCheckId && !location.state) {
             alert('아이디 중복확인을 해주세요.');
-        } else if (!regExp('pw', $('.pw').val())&& !location.state) {
+        } else if (!regExp('pw', $('.pw').val()) && !location.state) {
             alert('비밀번호 정규식을 지켜주세요.');
         } else if ($('.pw').val() != $('.pw-check').val() && !location.state) {
             alert('비밀번호가 일치하지 않습니다.');
@@ -203,7 +205,7 @@ const SignUpCard = () => {
 
 
                 <CategoryName>닉네임</CategoryName>
-                <Input placeholder='닉네임을 입력해주세요.' type={'text'} className='nickname' onKeyPress={onKeyPressNickname} />
+                <Input placeholder='닉네임을 입력해주세요.' type={'text'} className='nickname' disabled={isCheckNickname} onKeyPress={onKeyPressNickname} />
                 <RegularNotice>2~8자 내의 한글, 영문, 숫자 조합만 가능합니다.</RegularNotice>
                 <Button onClick={onCheckNickname} disabled={isCheckNickname}>{isCheckNickname ? '사용가능' : '중복확인'}</Button>
                 <CategoryName>전화번호</CategoryName>

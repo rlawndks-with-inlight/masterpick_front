@@ -259,7 +259,7 @@ const Home = () => {
                         </Content>
                         {masterList.map((item, idx) => (
                             <>
-                                <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}`,background:`${localStorage.getItem('dark_mode')?'#333':theme.color.background3}`,border:`1px solid ${localStorage.getItem('dark_mode')?'#fff':theme.color.background3}` }}>
+                                <Banner style={{ display: `${masterPk == item.pk ? 'flex' : 'none'}`,background:`${localStorage.getItem('dark_mode')?'#222':theme.color.background3}`,border:`1px solid ${localStorage.getItem('dark_mode')?'#fff':theme.color.background3}` }}>
                                     <BannerContent>
                                         <BannerTitle>종목명</BannerTitle>
                                         <BannerResult>{'비공개'}</BannerResult>
@@ -300,7 +300,7 @@ const Home = () => {
                             </div>
                             <div style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
                                 <ContentTable columns={[
-                                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                                    { name: "대가명", column: "master_name", width: 25, type: 'text' },
                                     { name: "종목명", column: "name", width: 25, type: 'text' },
                                     { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000',bold:true },
                                     { name: "보유기간", column: "days", width: 25, type: 'text' }
@@ -310,7 +310,7 @@ const Home = () => {
                             </div>
                             <div style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
                                 <ContentTable columns={[
-                                    { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                                    { name: "대가명", column: "master_name", width: 25, type: 'text' },
                                     { name: "종목명", column: "name", width: 25, type: 'text' },
                                     { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
                                     { name: "보유기간", column: "days", width: 25, type: 'text' }

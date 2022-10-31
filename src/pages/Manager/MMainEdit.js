@@ -474,7 +474,7 @@ const MMainEdit = () => {
                                         <Container style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
                                             <Table>
                                                 <Tr>
-                                                    <Td>거장명</Td>
+                                                    <Td>대가명</Td>
                                                     <Td>종목명</Td>
                                                     <Td>수익률</Td>
                                                     <Td>보유기간</Td>
@@ -498,7 +498,7 @@ const MMainEdit = () => {
                                         <Container style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
                                             <Table>
                                                 <Tr>
-                                                    <Td>거장명</Td>
+                                                    <Td>대가명</Td>
                                                     <Td>종목명</Td>
                                                     <Td>수익률</Td>
                                                     <Td>보유기간</Td>

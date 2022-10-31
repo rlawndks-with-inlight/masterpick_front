@@ -9,14 +9,14 @@ const Card = styled.div`
 width: 48%; 
 display: flex;
 margin-bottom: 16px;
-height: 180px;
+height: 220px;
 @media screen and (max-width:1000px) {
-    height: 20vw;
+    height: 24vw;
 }
 @media screen and (max-width:700px) {
     width: 100%; 
     height: 36vw;
-    min-height:150px;
+    min-height:180px;
 }
 `
 const Img = styled.div`
@@ -101,8 +101,8 @@ const MasterCard = (props) => {
                 }} />
 
                 <TextContainer>
-                    <Title>투자대가 {data?.name ?? ""}</Title>
-                    <Title style={{fontSize:theme.size.font3}}> {data?.motto ?? ""}</Title>
+                    <Title>{data?.name ?? ""}</Title>
+                    <Title style={{fontSize:theme.size.font3,margin:'auto 0'}}> {data?.motto ?? ""}</Title>
                     <BottomContent>
                         <Hash>
                             <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>

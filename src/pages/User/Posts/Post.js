@@ -378,7 +378,7 @@ const Post = () => {
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <TwoButtonContainer style={{color:`${localStorage.getItem('dark_mode')?'#333':'#fff'}`}}>
+                            <TwoButtonContainer style={{color:`${localStorage.getItem('dark_mode')?'#222':'#fff'}`}}>
                                 <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
                                 <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
                             </TwoButtonContainer>

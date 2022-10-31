@@ -217,7 +217,7 @@ const MUserEdit = () => {
                         </Row>
                         <Title>구독상품</Title>
                         <ContentTable columns={[
-                            { name: "거장명", column: "master_name", width: 25, type: 'text' },
+                            { name: "대가명", column: "master_name", width: 25, type: 'text' },
                             { name: "구매일자", column: "date", width: 25, type: 'text' },
                             { name: "금액", column: "yield", width: 25, type: 'text' },
                             { name: "취소", column: "", width: 25, type: 'delete' },
