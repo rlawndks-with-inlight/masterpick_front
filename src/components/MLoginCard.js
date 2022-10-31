@@ -109,7 +109,7 @@ const MLoginCard = () => {
                 alert(response.message);
                 navigate('/manager/list/strategy');
             }else{
-                alert("등록되지 않은 회원입니다.");
+                alert("아이디 또는 비밀번호를 확인해주세요.");
                 navigate("/")
             }
         }
