@@ -16,6 +16,7 @@ import MyPage from '../pages/User/Auth/MyPage';
 import EditMyInfo from '../pages/User/Auth/EditMyInfo';
 import FindMyInfo from '../pages/User/Auth/FindMyInfo';
 import SignUp from '../pages/User/Auth/SignUp';
+import Resign from '../pages/User/Auth/Resign';
 
 import OneEventList from '../pages/User/OneEvent/OneEventList';
 import OneWordList from '../pages/User/OneWord/OneWordList';
@@ -79,6 +80,7 @@ const zRoute = [
     { link: '/editmyinfo', element: <EditMyInfo />, title: "회원정보수정" },
     { link: '/findmyinfo', element: <FindMyInfo />, title: "아이디/비밀번호 찾기" },
     { link: '/signup', element: <SignUp />, title: "회원가입" },
+    { link: '/resign', element: <Resign />, title: "회원탈퇴" },
 
     { link: '/post/notice/:pk', element: <Notice />, title: "" },
     { link: '/post/:table/:pk', element: <Post />, title: "" },

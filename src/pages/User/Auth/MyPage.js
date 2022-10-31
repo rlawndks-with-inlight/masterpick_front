@@ -102,6 +102,23 @@ const MyPage = () => {
             window.location.reload();
         }
     }
+    const getIdByNumber = (num, id) =>{
+        if(!id){
+            return "---";
+        }else{
+            if(num==0){
+                return id;
+            }else if(num==1){
+                return "kakao";
+            }else if(num==2){
+                return "naver";
+            }else if(num==3){
+                return "apple";
+            }else{
+                return "---";
+            }
+        }
+    }
     return (
         <>
             <Wrappers className="wrapper" style={{ maxWidth: '800px' }}>
@@ -122,7 +139,7 @@ const MyPage = () => {
                         <Content>
                             <Category>아이디</Category>
                             <Result>
-                                {auth?.id ?? "---"}
+                                {getIdByNumber(auth.type??0,auth?.id??"")}
                             </Result>
                         </Content>
                         <Content>

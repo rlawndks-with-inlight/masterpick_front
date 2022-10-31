@@ -57,7 +57,7 @@ const FindMyInfoCard = () => {
             content += Math.floor(Math.random() * 10).toString();
         }
 
-        let string = `\n인증번호를 입력해주세요 ${content}.\n\n-We are-`;
+        let string = `\n인증번호를 입력해주세요 ${content}.\n\n-masterpick-`;
         try {
             const { data: response } = await axios.post(`/api/sendsms`, {
                 receiver: [fix_phone, formatPhoneNumber(fix_phone)],

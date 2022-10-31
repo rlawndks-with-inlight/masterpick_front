@@ -83,7 +83,7 @@ const SignUpCard = () => {
             content += Math.floor(Math.random() * 10).toString();
         }
 
-        let string = `\n인증번호를 입력해주세요 ${content}.\n\n-We are-`;
+        let string = `\n인증번호를 입력해주세요 ${content}.\n\n-masterpick-`;
         try {
             const { data: response } = await axios.post(`/api/sendsms`, {
                 receiver: [fix_phone, formatPhoneNumber(fix_phone)],
@@ -222,6 +222,7 @@ const SignUpCard = () => {
                 <RegularNotice>2~8자 내의 한글, 영문, 숫자 조합만 가능합니다.</RegularNotice>
                 <Button onClick={onCheckNickname} disabled={isCheckNickname}>{isCheckNickname ? '사용가능' : '중복확인'}</Button>
                 <CategoryName>전화번호</CategoryName>
+                <CategoryName style={{marginTop:'8px',fontSize:'12px'}}>- 아이디 찾기 및 비밀번호 찾기에 이용됩니다.</CategoryName>
                 <Input placeholder='전화번호를 입력해주세요.' type={'text'} className='phone' disabled={isCheckPhoneNumber} onKeyPress={onKeyPressPhone} />
                 <RegularNotice></RegularNotice>
                 <Button onClick={sendSms} disabled={isCheckPhoneNumber}>인증번호 발송</Button>

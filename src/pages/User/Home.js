@@ -145,8 +145,11 @@ const Home = () => {
             await window.flutter_inappwebview.callHandler('native_app_logined',{}).then(async function (result) {
                 //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
                 // JSON.parse(result)
-
+                console.log(result)
                 let obj = JSON.parse(result);
+                if(obj['is_ios']){
+                    await localStorage.setItem('is_ios','1');
+                }
                 await onLoginBySns(obj.data);
             });
         }
