@@ -143,8 +143,8 @@ const MyPage = () => {
                 <Title>서비스 이용내역</Title>
                 <ContentTable columns={[
                     { name: "대가명", column: "master_name", width: 25, type: 'text' },
-                    { name: "구매일자", column: "date", width: 25, type: 'text' },
-                    { name: "금액", column: "yield", width: 25, type: 'text' },
+                   // { name: "구매일자", column: "date", width: 25, type: 'text' },
+                    //{ name: "금액", column: "yield", width: 25, type: 'text' },
                     { name: "취소", column: "", width: 25, type: 'delete' },
                 ]}
                     data={subscribeList}
@@ -152,8 +152,8 @@ const MyPage = () => {
                 <Title>서비스 만료내역</Title>
                 <ContentTable columns={[
                     { name: "대가명", column: "master_name", width: 25, type: 'text' },
-                    { name: "구매일자", column: "date", width: 25, type: 'text' },
-                    { name: "금액", column: "yield", width: 25, type: 'text' },
+                   // { name: "구매일자", column: "date", width: 25, type: 'text' },
+                   // { name: "금액", column: "yield", width: 25, type: 'text' },
                     { name: "취소", column: "", width: 25, type: 'delete' },
                 ]}
                     data={[]}
