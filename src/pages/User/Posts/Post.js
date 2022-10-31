@@ -193,26 +193,26 @@ const Post = () => {
     };
     const donut_option = {
         plugins: {
-          datalabels: {
-            backgroundColor: function(context) {
-              return context.dataset.backgroundColor;
+            datalabels: {
+                backgroundColor: function (context) {
+                    return context.dataset.backgroundColor;
+                },
+                formatter: (val, context) => `${val}%`,
+                borderRadius: 25,
+                borderWidth: 3,
+                color: "black",
+                font: {
+                    weight: "bold"
+                },
+                padding: 6
             },
-            formatter: (val, context) => `${val}%`,
-            borderRadius: 25,
-            borderWidth: 3,
-            color: "black",
-            font: {
-              weight: "bold"
-            },
-            padding: 6
-          },
-          tooltip: {
-            callbacks: {
-              label: (ttItem) => `${ttItem.label}: ${ttItem.parsed}%`
+            tooltip: {
+                callbacks: {
+                    label: (ttItem) => `${ttItem.label}: ${ttItem.parsed}%`
+                }
             }
-          }
         }
-      }
+    }
     const [loading, setLoading] = useState(false)
 
     const [isShowDonut, setIsShowDonut] = useState(false)
@@ -296,9 +296,9 @@ const Post = () => {
             setItem(obj);
             await new Promise((r) => setTimeout(r, 100));
             setTimeout(() => setLoading(false), 1500);
-            if(localStorage.getItem('dark_mode')){
+            if (localStorage.getItem('dark_mode')) {
                 await new Promise((r) => setTimeout(r, 1600));
-                $('.toastui-editor-contents p').attr('style','color:#fff !important');
+                $('.toastui-editor-contents p').attr('style', 'color:#fff !important');
             }
         }
         fetchPost();
@@ -311,7 +311,7 @@ const Post = () => {
         if (localStorage.getItem('dark_mode')) {
             $('body').addClass("dark-mode");
             $('p').addClass("dark-mode");
-            $('.toastui-editor-contents p').attr("style","color:#fff!important");
+            $('.toastui-editor-contents p').attr("style", "color:#fff!important");
             $('.menu-container').addClass("dark-mode");
             $('.header').addClass("dark-mode");
             $('.select-type').addClass("dark-mode");
@@ -378,9 +378,9 @@ const Post = () => {
                             <ViewerContainer>
                                 <Viewer initialValue={item?.main_note ?? `<body></body>`} />
                             </ViewerContainer>
-                            <TwoButtonContainer style={{color:`${localStorage.getItem('dark_mode')?'#222':'#fff'}`}}>
-                                <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>매출액</div>
-                                <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto' }}>영업이익</div>
+                            <TwoButtonContainer style={{ color: `${localStorage.getItem('dark_mode') ? '#222' : '#fff'}` }}>
+                                <div onClick={() => setTypeNum(0)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 0 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto', color: '#2c2c2c' }}>매출액</div>
+                                <div onClick={() => setTypeNum(1)} style={{ width: '49%', borderRadius: '20px', textAlign: 'center', background: `${typeNum == 1 ? '#fff' : '#E4E4E4'}`, padding: '12px 0', margin: 'auto', color: '#2c2c2c' }}>영업이익</div>
                             </TwoButtonContainer>
                             <div style={{ display: 'flex', maxWidth: '500px', width: '100%', margin: '16px auto', overflowX: 'auto' }}>
                                 {typeNum == 0 ?
