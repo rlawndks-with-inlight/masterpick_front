@@ -33,7 +33,8 @@ width:90%;
 max-width:700px;
 margin:0 auto;
 margin-bottom:20px;
-font-size:${(props) => props.theme.size.font5};
+font-size:${(props) => props.theme.size.font3};
+font-weight:bold;
 `
 const Progress = styled.progress`
 

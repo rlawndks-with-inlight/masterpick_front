@@ -49,12 +49,12 @@ const SubscriptionOnly = () => {
         <>
             <Wrappers className='wrappers'>
                 <MasterSlide onClickMaster={onClickMaster} schema={'master_subscribe'} num={typeNum} width={'90%'} is_subscribe={true} status={1} />
-                <div className='subtype-container' style={{ display: 'flex', width: '90%', margin: '8px auto', alignItems: 'center', fontSize: theme.size.font3, fontWeight: 'bold' }} >
+                {/* <div className='subtype-container' style={{ display: 'flex', width: '90%', margin: '8px auto', alignItems: 'center', fontSize: theme.size.font3, fontWeight: 'bold' }} >
                     <div style={{ padding: '5px', background: theme.color.background1, marginRight: '4px' }}></div>
                     <div style={{ marginRight: '4px' }}>매수, 매도는 기준가에서</div>
                     <div style={{ color: '#ff0000', marginRight: '4px' }}>±3%</div>
                     <div>이내 권장</div>
-                </div>
+                </div> */}
                 {loading ?
                     <>
                         <Loading />

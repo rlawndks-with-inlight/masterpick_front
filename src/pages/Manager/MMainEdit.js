@@ -65,6 +65,8 @@ const MMainEdit = () => {
     const [content1, setContent1] = useState(undefined)
     const [url2, setUrl2] = useState('')
     const [content2, setContent2] = useState(undefined)
+    const [url3, setUrl3] = useState('')
+    const [content3, setContent3] = useState(undefined)
     const [setting, setSetting] = useState({});
     const [formData] = useState(new FormData())
     const [noteFormData] = useState(new FormData());
@@ -95,10 +97,12 @@ const MMainEdit = () => {
             setUrl('')
             setUrl1('')
             setUrl2('')
+            setUrl3('')
             setHeaderContent(undefined)
             setContent(undefined)
             setContent1(undefined)
             setContent2(undefined)
+            setContent3(undefined)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
             setBestMasterList(masterResponse.data);
             setBestMasterNum(masterResponse.data[0].pk)
@@ -146,6 +150,7 @@ const MMainEdit = () => {
                 setUrl(backUrl + response.data.main_img);
                 setUrl1(backUrl + response.data.recommendation_banner_img);
                 setUrl2(backUrl + response.data.banner_img);
+                setUrl3(backUrl + response.data.yield_banner_img);
             }
         }
         $('div.toastui-editor-defaultUI-toolbar > div:nth-child(4)').append(`<button type="button" class='emoji' aria-label='이모티콘' style='font-size:18px;'>🙂</button>`);
@@ -207,7 +212,7 @@ const MMainEdit = () => {
             if (params.category == 'best_master_yield_list') formData.append('best_master_yield_list', JSON.stringify(best_obj));
             if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));
             if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_obj));
-            if (params.category == 'banner_img') { formData.append('banner', content2); formData.append('recommendation_banner', content1) };
+            if (params.category == 'banner_img') { formData.append('banner', content2); formData.append('recommendation_banner', content1);formData.append('yield_banner', content3) };
 
             const { data: response } = await axios.post('/api/editmaincontent', formData)
             if (response.result > 0) {
@@ -263,6 +268,12 @@ const MMainEdit = () => {
             setUrl2(URL.createObjectURL(e.target.files[0]))
         }
     };
+    const addFile3 = (e) => {
+        if (e.target.files[0]) {
+            setContent3(e.target.files[0]);
+            setUrl3(URL.createObjectURL(e.target.files[0]))
+        }
+    };
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const onEmojiClick = (event, emojiObject) => {
         setChosenEmoji(emojiObject);
@@ -293,7 +304,7 @@ const MMainEdit = () => {
                 <ManagerContentWrappers>
                     <Breadcrumb title={'메인페이지'} nickname={myNick} />
                     <Card>
-                    {params.category == 'header_img' ?
+                        {params.category == 'header_img' ?
                             <>
                                 <Row>
                                     <Col>
@@ -384,13 +395,13 @@ const MMainEdit = () => {
                                         ))}
                                         {bestMasterList.map((item, index) => (
                                             <>
-                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center',flexDirection:'column' }}>
+                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center', flexDirection: 'column' }}>
                                                     <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}` }}>노출순서 (음수일시 노출 안함)</div>
-                                                    <Input style={{ margin:'12px auto 6px 24px'}} placeholder='only number' className={`best_master_sequence-${item.pk}`} />
+                                                    <Input style={{ margin: '12px auto 6px 24px' }} placeholder='only number' className={`best_master_sequence-${item.pk}`} />
                                                 </div>
                                             </>
                                         ))}
-                                        
+
                                     </Col>
                                 </Row>
                             </>
@@ -563,6 +574,22 @@ const MMainEdit = () => {
                                         </ImageContainer>
                                         <div>
                                             <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
+                                        </div>
+                                        <Title>수익률 전체보기 배너</Title>
+                                        <ImageContainer for="file4">
+
+                                            {url3 ?
+                                                <>
+                                                    <Img src={url3} alt="#"
+                                                    />
+                                                </>
+                                                :
+                                                <>
+                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                                </>}
+                                        </ImageContainer>
+                                        <div>
+                                            <input type="file" id="file4" onChange={addFile3} style={{ display: 'none' }} />
                                         </div>
                                     </Col>
                                 </Row>

@@ -144,6 +144,7 @@ const Headers = () => {
     async function fetchPost() {
       const { data: response } = await axios.get('/api/getmaincontent')
       setHeaderImg(response.data?.header_img)
+      await localStorage.setItem('main_content',JSON.stringify(response.data??{}));
     }
     fetchPost();
   }, [])

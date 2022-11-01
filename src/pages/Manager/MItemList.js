@@ -77,9 +77,10 @@ const MItemList = () => {
     const changePage = async (num) => {
         setLoading(true)
         setPage(num)
+        let keyword = $('.search').val();
         let str = '';
         str = `/api/items?table=${params.table}&page=${num}`
-        str += `&page_cut=${parseInt($('.page-cut').val())}`;
+        str += `&page_cut=${parseInt($('.page-cut').val())}&keyword=${keyword}`;
         if(params.table=='master_subscribe'){
             str += `&master_pk=${params.pk}`
         }
@@ -194,8 +195,8 @@ const MItemList = () => {
                         <OptionCardWrappers>
                             <Row>
                                 <SearchContainer>
-                                    <Input style={{ margin: '12px 0 12px 24px', border: 'none' }} className='search' placeholder='두 글자 이상 입력해주세요.' />
-                                    <AiOutlineSearch className='search-button' style={{ padding: '14px', cursor: 'pointer' }} />
+                                <Input style={{ margin: '12px 0 12px 24px', border: 'none' }} className='search' placeholder='두 글자 이상 입력해주세요.' onKeyPress={(e)=>{e.key=='Enter'?changePage(1):console.log("")}}/>
+                                    <AiOutlineSearch className='search-button' style={{ padding: '14px', cursor: 'pointer' }} onClick={()=>changePage(1)}/>
                                 </SearchContainer>
                                 <Select className='page-cut' style={{ margin: '12px 24px 12px 24px' }} onChange={onchangeSelectPageCut}>
                                     <option value={15}>15개</option>

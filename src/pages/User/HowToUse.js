@@ -141,11 +141,11 @@ const HowToUse = () => {
                                         </Tr>
                                         {mustReadList && mustReadList.map((item, idx) => (
                                             <>
-                                                <Tr onClick={() => { displayMustRead(idx) }} style={{ background: `${localStorage.getItem('dark_mode') ? '#222' : '#fff'}`}}>
-                                                    <Td style={{ width: '65%' }}>{item.title}</Td>
+                                                <Tr onClick={() => { displayMustRead(idx) }} style={{ background: `${localStorage.getItem('dark_mode') ? '#222' : '#fff'}` }}>
+                                                    <Td style={{ width: '65%', textAlign: 'left',paddingLeft:'8px' }}>{item.title}</Td>
                                                     <Td style={{ width: '35%' }}>{item.date.substring(0, 10)}</Td>
                                                 </Tr>
-                                                <ViewerContainer style={{ width: '90%', maxWidth: '900px', display: item.display, background: `${localStorage.getItem('dark_mode') ? '#222' : theme.color.background3}`}}>
+                                                <ViewerContainer style={{ width: '90%', maxWidth: '900px', display: item.display, background: `${localStorage.getItem('dark_mode') ? '#222' : theme.color.background3}` }}>
                                                     <Viewer initialValue={item?.note ?? `<body></body>`} />
                                                 </ViewerContainer>
                                             </>
