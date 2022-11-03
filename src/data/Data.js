@@ -20,12 +20,18 @@ import weather3 from '../assets/images/icon/weather3.svg';
 import weather4 from '../assets/images/icon/weather4.svg';
 import weather5 from '../assets/images/icon/weather5.svg';
 import { EditorState } from "draft-js"
+
+export const frontUrl = "https://masterpick.co.kr";
 export const backUrl = "https://masterpick.co.kr:8443";
 export const logoSrc = logo;
 //http://masterpick.com:8001
 export const editorState = {
     editorState: EditorState.createEmpty()
 }
+export const KAKAO_CLIENT_ID = "b68ba786ac0334d8a70ffc768ee9a590";
+export const KAKAO_REDIRECT_URI =  `${frontUrl}/oauth/callback/kakao`;
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+
 export const zWeather = [
     { icon: weather1, name: '맑음: 강력매수' },
     { icon: weather2, name: '구름 조금: 매수' },

@@ -17,6 +17,7 @@ import EditMyInfo from '../pages/User/Auth/EditMyInfo';
 import FindMyInfo from '../pages/User/Auth/FindMyInfo';
 import SignUp from '../pages/User/Auth/SignUp';
 import Resign from '../pages/User/Auth/Resign';
+import KakaoRedirectHandler from '../pages/User/Auth/KakaoRedirectHandler';
 
 import OneEventList from '../pages/User/OneEvent/OneEventList';
 import OneWordList from '../pages/User/OneWord/OneWordList';
@@ -81,6 +82,7 @@ const zRoute = [
     { link: '/findmyinfo', element: <FindMyInfo />, title: "아이디/비밀번호 찾기" },
     { link: '/signup', element: <SignUp />, title: "회원가입" },
     { link: '/resign', element: <Resign />, title: "회원탈퇴" },
+    { link: '/oauth/callback/kakao', element: <KakaoRedirectHandler />, title: "" },
 
     { link: '/post/notice/:pk', element: <Notice />, title: "" },
     { link: '/post/:table/:pk', element: <Post />, title: "" },

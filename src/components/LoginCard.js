@@ -10,6 +10,7 @@ import naver from '../assets/images/icon/naver.png'
 import apple from '../assets/images/icon/apple.png'
 import appleDark from '../assets/images/icon/apple-dark.png'
 import { WrapperForm, CategoryName, Input, Button, FlexBox, SnsLogo } from './elements/AuthContentTemplete';
+import { KAKAO_AUTH_URL } from '../data/Data';
 
 const LoginCard = () => {
     const navigate = useNavigate();
@@ -110,7 +111,11 @@ const LoginCard = () => {
                 await onLoginBySns(obj.data);
             });
         } else {
-            alert('웹뷰가 아닙니다.');
+            if(num==1){
+                window.location.href = KAKAO_AUTH_URL
+            }else{
+                alert('준비중입니다.');
+            }
         }
     }
     return (
