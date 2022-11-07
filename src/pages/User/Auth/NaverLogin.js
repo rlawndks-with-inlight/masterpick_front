@@ -5,7 +5,7 @@ const NaverLoginButton = (props) => {
     const { onLoginBySns, snsLogin } = props;
 
     const NAVER_CLIENT_ID = 'JnMCDdLSuGCwAxCW8BiF'
-    const NAVER_CALLBACK_URL = 'http://localhost:3000/login'
+    const NAVER_CALLBACK_URL = 'https://masterpick.co.kr/login'
 
     const onNaverLogin = (obj) =>{
         let objs = {
