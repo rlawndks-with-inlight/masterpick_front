@@ -11,6 +11,7 @@ import apple from '../assets/images/icon/apple.png'
 import appleDark from '../assets/images/icon/apple-dark.png'
 import { WrapperForm, CategoryName, Input, Button, FlexBox, SnsLogo } from './elements/AuthContentTemplete';
 import { KAKAO_AUTH_URL } from '../data/Data';
+import NaverLoginButton from '../pages/User/Auth/NaverLogin';
 
 const LoginCard = () => {
     const navigate = useNavigate();
@@ -92,6 +93,17 @@ const LoginCard = () => {
             if (response.result <= 50) {//신규유저
                 navigate('/signup', { state: { id: objs.id, typeNum: objs.typeNum, profile_img: objs.profile_img, name: objs.name } })
             } else {
+                let params = {
+                    'login_type': objs.typeNum,
+                    'id': objs.id
+                }
+                if (window && window.flutter_inappwebview) {
+                    await window.flutter_inappwebview.callHandler('native_app_login', JSON.stringify(params)).then(async function (result) {
+                        //result = "{'code':100, 'message':'success', 'data':{'login_type':1, 'id': 1000000}}"
+                        // JSON.parse(result)
+                        let obj = JSON.parse(result);
+                    });
+                }
                 await localStorage.setItem('auth', JSON.stringify(response.data));
                 navigate('/mypage');
             }
@@ -138,7 +150,7 @@ const LoginCard = () => {
                 <CategoryName style={{ marginTop: '36px' }}>SNS 간편 로그인</CategoryName>
                 <FlexBox>
                     <SnsLogo src={kakao} onClick={() => snsLogin(1)} />
-                    <SnsLogo src={naver} onClick={() => snsLogin(2)} />
+                    <NaverLoginButton snsLogin={snsLogin} onLoginBySns={onLoginBySns}/>
                     {localStorage.getItem('is_ios') ?
                         <>
                             {isWebView ?
