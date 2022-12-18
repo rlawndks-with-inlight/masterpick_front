@@ -61,7 +61,7 @@ const Yield = () => {
         console.log(num)
         if(num==0){
             let main_content = await JSON.parse(localStorage.getItem('main_content')??'{}')
-            setBannerImg(main_content?.yield_banner_img);
+            setBannerImg(main_content?.yield_banner_img?(backUrl+main_content?.yield_banner_img):'');
         }else{
             setBannerImg(response?.data?.master?.yield_banner?(backUrl+response?.data?.master?.yield_banner):'');
         }
@@ -80,7 +80,7 @@ const Yield = () => {
                     <>
                     {bannerImg?
                     <>
-                        <img src={backUrl + bannerImg} alt="#" style={{ width: '90%', maxWidth: '900px', margin: '16px auto' }}/> 
+                        <img src={bannerImg} alt="#" style={{ width: '90%', maxWidth: '900px', margin: '16px auto' }}/> 
                     </>
                     :
                     <>
