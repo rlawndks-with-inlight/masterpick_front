@@ -81,13 +81,8 @@ const MLoginCard = () => {
                 { withCredentials: true });
             if (response.user_level >= 40) {
                 localStorage.setItem('auth', JSON.stringify(response))
-                navigate('/manager/list/user');
-            } else if (response.user_level >= 30) {
-                localStorage.setItem('auth', JSON.stringify(response))
-                navigate('/manager/list/strategy');
-            } else {
-                localStorage.removeItem('auth')
-            }
+                window.location.href = '/manager/list/user';
+            } 
         }
         isAdmin();
 
@@ -103,12 +98,9 @@ const MLoginCard = () => {
             await localStorage.setItem('auth', JSON.stringify(response.data));
             if (response.data?.user_level >= 40) {
                 alert(response.message);
-                navigate('/manager/list/user');
+                window.location.href = '/manager/list/user';
 
-            } else if (response.data?.user_level >= 30) {
-                alert(response.message);
-                navigate('/manager/list/strategy');
-            }else{
+            } else{
                 alert("아이디 또는 비밀번호를 확인해주세요.");
                 navigate("/")
             }

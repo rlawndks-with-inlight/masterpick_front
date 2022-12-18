@@ -116,6 +116,7 @@ const MMainEdit = () => {
             let best_obj = JSON.parse(response.data.best_master_yield_list);
             for (var i = 0; i < Object.keys(best_obj).length; i++) {
                 $(`.best_master_yield-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield)
+                $(`.best_master_yield_motto-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield_motto)
                 $(`.best_master_yield_title-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_yield_title)
                 $(`.best_master_sequence-${Object.keys(best_obj)[i]}`).val(best_obj[Object.keys(best_obj)[i]]?.best_master_sequence)
             }
@@ -173,6 +174,7 @@ const MMainEdit = () => {
                 best_master_yield_title: $(`.best_master_yield_title-${bestMasterList[i].pk}`).val(),
                 best_master_sequence: $(`.best_master_sequence-${bestMasterList[i].pk}`).val(),
                 best_master_yield: $(`.best_master_yield-${bestMasterList[i].pk}`).val(),
+                best_master_yield_motto: $(`.best_master_yield_motto-${bestMasterList[i].pk}`).val(),
             }
         }
         let obj = {};
@@ -212,7 +214,7 @@ const MMainEdit = () => {
             if (params.category == 'best_master_yield_list') formData.append('best_master_yield_list', JSON.stringify(best_obj));
             if (params.category == 'recommendation_list') formData.append('recommendation_list', JSON.stringify(obj));
             if (params.category == 'best_list') formData.append('best_list', JSON.stringify(sector_obj));
-            if (params.category == 'banner_img') { formData.append('banner', content2); formData.append('recommendation_banner', content1);formData.append('yield_banner', content3) };
+            if (params.category == 'banner_img') { formData.append('banner', content2); formData.append('recommendation_banner', content1); formData.append('yield_banner', content3) };
 
             const { data: response } = await axios.post('/api/editmaincontent', formData)
             if (response.result > 0) {
@@ -299,318 +301,323 @@ const MMainEdit = () => {
 
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
-                    <Breadcrumb title={'메인페이지'} nickname={myNick} />
-                    <Card>
-                        {params.category == 'header_img' ?
-                            <>
-                                <Row>
-                                    <Col>
-                                        <Title>헤더 배너</Title>
-                                        <ImageContainer for="file0">
 
-                                            {headerUrl ?
-                                                <>
-                                                    <Img src={headerUrl} alt="#"
-                                                    />
-                                                </>
-                                                :
-                                                <>
-                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                </>}
-                                        </ImageContainer>
-                                        <div>
-                                            <input type="file" id="file0" onChange={addHeaderFile} style={{ display: 'none' }} />
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </>
-                            :
-                            <>
-                            </>}
-                        {params.category == 'main_img' ?
-                            <>
-                                <Row>
-                                    <Col>
-                                        <Title>메인 배너</Title>
-                                        <ImageContainer for="file1">
+            <Breadcrumb title={'메인페이지'} nickname={myNick} />
+            <Card>
+                {params.category == 'header_img' ?
+                    <>
+                        <Row>
+                            <Col>
+                                <Title>헤더 배너</Title>
+                                <ImageContainer for="file0">
 
-                                            {url ?
-                                                <>
-                                                    <Img src={url} alt="#"
-                                                    />
-                                                </>
-                                                :
-                                                <>
-                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                </>}
-                                        </ImageContainer>
-                                        <div>
-                                            <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </>
-                            :
-                            <>
-                            </>}
-                        {params.category == 'best_master_yield_list' ?
-                            <>
-                                <Row>
-                                    <Col>
-                                        <Title>BEST 투자대가 </Title>
-                                        <SlideContainer>
-                                            <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
-                                                {bestMasterList.map((item, index) => (
-                                                    <>
-                                                        <SubType style={{ color: `${theme.color.font1}`, background: `${bestMasterNum == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickBestMaster(item.pk) }}>
-                                                            {item.name}
-                                                        </SubType>
-                                                    </>
-                                                ))}
-                                            </SelectSubType>
-                                        </SlideContainer>
-                                        <img src={bestMasterImg} style={{ margin: '12px auto 6px 24px', height: '84px', width: 'auto' }} />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
+                                    {headerUrl ?
+                                        <>
+                                            <Img src={headerUrl} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file0" onChange={addHeaderFile} style={{ display: 'none' }} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <>
+                    </>}
+                {params.category == 'main_img' ?
+                    <>
+                        <Row>
+                            <Col>
+                                <Title>메인 배너</Title>
+                                <ImageContainer for="file1">
+
+                                    {url ?
+                                        <>
+                                            <Img src={url} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <>
+                    </>}
+                {params.category == 'best_master_yield_list' ?
+                    <>
+                        <Row>
+                            <Col>
+                                <Title>BEST 투자대가 </Title>
+                                <SlideContainer>
+                                    <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
                                         {bestMasterList.map((item, index) => (
                                             <>
-                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
-                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>텍스트</div>
-                                                    <Input style={{ margin: '12px auto 6px 6px' }} placeholder='10월 누적 수익률' className={`best_master_yield_title-${item.pk}`} />
-                                                </div>
+                                                <SubType style={{ color: `${theme.color.font1}`, background: `${bestMasterNum == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickBestMaster(item.pk) }}>
+                                                    {item.name}
+                                                </SubType>
                                             </>
                                         ))}
-                                        {bestMasterList.map((item, index) => (
-                                            <>
-                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
-                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>수익률</div>
-                                                    <Input style={{ margin: '12px auto 6px 6px' }} placeholder='only number' className={`best_master_yield-${item.pk}`} />
-                                                </div>
-                                            </>
-                                        ))}
-                                        {bestMasterList.map((item, index) => (
-                                            <>
-                                                <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center', flexDirection: 'column' }}>
-                                                    <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}` }}>노출순서 (음수일시 노출 안함)</div>
-                                                    <Input style={{ margin: '12px auto 6px 24px' }} placeholder='only number' className={`best_master_sequence-${item.pk}`} />
-                                                </div>
-                                            </>
-                                        ))}
-
-                                    </Col>
-                                </Row>
-                            </>
-                            :
-                            <>
-                            </>}
-                        {params.category == 'recommendation_list' ?
-                            <>
-                                <Row>
-                                    <Col>
-                                        <Title>거장 추천종목</Title>
-                                        <SlideContainer>
-                                            <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
-                                                {masterList.map((item, index) => (
-                                                    <>
-                                                        <SubType style={{ color: `${theme.color.font1}`, background: `${masterNum == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster(item.pk) }}>
-                                                            {item.name}
-                                                        </SubType>
-                                                    </>
-                                                ))}
-                                            </SelectSubType>
-                                        </SlideContainer>
-                                        <img src={masterImg} style={{ margin: '12px auto 6px 24px', height: '84px', width: 'auto' }} />
-
-                                    </Col>
-                                </Row>
-                                {masterList.map((item, index) => (
+                                    </SelectSubType>
+                                </SlideContainer>
+                                <img src={bestMasterImg} style={{ margin: '12px auto 6px 24px', height: '84px', width: 'auto' }} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                {bestMasterList.map((item, index) => (
                                     <>
-                                        <div style={{ display: `${item.pk == masterNum ? 'block' : 'none'}` }}>
-
-                                            <Row>
-                                                <Col>
-                                                    <Title>종목명</Title>
-                                                    <Input className={`name-${item.pk}`} />
-                                                </Col>
-                                                <Col>
-                                                    <Title>종목설명</Title>
-                                                    <Input className={`note-${item.pk}`} />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <Title>추천가</Title>
-                                                    <Input placeholder='only number' className={`recommend_price-${item.pk}`} />
-                                                </Col>
-                                                <Col>
-                                                    <Title>현재가</Title>
-                                                    <Input placeholder='only number' className={`current_price-${item.pk}`} />
-                                                </Col>
-                                                <Col>
-                                                    <Title>현재수익률</Title>
-                                                    <Input placeholder='only number' className={`yield-${item.pk}`} />
-                                                </Col>
-                                            </Row>
-
+                                        <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
+                                            <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>텍스트</div>
+                                            <Input style={{ margin: '12px auto 6px 6px' }} placeholder='10월 누적 수익률' className={`best_master_yield_title-${item.pk}`} />
                                         </div>
                                     </>
                                 ))}
-                            </>
-                            :
-                            <>
-                            </>}
-                        {params.category == 'best_list' ?
-                            <>
-                                <Row>
-                                    <Col>
-                                        <Title>주/월간 BEST 수익률 </Title>
-                                        <SlideContainer>
-                                            <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
+                                {bestMasterList.map((item, index) => (
+                                    <>
+                                        <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
+                                            <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>수익률</div>
+                                            <Input style={{ margin: '12px auto 6px 6px' }} placeholder='only number' className={`best_master_yield-${item.pk}`} />
+                                        </div>
+                                    </>
+                                ))}
+                                {bestMasterList.map((item, index) => (
+                                    <>
+                                        <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center' }}>
+                                            <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}`, width: '54px' }}>좌우명</div>
+                                            <Input style={{ margin: '12px auto 6px 6px' }} placeholder='좌우명을 입력해주세요.' className={`best_master_yield_motto-${item.pk}`} />
+                                        </div>
+                                    </>
+                                ))}
+                                {bestMasterList.map((item, index) => (
+                                    <>
+                                        <div style={{ display: `${item.pk == bestMasterNum ? 'flex' : 'none'}`, alignItems: 'center', flexDirection: 'column' }}>
+                                            <div style={{ margin: '12px auto 6px 24px', fontSize: `${theme.size.font4}` }}>노출순서 (음수일시 노출 안함)</div>
+                                            <Input style={{ margin: '12px auto 6px 24px' }} placeholder='only number' className={`best_master_sequence-${item.pk}`} />
+                                        </div>
+                                    </>
+                                ))}
 
-                                                <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 0 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(0) }}>
-                                                    {'주'}
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <>
+                    </>}
+                {params.category == 'recommendation_list' ?
+                    <>
+                        <Row>
+                            <Col>
+                                <Title>거장 추천종목</Title>
+                                <SlideContainer>
+                                    <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
+                                        {masterList.map((item, index) => (
+                                            <>
+                                                <SubType style={{ color: `${theme.color.font1}`, background: `${masterNum == item.pk ? theme.color.background2 : theme.color.background3}` }} onClick={() => { onClickMaster(item.pk) }}>
+                                                    {item.name}
                                                 </SubType>
-                                                <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 1 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(1) }}>
-                                                    {'월'}
-                                                </SubType>
-                                            </SelectSubType>
-                                        </SlideContainer>
+                                            </>
+                                        ))}
+                                    </SelectSubType>
+                                </SlideContainer>
+                                <img src={masterImg} style={{ margin: '12px auto 6px 24px', height: '84px', width: 'auto' }} />
 
-                                        <Container style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
-                                            <Table>
-                                                <Tr>
-                                                    <Td>대가명</Td>
-                                                    <Td>종목명</Td>
-                                                    <Td>수익률</Td>
-                                                    <Td>보유기간</Td>
-                                                    <Td style={{ width: '20%' }}>삭제</Td>
-                                                </Tr>
-                                                {sectorList && sectorList.map((item, idx) => (
-                                                    <>
-                                                        <Tr className={`best-tr-${idx}`}>
-                                                            <Td ><SectorInput className={`best-td-1-${idx}`} /></Td>
-                                                            <Td ><SectorInput className={`best-td-2-${idx}`} /> </Td>
-                                                            <Td ><SectorInput className={`best-td-3-${idx}`} placeholder='only number' /> </Td>
-                                                            <Td ><SectorInput className={`best-td-4-${idx}`} placeholder='only number' /> </Td>
-                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.best-tr-${idx}`).css('display', 'none') }} /></Td>
-                                                        </Tr>
-                                                    </>
-                                                ))}
-                                            </Table>
-                                            <SectorAddButton onClick={() => { setSectorList([...sectorList, ...[{}]]) }}>+추가</SectorAddButton>
-                                        </Container>
-
-                                        <Container style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
-                                            <Table>
-                                                <Tr>
-                                                    <Td>대가명</Td>
-                                                    <Td>종목명</Td>
-                                                    <Td>수익률</Td>
-                                                    <Td>보유기간</Td>
-                                                    <Td style={{ width: '20%' }}>삭제</Td>
-                                                </Tr>
-                                                {sectorMonthList && sectorMonthList.map((item, idx) => (
-                                                    <>
-                                                        <Tr className={`best_month-tr-${idx}`}>
-                                                            <Td ><SectorInput className={`best_month-td-1-${idx}`} /></Td>
-                                                            <Td ><SectorInput className={`best_month-td-2-${idx}`} /> </Td>
-                                                            <Td ><SectorInput className={`best_month-td-3-${idx}`} placeholder='only number' /> </Td>
-                                                            <Td ><SectorInput className={`best_month-td-4-${idx}`} placeholder='only number' /> </Td>
-                                                            <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.best-tr-${idx}`).css('display', 'none') }} /></Td>
-                                                        </Tr>
-                                                    </>
-                                                ))}
-                                            </Table>
-                                            <SectorAddButton onClick={() => { setSectorMonthList([...sectorMonthList, ...[{}]]) }}>+추가</SectorAddButton>
-                                        </Container>
-
-                                    </Col>
-
-                                </Row>
-                            </>
-                            :
+                            </Col>
+                        </Row>
+                        {masterList.map((item, index) => (
                             <>
-                            </>}
-                        {params.category == 'banner_img' ?
-                            <>
+                                <div style={{ display: `${item.pk == masterNum ? 'block' : 'none'}` }}>
 
-                                <Row>
-                                    <Col>
+                                    <Row>
                                         <Col>
-                                            <Title>거장추천 배너등록</Title>
-                                            <ImageContainer for="file3">
-
-                                                {url1 ?
-                                                    <>
-                                                        <Img src={url1} alt="#"
-                                                        />
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                    </>}
-                                            </ImageContainer>
-                                            <div>
-                                                <input type="file" id="file3" onChange={addFile1} style={{ display: 'none' }} />
-                                            </div>
+                                            <Title>종목명</Title>
+                                            <Input className={`name-${item.pk}`} />
                                         </Col>
-                                        <Title>투자대가 포트폴리오 배너등록</Title>
-                                        <ImageContainer for="file2">
+                                        <Col>
+                                            <Title>종목설명</Title>
+                                            <Input className={`note-${item.pk}`} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Title>추천가</Title>
+                                            <Input placeholder='only number' className={`recommend_price-${item.pk}`} />
+                                        </Col>
+                                        <Col>
+                                            <Title>현재가</Title>
+                                            <Input placeholder='only number' className={`current_price-${item.pk}`} />
+                                        </Col>
+                                        <Col>
+                                            <Title>현재수익률</Title>
+                                            <Input placeholder='only number' className={`yield-${item.pk}`} />
+                                        </Col>
+                                    </Row>
 
-                                            {url2 ?
-                                                <>
-                                                    <Img src={url2} alt="#"
-                                                    />
-                                                </>
-                                                :
-                                                <>
-                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                </>}
-                                        </ImageContainer>
-                                        <div>
-                                            <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
-                                        </div>
-                                        <Title>수익률 전체보기 배너</Title>
-                                        <ImageContainer for="file4">
-
-                                            {url3 ?
-                                                <>
-                                                    <Img src={url3} alt="#"
-                                                    />
-                                                </>
-                                                :
-                                                <>
-                                                    <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                                </>}
-                                        </ImageContainer>
-                                        <div>
-                                            <input type="file" id="file4" onChange={addFile3} style={{ display: 'none' }} />
-                                        </div>
-                                    </Col>
-                                </Row>
+                                </div>
                             </>
-                            :
-                            <>
-                            </>}
-                        {/* <Row>
+                        ))}
+                    </>
+                    :
+                    <>
+                    </>}
+                {params.category == 'best_list' ?
+                    <>
+                        <Row>
+                            <Col>
+                                <Title>주/월간 BEST 수익률 </Title>
+                                <SlideContainer>
+                                    <SelectSubType className='subtype-container' style={{ marginBottom: '16px' }}>
+
+                                        <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 0 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(0) }}>
+                                            {'주'}
+                                        </SubType>
+                                        <SubType style={{ color: `${theme.color.font1}`, background: `${dayType == 1 ? theme.color.background2 : theme.color.background3}`, width: '36px', minWidth: '36px' }} onClick={() => { setDayType(1) }}>
+                                            {'월'}
+                                        </SubType>
+                                    </SelectSubType>
+                                </SlideContainer>
+
+                                <Container style={{ display: `${dayType == 0 ? '' : 'none'}` }}>
+                                    <Table>
+                                        <Tr>
+                                            <Td>대가명</Td>
+                                            <Td>종목명</Td>
+                                            <Td>수익률</Td>
+                                            <Td>보유기간</Td>
+                                            <Td style={{ width: '20%' }}>삭제</Td>
+                                        </Tr>
+                                        {sectorList && sectorList.map((item, idx) => (
+                                            <>
+                                                <Tr className={`best-tr-${idx}`}>
+                                                    <Td ><SectorInput className={`best-td-1-${idx}`} /></Td>
+                                                    <Td ><SectorInput className={`best-td-2-${idx}`} /> </Td>
+                                                    <Td ><SectorInput className={`best-td-3-${idx}`} placeholder='only number' /> </Td>
+                                                    <Td ><SectorInput className={`best-td-4-${idx}`} placeholder='only number' /> </Td>
+                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.best-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                </Tr>
+                                            </>
+                                        ))}
+                                    </Table>
+                                    <SectorAddButton onClick={() => { setSectorList([...sectorList, ...[{}]]) }}>+추가</SectorAddButton>
+                                </Container>
+
+                                <Container style={{ display: `${dayType == 1 ? '' : 'none'}` }}>
+                                    <Table>
+                                        <Tr>
+                                            <Td>대가명</Td>
+                                            <Td>종목명</Td>
+                                            <Td>수익률</Td>
+                                            <Td>보유기간</Td>
+                                            <Td style={{ width: '20%' }}>삭제</Td>
+                                        </Tr>
+                                        {sectorMonthList && sectorMonthList.map((item, idx) => (
+                                            <>
+                                                <Tr className={`best_month-tr-${idx}`}>
+                                                    <Td ><SectorInput className={`best_month-td-1-${idx}`} /></Td>
+                                                    <Td ><SectorInput className={`best_month-td-2-${idx}`} /> </Td>
+                                                    <Td ><SectorInput className={`best_month-td-3-${idx}`} placeholder='only number' /> </Td>
+                                                    <Td ><SectorInput className={`best_month-td-4-${idx}`} placeholder='only number' /> </Td>
+                                                    <Td style={{ width: '20%' }}><RiDeleteBinLine style={{ cursor: 'pointer' }} onClick={() => { $(`.best-tr-${idx}`).css('display', 'none') }} /></Td>
+                                                </Tr>
+                                            </>
+                                        ))}
+                                    </Table>
+                                    <SectorAddButton onClick={() => { setSectorMonthList([...sectorMonthList, ...[{}]]) }}>+추가</SectorAddButton>
+                                </Container>
+
+                            </Col>
+
+                        </Row>
+                    </>
+                    :
+                    <>
+                    </>}
+                {params.category == 'banner_img' ?
+                    <>
+
+                        <Row>
+                            <Col>
+                                <Col>
+                                    <Title>거장추천 배너등록</Title>
+                                    <ImageContainer for="file3">
+
+                                        {url1 ?
+                                            <>
+                                                <Img src={url1} alt="#"
+                                                />
+                                            </>
+                                            :
+                                            <>
+                                                <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                            </>}
+                                    </ImageContainer>
+                                    <div>
+                                        <input type="file" id="file3" onChange={addFile1} style={{ display: 'none' }} />
+                                    </div>
+                                </Col>
+                                <Title>투자대가 포트폴리오 배너등록</Title>
+                                <ImageContainer for="file2">
+
+                                    {url2 ?
+                                        <>
+                                            <Img src={url2} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file2" onChange={addFile2} style={{ display: 'none' }} />
+                                </div>
+                                <Title>수익률 전체보기 배너</Title>
+                                <ImageContainer for="file4">
+
+                                    {url3 ?
+                                        <>
+                                            <Img src={url3} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file4" onChange={addFile3} style={{ display: 'none' }} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <>
+                    </>}
+                {/* <Row>
                             <Col>
                                 <Title>투자대가 TOP PICK 배너 </Title>
                             </Col>
                         </Row> */}
 
 
-                    </Card>
-                    <ButtonContainer>
-                        <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
-                        <AddButton onClick={editSetting}>{'저장'}</AddButton>
-                    </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+            </Card>
+            <ButtonContainer>
+                <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
+                <AddButton onClick={editSetting}>{'저장'}</AddButton>
+            </ButtonContainer>
+
         </>
     )
 }

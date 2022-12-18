@@ -69,9 +69,9 @@ margin:auto;
 const BottomContent = styled.div` 
 display: flex;
 flex-direction: column;
-margin-top: auto;
+margin-top: 4px;
 `
-const MasterCard = (props) => {
+const ThemeCard = (props) => {
     const { data } = props;
     const navigate = useNavigate();
     const addSubscribeMaster = async () => {
@@ -102,10 +102,10 @@ const MasterCard = (props) => {
 
                 <TextContainer>
                     <Title>{data?.name ?? ""}</Title>
-                    <Title style={{fontSize:theme.size.font3,margin:'auto 0'}}> {data?.motto ?? ""}</Title>
+                    <Title style={{fontSize:theme.size.font3,margin:'8px 0'}}> {data?.yield_motto ?? ""}</Title>
                     <BottomContent>
                         <Hash>
-                            <p style={{marginRight:'4px'}}>{data.yield_title}</p> <p style={{color:'#FB0000',marginLeft:'4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
+                            <p style={{margin:'8px 4px 8px 0'}}>{data.yield_title}</p> <p style={{color:'#FB0000',margin:'8px 0 8px 4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
                         </Hash>
                         <div style={{ display: 'flex', margin: '0 auto' }}>
                             <SubType style={{ background: theme.color.background2 }} onClick={()=>navigate(`/master/${data.pk}`)}>투자전략</SubType>
@@ -117,4 +117,4 @@ const MasterCard = (props) => {
         </>
     )
 }
-export default MasterCard;
+export default ThemeCard;

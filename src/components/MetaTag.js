@@ -3,15 +3,21 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { zRoute } from '../routes/route';
+import { zManagerRoute, zUserRoute } from '../routes/route';
 const MetaTag = props => {
     const [title, setTitle] = useState("");
     const { pathname } = useLocation();
     useEffect(() => {
-        for (var i = 0; i < zRoute.length; i++) {
-            if (pathname.includes(zRoute[i].link.replace(":pk", "")) && zRoute[i].link != "/") {
-                console.log(zRoute[i])
-                setTitle("masterpick - " + zRoute[i].title)
+        for (var i = 0; i < zManagerRoute.length; i++) {
+            if (pathname.includes(zManagerRoute[i].link.replace(":pk", "")) && zManagerRoute[i].link != "/") {
+                console.log(zManagerRoute[i])
+                setTitle("masterpick - " + zManagerRoute[i].title)
+            }
+        }
+        for (var i = 0; i < zUserRoute.length; i++) {
+            if (pathname.includes(zUserRoute[i].link.replace(":pk", "")) && zUserRoute[i].link != "/") {
+                console.log(zUserRoute[i])
+                setTitle("masterpick - " + zUserRoute[i].title)
             }
         }
         if (pathname == "/") {

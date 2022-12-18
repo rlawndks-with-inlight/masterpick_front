@@ -144,9 +144,9 @@ const Master = () => {
                                     {sectorList.map((itm, idx) => (
                                         <>
                                             <div style={{ display: 'flex', marginBottom: '4px' }}>
-                                                <div style={{ color: '#2F2F6E', width: '15%', textAlign: 'end' }}>{itm.title}</div>
+                                                <div style={{ color: '#2F2F6E', width: '35%', textAlign: 'end' }}>{itm.title}</div>
                                                 <div style={{ display: 'flex', alignItems: 'center', width: '10%', textAlign: 'left', marginLeft: '8px' }}>{itm.percent}</div>
-                                                <div style={{ display: 'flex', alignItems: 'center', width: '80%' }}><Progress value={`${itm.percent}`} max={sectorMax} /></div>
+                                                <div style={{ display: 'flex', alignItems: 'center', width: '55%' }}><Progress value={`${itm.percent}`} max={sectorMax} /></div>
                                             </div>
                                         </>
                                     ))}

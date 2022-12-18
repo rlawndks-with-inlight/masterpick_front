@@ -52,7 +52,7 @@ const MasterEvent = () => {
                 desc: true,
                 status: 1
             })
-            setPosts(response.data)
+            setPosts(response?.data?.data)
             setTimeout(() => setLoading(false), 1000);
         }
         fetchPost();
@@ -82,7 +82,7 @@ const MasterEvent = () => {
         }
 
         const { data: response } = await axios.post(`/api/getmastercontents`, obj)
-        setPosts(response.data)
+        setPosts(response?.data?.data)
         setLoading(false);
     }
     return (

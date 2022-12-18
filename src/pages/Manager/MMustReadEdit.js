@@ -92,9 +92,7 @@ const MMustReadEdit = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={objManagerListContent[`must_read`].breadcrumb} nickname={myNick} />
                     <Card>
                         <Row>
@@ -143,8 +141,7 @@ const MMustReadEdit = () => {
                     <ButtonContainer>
                         <AddButton onClick={editItem}>{'저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+             
         </>
     )
 }

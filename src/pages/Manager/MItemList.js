@@ -186,9 +186,7 @@ const MItemList = () => {
     }
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+        
                     <Breadcrumb title={objManagerListContent[`${params.table}`].breadcrumb + '관리'} />
                     <div style={{ overflowX: 'auto' }}>
                         {/* 옵션카드 */}
@@ -239,8 +237,7 @@ const MItemList = () => {
                         </PageContainer>
                         <AddButton onClick={() => navigate(`/manager/edit/${params.table}/0`)}>+ 추가</AddButton>
                     </MBottomContent>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

@@ -1,10 +1,13 @@
 import React from 'react';
-import { Route} from 'react-router';
-import { zRoute } from './routes/route';
+import { Route } from 'react-router';
+import { zUserRoute, zManagerRoute } from './routes/route';
 export default (
   <Route>
-    {zRoute.map((route, idx) => (
-          <Route path={route.link} />
-      ))}
+    {zUserRoute.map((route, idx) => (
+      <Route path={route.link} />
+    ))}
+    {zManagerRoute.map((route, idx) => (
+      <Route path={route.link} />
+    ))}
   </Route>
 );

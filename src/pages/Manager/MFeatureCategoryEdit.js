@@ -73,9 +73,7 @@ const MFeatureCategoryEdit = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={`특징주 카테고리 ${params.pk > 0 ? '수정' : '추가'}`} nickname={myNick} />
                     <Card>
 
@@ -119,8 +117,7 @@ const MFeatureCategoryEdit = () => {
                     <ButtonContainer>
                         <AddButton onClick={editItem}>{'저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

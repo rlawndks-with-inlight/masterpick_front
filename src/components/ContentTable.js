@@ -6,6 +6,7 @@ import { backUrl } from "../data/Data";
 import AddButton from "./elements/button/AddButton";
 import theme from "../styles/theme";
 import { Table, Tr, Td } from "./elements/UserContentTemplete";
+import { useEffect } from "react";
 
 const ContentTable = (props) => {
     const navigate = useNavigate();
@@ -15,6 +16,9 @@ const ContentTable = (props) => {
             navigate(str)
         }
     }
+    useEffect(()=>{
+
+    },[data])
     const deleteItem = async (pk, schema, cha) => {
         if (window.confirm(`정말로 ${cha ?? '삭제'}하시겠습니까?`)) {
             let obj = {

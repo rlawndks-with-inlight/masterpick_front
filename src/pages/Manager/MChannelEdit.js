@@ -75,9 +75,7 @@ const MChannelEdit = () => {
     
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={params.pk == 0 ? '채널 추가' : '채널 수정'} nickname={myNick} />
                     <Card>
 
@@ -118,8 +116,7 @@ const MChannelEdit = () => {
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
                         <AddButton onClick={editChannel}>{params.pk == 0 ? '+ 추가' : '수정'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

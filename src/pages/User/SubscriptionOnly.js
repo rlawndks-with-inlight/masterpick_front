@@ -31,7 +31,7 @@ const SubscriptionOnly = () => {
             user_pk: auth_obj?.pk ?? 0,
             pk:num
         })
-        let list = response.data??[];
+        let list = response?.data?.data??[];
         let top_list = [];
         let down_list = [];
         for(var i = 0;i<list.length;i++){

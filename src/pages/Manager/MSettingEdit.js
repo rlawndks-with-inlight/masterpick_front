@@ -114,9 +114,7 @@ const MSettingEdit = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={'필독!활용법'} nickname={myNick} />
                     <Card>
                         {params.category == 'main_img' ?
@@ -230,8 +228,7 @@ const MSettingEdit = () => {
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
                         <AddButton onClick={editSetting}>{setting.main_img ? '수정' : '+ 추가'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

@@ -27,9 +27,8 @@ const Yield = () => {
                 status: 1,
                 desc: true
             })
-            setPosts(response.data);
+            setPosts(response?.data?.data);
             let main_content = await JSON.parse(localStorage.getItem('main_content')??'{}')
-            console.log(main_content)
             setBannerImg(main_content?.yield_banner_img);
             setTimeout(() => setLoading(false), 1000);
         }
@@ -59,7 +58,14 @@ const Yield = () => {
             pk: num
             //overlap_list:overlap_list
         })
-        setPosts(response.data)
+        console.log(num)
+        if(num==0){
+            let main_content = await JSON.parse(localStorage.getItem('main_content')??'{}')
+            setBannerImg(main_content?.yield_banner_img);
+        }else{
+            setBannerImg(response?.data?.master?.yield_banner?(backUrl+response?.data?.master?.yield_banner):'');
+        }
+        setPosts(response?.data?.data)
         setLoading(false);
     }
     return (
@@ -72,8 +78,13 @@ const Yield = () => {
                     </>
                     :
                     <>
-                        <img src={backUrl + bannerImg} alt="#" style={{ width: '90%', maxWidth: '900px', margin: '16px auto', cursor: 'pointer' }}
-                            onClick={() => navigate('/masterlist')} /> 
+                    {bannerImg?
+                    <>
+                        <img src={backUrl + bannerImg} alt="#" style={{ width: '90%', maxWidth: '900px', margin: '16px auto' }}/> 
+                    </>
+                    :
+                    <>
+                    </>}
                         <div style={{ position: 'relative' }}>
                             <ContentTable columns={[
                                 { name: "대가명", column: "master_name", width: "", type: 'text' },
@@ -81,7 +92,7 @@ const Yield = () => {
                                 { name: "매수가", column: "purchase_price", type: 'number' },
                                 // { name: "매도가", column: "sell_price", width: "", type: 'number' },
                                 { name: "수익률", column: "yield", width: "", type: 'percent' },
-                                { name: "매도月", column: "period", width: "", type: 'text' }
+                                { name: "매수月", column: "period", width: "", type: 'text' }
                             ]}
                                 data={posts}
                                 fontSize={'14px'}

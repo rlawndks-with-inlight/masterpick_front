@@ -108,9 +108,7 @@ const MVideoEdit = () => {
     }
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={objManagerListContent[`video`].breadcrumb} nickname={myNick} />
                     <Card>
                         <Row>
@@ -205,8 +203,7 @@ const MVideoEdit = () => {
                     <ButtonContainer>
                         <AddButton onClick={editItem}>{'저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

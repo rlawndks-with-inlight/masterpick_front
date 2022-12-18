@@ -122,6 +122,7 @@ const Home = () => {
                     let master_item = masterResponse.data[i]
                     master_item.yield = best_master_yield_list[master_item.pk].best_master_yield;
                     master_item.yield_title = best_master_yield_list[master_item.pk].best_master_yield_title;
+                    master_item.yield_motto = best_master_yield_list[master_item.pk].best_master_yield_motto;
                     master_item.yield_sequence = best_master_yield_list[master_item.pk].best_master_sequence;
                     master_item.recommend_obj = recommendation_list[master_item.pk];
                     if (parseFloat(master_item.yield) > max_yield) {
@@ -168,6 +169,7 @@ const Home = () => {
         result = result.sort(function (a, b) {
             return parseInt(a.yield_sequence) - parseInt(b.yield_sequence)
         })
+        console.log(result)
         return result;
     }
     const onLoginBySns = async (obj) => {
@@ -212,7 +214,7 @@ const Home = () => {
                                 <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '40%', position: 'relative' }}>
                                     <BestMasterContainer>
                                         <img src={backUrl + bestMasterObj?.profile_img ?? ''} alt="#" style={{ height: '75px', marginRight: '2vw' }} />
-                                        <div style={{ color: '#670D0D' }}>{bestMasterObj?.name ?? ''}</div>
+                                        <div style={{ color: '#670D0D', fontWeight:'bold', fontSize:theme.size.font3 }}>{bestMasterObj?.name ?? ''}</div>
                                     </BestMasterContainer>
                                 </div>
                                 <div style={{ position: 'relative', width: '60%', display: 'flex' }}>
@@ -315,7 +317,7 @@ const Home = () => {
                                 <ContentTable columns={[
                                     { name: "대가명", column: "master_name", width: 25, type: 'text' },
                                     { name: "종목명", column: "name", width: 25, type: 'text' },
-                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000' },
+                                    { name: "수익률", column: "yield", width: 25, type: 'percent', color: '#FB0000',bold:true },
                                     { name: "보유기간", column: "days", width: 25, type: 'text' }
                                 ]}
                                     data={bestMonthList} />

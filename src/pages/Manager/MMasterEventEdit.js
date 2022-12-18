@@ -30,7 +30,7 @@ const MMasterEventEdit = () => {
                     table:'master_event',
                     pk:params.pk
                 });
-                let sector_list = response.data;
+                let sector_list = response?.data?.data;
                 setSectorList(sector_list);
                 await new Promise((r) => setTimeout(r, 100));
                 for (var i = 0; i < sector_list.length; i++) {
@@ -128,9 +128,7 @@ const MMasterEventEdit = () => {
 
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+          
                     <Breadcrumb title={params.pk == 0 ? '거장종목추가' : '거장종목수정'} nickname={myNick} />
                     <Card>
                         <Row>
@@ -165,8 +163,7 @@ const MMasterEventEdit = () => {
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
                         <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

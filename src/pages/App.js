@@ -5,17 +5,15 @@ import Headers from '../common/Headers';
 import BottomMenu from '../common/BottomMenu';
 import Footer from '../common/Footer';
 
-import { zRoute } from '../routes/route';
+import MLogin from './Manager/MLogin';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import MetaTag from '../components/MetaTag';
+import { zManagerRoute, zUserRoute } from '../routes/route';
+import SideBar from '../common/manager/SideBar';
+import ManagerWrappers from '../components/elements/ManagerWrappers';
+import ManagerContentWrappers from '../components/elements/ManagerContentWrappers';
 const App = () => {
-    // useEffect(()=>{
-    //     let str = "";
-    //     for(var i =0 ;i<zRoute.length;i++){
-    //         str += `<url> <loc>https://masterpick.co.kr${zRoute[i].link}</loc> </url>\n`
-    //     }
-    //     console.log(str)
-    // },[])
+
     return (
         <>
             <Router>
@@ -24,19 +22,40 @@ const App = () => {
                 <MetaTag />
                 <>
                     <Routes>
-                        {zRoute.map((route, idx) => (
+                        {zUserRoute.map((route, idx) => (
                             <>
                                 <Route exact key={idx} path={route.link} element={route.element} />
                             </>
                         ))}
 
                     </Routes>
+
                 </>
                 <ScrollToTopButton />
                 <BottomMenu />
                 <Footer />
-
             </Router>
+            <Router>
+                <Routes>
+                    <Route path={'/manager'} element={<MLogin />} />
+                    <Route path={'/manager/login'} element={<MLogin />} />
+                </Routes>
+            </Router>
+            <Router>
+                <ManagerWrappers>
+                    <SideBar />
+                    <ManagerContentWrappers>
+                        <Routes>
+                            {zManagerRoute.map((route, idx) => (
+                                <>
+                                    <Route exact key={idx} path={route.link} element={route.element} />
+                                </>
+                            ))}
+                        </Routes>
+                    </ManagerContentWrappers>
+                </ManagerWrappers>
+            </Router>
+            
         </>
     );
 }

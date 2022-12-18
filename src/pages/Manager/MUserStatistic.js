@@ -22,9 +22,7 @@ const MUserStatistic = () => {
     },[])
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     <Breadcrumb title={'회원 통계'}/>
                     <Card>
                        
@@ -32,8 +30,7 @@ const MUserStatistic = () => {
                     <ButtonContainer>
                         <AddButton>{'저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+               
         </>
     )
 }

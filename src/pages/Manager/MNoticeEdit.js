@@ -125,9 +125,7 @@ const MNoticeEdit = () => {
     // }
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+            
                     <Breadcrumb title={objManagerListContent[`notice`].breadcrumb+`${params.pk>0?'수정':'추가'}`} nickname={myNick} />
                     <Card>
                         <Row>
@@ -192,8 +190,6 @@ const MNoticeEdit = () => {
                         <></>
                     } */}
 
-                </ManagerContentWrappers>
-            </ManagerWrappers>
         </>
     )
 }

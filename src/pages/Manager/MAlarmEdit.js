@@ -113,9 +113,7 @@ const MAlarmEdit = () => {
     }
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+          
                     <Breadcrumb title={objManagerListContent[`alarm`].breadcrumb} nickname={myNick} />
                     <Card>
                         <Row>
@@ -196,9 +194,6 @@ const MAlarmEdit = () => {
                         <AddButton onClick={editItem}>{'저장'}</AddButton>
                     </ButtonContainer>
 
-
-                </ManagerContentWrappers>
-            </ManagerWrappers>
         </>
     )
 }

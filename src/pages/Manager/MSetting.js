@@ -72,19 +72,15 @@ const MSetting = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
-                    <Breadcrumb title={'환경설정'} nickname={myNick} />
-                    <Card>
-                        
-                    </Card>
-                    <ButtonContainer>
-                        <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
-                        <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '수정'}</AddButton>
-                    </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+
+            <Breadcrumb title={'환경설정'} nickname={myNick} />
+            <Card>
+
+            </Card>
+            <ButtonContainer>
+                <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
+                <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '수정'}</AddButton>
+            </ButtonContainer>
         </>
     )
 }

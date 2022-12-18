@@ -251,9 +251,7 @@ const MMasterSubscribeEdit = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+           
                     {loading ?
                         <>
                             <Loading />
@@ -764,8 +762,7 @@ const MMasterSubscribeEdit = () => {
                             </ButtonContainer>
                         </>
                     }
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+             
         </>
     )
 }

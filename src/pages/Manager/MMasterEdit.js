@@ -129,9 +129,7 @@ const MMasterEdit = () => {
 
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+         
                     <Breadcrumb title={params.pk == 0 ? '거장 추가' : '거장 수정'} nickname={myNick} />
                     <Card>
                         {/* <Row>
@@ -318,8 +316,7 @@ const MMasterEdit = () => {
                         <CancelButton onClick={() => navigate(-1)}>x 취소</CancelButton>
                         <AddButton onClick={editMaster}>{params.pk == 0 ? '+ 추가' : '수정'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+              
         </>
     )
 }

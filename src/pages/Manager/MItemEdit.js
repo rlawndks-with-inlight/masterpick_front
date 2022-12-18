@@ -141,9 +141,7 @@ const MItemEdit = () => {
     };
     return (
         <>
-            <ManagerWrappers>
-                <SideBar />
-                <ManagerContentWrappers>
+            
                     <Breadcrumb title={objManagerListContent[`${params.table}`].breadcrumb} nickname={myNick} />
                     <Card>
 
@@ -279,8 +277,7 @@ const MItemEdit = () => {
                     <ButtonContainer>
                         <AddButton onClick={editItem}>{'저장'}</AddButton>
                     </ButtonContainer>
-                </ManagerContentWrappers>
-            </ManagerWrappers>
+          
         </>
     )
 }

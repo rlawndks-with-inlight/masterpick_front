@@ -53,7 +53,7 @@ import MMainEdit from '../pages/Manager/MMainEdit';
 import MUserStatistic from '../pages/Manager/MUserStatistic';
 import MAlarmEdit from '../pages/Manager/MAlarmEdit';
 
-const zRoute = [
+const zUserRoute = [
     { link: '/', element: <Home />, title: "홈" },
     { link: '/home', element: <Home />, title: "홈" },
     { link: '/howtouse', element: <HowToUse />, title: "필독!활용법" },
@@ -86,10 +86,8 @@ const zRoute = [
 
     { link: '/post/notice/:pk', element: <Notice />, title: "" },
     { link: '/post/:table/:pk', element: <Post />, title: "" },
-    //{ link: '/video/:pk', element: <Video />, title:"" },
-
-    { link: '/manager', element: <MLogin />, title: "관리자" },
-    { link: '/manager/login', element: <MLogin />, title: "관리자" },
+]
+const zManagerRoute = [
     { link: '/manager/edit/user/:pk', element: <MUserEdit />, title: "회원관리" },
     { link: '/manager/edit/master/:pk', element: <MMasterEdit />, title: "거장관리" },
     { link: '/manager/eventedit/master/:pk', element: <MMasterEventEdit />, title: "거장관리 / 대가종목관리" },
@@ -110,8 +108,5 @@ const zRoute = [
     { link: '/manager/edit/:table/:pk', element: <MItemEdit />, title: "관리자" },
     { link: '/manager/list/:table/:pk', element: <MItemList />, title: "관리자" },
     { link: '/manager/list/:table', element: <MItemList />, title: "관리자" },
-
-
-    
 ]
-export { zRoute }
+export { zUserRoute, zManagerRoute };

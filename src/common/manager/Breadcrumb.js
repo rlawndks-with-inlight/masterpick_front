@@ -69,11 +69,11 @@ const Breadcrumb = (props) => {
         }
     }, [location])
     const onLogout = async () => {
-        const { data: response } = await axios.post('/api/logout')
+        const { data: response } = await axios.post('/api/logout');
         alert(response.message);
         if (response.result > 0) {
-            localStorage.removeItem('auth')
-            navigate('/manager')
+            localStorage.removeItem('auth');
+            window.location.href = '/manager';
         }
     }
     return (
