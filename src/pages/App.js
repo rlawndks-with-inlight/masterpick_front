@@ -12,6 +12,7 @@ import { zManagerRoute, zUserRoute } from '../routes/route';
 import SideBar from '../common/manager/SideBar';
 import ManagerWrappers from '../components/elements/ManagerWrappers';
 import ManagerContentWrappers from '../components/elements/ManagerContentWrappers';
+import ManagerLayout from '../components/layouts/ManagerLayout';
 const App = () => {
 
     return (
@@ -42,18 +43,7 @@ const App = () => {
                 </Routes>
             </Router>
             <Router>
-                <ManagerWrappers>
-                    <SideBar />
-                    <ManagerContentWrappers>
-                        <Routes>
-                            {zManagerRoute.map((route, idx) => (
-                                <>
-                                    <Route exact key={idx} path={route.link} element={route.element} />
-                                </>
-                            ))}
-                        </Routes>
-                    </ManagerContentWrappers>
-                </ManagerWrappers>
+                <ManagerLayout/>
             </Router>
             
         </>

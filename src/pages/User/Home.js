@@ -99,7 +99,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            setLoading(true)
+            //setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');
@@ -208,7 +208,7 @@ const Home = () => {
                             <img src={backUrl + setting?.main_img} alt="#" style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }} />
                         </Content>
 
-                        <Title>이달의 BEST 수익률</Title>
+                        <Title>대가의 투자 스타일</Title>
                         <Content>
                             <div style={{ display: 'flex', width: '100%', border: '1px solid #D9D9D9' }} onClick={() => navigate(`/yield`)}>
                                 <div style={{ borderRight: '20px solid transparent', borderBottom: `80px solid #FFB92B`, width: '40%', position: 'relative' }}>
