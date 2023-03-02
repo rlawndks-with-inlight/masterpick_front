@@ -99,14 +99,18 @@ const SideBar = () => {
     const [featureCategoryDisplay, setFeatureCategoryDisplay] = useState(false);
 
     const [mainCategoryDisplay, setMainCategoryDisplay] = useState(false)
-    const [settingCategoryDisplay, setSettingCategoryDisplay] = useState(false)
+    const [settingCategoryDisplay, setSettingCategoryDisplay] = useState(false);
+    const [userDisplsy, setUserDisplay] = useState(false);
+    const zUser = [
+        { name: '회원관리', param: '/manager/list/user' },
+        { name: '회원통계', param: '/manager/list/user_statistics' },
+        { name: '결제내역관리', param: '/manager/list/subscribe' },
+    ]
     const zMain = [
-        { name: '헤더 배너', param: 'header_img' },
-        { name: '메인 배너', param: 'main_img' },
-        { name: '이달의 BEST 수익률', param: 'best_master_yield_list' },
-        { name: '대가의 추천종목', param: 'recommendation_list' },
-        { name: '주간/월간 BEST 수익', param: 'best_list' },
         { name: '배너등록', param: 'banner_img' },
+        { name: '대가의종목', param: 'recommendation_list' },
+        { name: '대가 수익률 대회', param: 'best_master_yield_list' },
+        { name: 'BEST 상승 TOP10', param: 'best_list' },
     ]
     const zSetting = [
         { name: '메인 배너', param: '/manager/edit/setting/main_img' },
@@ -137,7 +141,9 @@ const SideBar = () => {
     const onClickMenu = (link) => {
         if (link == '/manager/list/issue') {
             changeIssueCategoryDisplay();
-        } else if (link == '/manager/list/feature') {
+        } else if (link == 'user_onoff') {
+            changeUserDisplay();
+        }else if (link == '/manager/list/feature') {
             changeFeatureCategoryDisplay();
         } else if (link == '/manager/list/master_subscribe') {
             changeMasterDisplay();
@@ -148,6 +154,9 @@ const SideBar = () => {
         } else {
             navigate(link);
         }
+    }
+    const changeUserDisplay = () => {
+        setUserDisplay(!userDisplsy);
     }
     const changeIssueCategoryDisplay = () => {
         setIssueCategoryDisplay(!issueCategoryDisplay);
@@ -181,14 +190,14 @@ const SideBar = () => {
                         <>
                             {['/manager/list/user'].includes(location.pathname) ?
                                 <>
-                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/user`) }}>
+                                    <SelectMenuContent onClick={() => { onClickMenu(`user_onoff`) }}>
                                         <BsPerson />
                                         <MenuText>{'회원관리'}</MenuText>
                                     </SelectMenuContent>
                                 </>
                                 :
                                 <>
-                                    <MenuContent onClick={() => { onClickMenu(`/manager/list/user`) }}>
+                                    <MenuContent onClick={() => { onClickMenu(`user_onoff`) }}>
                                         <BsPerson />
                                         <MenuText>{'회원관리'}</MenuText>
                                     </MenuContent>
@@ -198,22 +207,15 @@ const SideBar = () => {
                         <>
                         </>
                     }
-                    {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
+                    {userDisplsy ?
                         <>
-                            {['/manager/statistic/user'].includes(location.pathname) ?
+                            {zUser.map((item, idx) => (
                                 <>
-                                    <SelectMenuContent onClick={() => { onClickMenu(`/manager/statistic/user`) }}>
-                                        <BsPerson />
-                                        <MenuText>{'회원통계'}</MenuText>
-                                    </SelectMenuContent>
-                                </>
-                                :
-                                <>
-                                    <MenuContent onClick={() => { onClickMenu(`/manager/statistic/user`) }}>
-                                        <BsPerson />
-                                        <MenuText>{'회원통계'}</MenuText>
+                                    <MenuContent key={idx} onClick={() => { navigate(`${item.param}`) }} style={{ color: `${location.pathname == `${item.param}` ? '#000' : ''}` }}>
+                                        <MenuText style={{ marginLeft: '15px' }}>{item.name}</MenuText>
                                     </MenuContent>
-                                </>}
+                                </>
+                            ))}
                         </>
                         :
                         <>
@@ -221,7 +223,7 @@ const SideBar = () => {
                     }
                     {JSON.parse(localStorage.getItem('auth'))?.user_level ?? 0 >= 40 ?
                         <>
-                            {['/manager/edit/main'].includes(location.pathname) ?
+                            {zMain.map(item=>{return `/manager/edit/main/${item.param}`}).includes(location.pathname) ?
                                 <>
                                     <SelectMenuContent onClick={() => { onClickMenu('/manager/edit/main') }}>
                                         <RiPagesLine />
@@ -296,14 +298,14 @@ const SideBar = () => {
                                 <>
                                     <SelectMenuContent onClick={() => { onClickMenu(`/manager/list/master`) }}>
                                         <FaChalkboardTeacher />
-                                        <MenuText>{'거장관리'}</MenuText>
+                                        <MenuText>{'대가관리'}</MenuText>
                                     </SelectMenuContent>
                                 </>
                                 :
                                 <>
                                     <MenuContent onClick={() => { onClickMenu(`/manager/list/master`) }}>
                                         <FaChalkboardTeacher />
-                                        <MenuText>{'거장관리'}</MenuText>
+                                        <MenuText>{'대가관리'}</MenuText>
                                     </MenuContent>
                                 </>}
                         </>

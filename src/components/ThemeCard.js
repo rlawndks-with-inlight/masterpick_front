@@ -81,9 +81,9 @@ const ThemeCard = (props) => {
                     user_pk: JSON.parse(localStorage.getItem('auth'))?.pk,
                     master_pk: data.pk
                 })
-                if(response.result>0){
+                if (response.result > 0) {
                     alert("구독을 완료하였습니다.")
-                }else{
+                } else {
                     alert(response.message);
                 }
             }
@@ -96,19 +96,22 @@ const ThemeCard = (props) => {
     return (
         <>
             <Card>
-                <Img style={{
-                    backgroundImage: `url(${backUrl + data?.profile_img ?? ""})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
-                }} />
+                <TextContainer>
+                    <Img style={{
+                        backgroundImage: `url(${backUrl + data?.profile_img ?? ""})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundBlendMode: 'multiply', borderRadius: '50%'
+                    }} />
+                    <Title>{data?.name ?? ""}</Title>
+                </TextContainer>
+
 
                 <TextContainer>
-                    <Title>{data?.name ?? ""}</Title>
-                    <Title style={{fontSize:theme.size.font3,margin:'8px 0'}}> {data?.yield_motto ?? ""}</Title>
+                    <Title style={{ fontSize: theme.size.font3, margin: '8px 0' }}> {data?.yield_motto ?? ""}</Title>
                     <BottomContent>
                         <Hash>
-                            <p style={{margin:'8px 4px 8px 0'}}>{data.yield_title}</p> <p style={{color:'#FB0000',margin:'8px 0 8px 4px'}}>{parseInt(data.yield)>=0?'+':'-'}{commarNumber(data.yield)}%</p>
+                            <p style={{ margin: '8px 4px 8px 0' }}>{data.yield_title}</p> <p style={{ color: '#FB0000', margin: '8px 0 8px 4px' }}>{parseInt(data.yield) >= 0 ? '+' : '-'}{commarNumber(data.yield)}%</p>
                         </Hash>
                         <div style={{ display: 'flex', margin: '0 auto' }}>
-                            <SubType style={{ background: theme.color.background2 }} onClick={()=>navigate(`/master/${data.pk}`)}>투자전략</SubType>
+                            <SubType style={{ background: theme.color.background2 }} onClick={() => navigate(`/master/${data.pk}`)}>투자전략</SubType>
                             <SubType style={{ background: theme.color.background2 }} onClick={addSubscribeMaster}>가입하기</SubType>
                         </div>
                     </BottomContent>

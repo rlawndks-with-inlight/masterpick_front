@@ -21,6 +21,26 @@ import weather4 from '../assets/images/icon/weather4.svg';
 import weather5 from '../assets/images/icon/weather5.svg';
 import { EditorState } from "draft-js"
 
+export const columnObjFormat = (name, width, type, column) => {
+    return {
+        name: name,
+        width: width,
+        type: type,
+        column: column,
+    }
+}
+export const sidebarObjFormat = (breadcrumb, schema, zColumn, queries, is_edit, is_move, width, if_use_pk) => {
+    return {
+        breadcrumb: breadcrumb,
+        schema: schema,
+        zColumn: zColumn,
+        queries: queries,
+        is_edit: is_edit,
+        is_move: is_move,
+        width: width,
+        if_use_pk: if_use_pk
+    }
+}
 export const frontUrl = "https://masterpick.co.kr";
 export const backUrl = "https://masterpick.co.kr:8443";
 export const logoSrc = logo;
@@ -29,7 +49,7 @@ export const editorState = {
     editorState: EditorState.createEmpty()
 }
 export const KAKAO_CLIENT_ID = "b68ba786ac0334d8a70ffc768ee9a590";
-export const KAKAO_REDIRECT_URI =  `${frontUrl}/oauth/callback/kakao`;
+export const KAKAO_REDIRECT_URI = `${frontUrl}/oauth/callback/kakao`;
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 export const zWeather = [
@@ -71,19 +91,56 @@ export const objManagerListContent = {
             { name: '삭제', width: 6, type: 'delete', column: 'delete' }
         ]
     },
+    user_statistics: sidebarObjFormat(
+        '회원통계',
+        'user_statistics',
+        [
+            columnObjFormat('일자', '', 'text', 'date'),
+            columnObjFormat('가입', '', 'number', 'user_count'),
+            columnObjFormat('방문', '', 'number', 'visit_count'),
+            columnObjFormat('새글', '', 'number', 'post_count'),
+            columnObjFormat('댓글', '', 'number', 'comment_count'),
+            columnObjFormat('페이지뷰', '', 'number', 'views_count'),
+        ],
+    ),
+    subscribe: sidebarObjFormat(
+        '결제 내역 관리',
+        'subscribe',
+        [
+            columnObjFormat('신청번호', '', 'number', 'pk'),
+            columnObjFormat('아이디', '', 'text', 'id'),
+            columnObjFormat('닉네임', '', 'text', 'nickname'),
+            columnObjFormat('유저명', '', 'text', 'user_name'),
+            columnObjFormat('폰번호', '', 'text', 'phone'),
+            columnObjFormat('수강강의', '', 'text', 'title'),
+            columnObjFormat('강사', '', 'text', 'master_nickname'),
+            columnObjFormat('승인금액', '', 'text', 'approve_price'),
+            columnObjFormat('취소금액', '', 'text', 'cancel_price'),
+            columnObjFormat('등록일', '', 'text', 'trade_date'),
+            columnObjFormat('이용기간', '', 'text', 'period'),
+            columnObjFormat('예금주', '', 'text', 'account_holder'),
+            columnObjFormat('은행명', '', 'text', 'bank_name'),
+            columnObjFormat('계좌번호', '', 'text', 'account_number'),
+            columnObjFormat('결제타입', '', 'text', 'type'),
+            columnObjFormat('이용가능여부', '', 'status', 'use_status'),
+            columnObjFormat('취소', '', 'pay_cancel', 'pay_cancel'),
+            columnObjFormat('수정', '', 'pay_edit', 'pay_edit'),
+            columnObjFormat('삭제', '', 'delete', 'delete'),
+        ],
+        ),
     master: {
-        breadcrumb: '거장',
+        breadcrumb: '대가',
         schema: 'master',
         zColumn: [
-            { name: '프로필이미지', width: 16, type: 'img', column: 'profile_img' },
-            { name: '이름', width: 16, type: 'text', column: 'name' },
-            { name: '생성시간', width: 20, type: 'text', column: 'date' },
-            { name: '맨위로', width: 8, type: 'top', column: '' },
-            { name: '노출여부', width: 8, type: 'status', column: 'status' },
-            { name: '정보수정', width: 8, type: 'edit', column: 'edit' },
-            { name: '종목수정', width: 8, type: 'event_edit', column: 'edit' },
-            { name: '수익률수정', width: 8, type: 'yield_edit', column: 'edit' },
-            { name: '삭제', width: 8, type: 'delete', column: 'delete' }
+            { name: '프로필이미지', width: '', type: 'img', column: 'profile_img' },
+            { name: '이름', width: '', type: 'text', column: 'name' },
+            { name: '생성시간', width: '', type: 'text', column: 'date' },
+            { name: '맨위로', width: '', type: 'top', column: '' },
+            { name: '노출여부', width: '', type: 'status', column: 'status' },
+            { name: '정보수정', width: '', type: 'edit', column: 'edit' },
+            { name: '종목수정', width: '', type: 'event_edit', column: 'edit' },
+            { name: '수익률수정', width: '', type: 'yield_edit', column: 'edit' },
+            { name: '삭제', width: '', type: 'delete', column: 'delete' }
         ],
     },
     master_subscribe: {

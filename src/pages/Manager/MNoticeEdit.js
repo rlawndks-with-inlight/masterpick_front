@@ -147,7 +147,7 @@ const MNoticeEdit = () => {
                                         height="600px"
                                         initialEditType="wysiwyg"
                                         useCommandShortcut={false}
-                                        hideModeSwitch={true}
+                                        hideModeSwitch={false}
                                         plugins={[colorSyntax,fontSize]}
                                         language="ko-KR"
                                         ref={editorRef}
@@ -163,6 +163,23 @@ const MNoticeEdit = () => {
                                                 } else {
                                                     noteFormData.delete('note');
                                                     return;
+                                                }
+                                            }
+                                        }}
+                                        customHTMLRenderer={{
+                                            htmlBlock: {
+                                                iframe(node) {
+                                                    console.log(node)
+                                                    return [
+                                                        {
+                                                            type: 'openTag',
+                                                            tagName: 'iframe',
+                                                            outerNewLine: true,
+                                                            attributes: node.attrs
+                                                        },
+                                                        { type: 'html', content: node.childrenHTML },
+                                                        { type: 'closeTag', tagName: 'iframe', outerNewLine: true }
+                                                    ];
                                                 }
                                             }
                                         }}

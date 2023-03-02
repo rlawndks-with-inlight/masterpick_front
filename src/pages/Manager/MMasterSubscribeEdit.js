@@ -329,7 +329,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={mainRef}
@@ -411,7 +411,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={companyOverviewRef}
@@ -467,7 +467,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={investmentPointRef}
@@ -543,7 +543,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={majorBussinessRef}
@@ -596,7 +596,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={shareRef}
@@ -644,7 +644,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={capitalChangeRef}
@@ -698,7 +698,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={investmentIndicatorRef}
@@ -732,7 +732,7 @@ const MMasterSubscribeEdit = () => {
                                                 initialEditType="wysiwyg"
                                                 useCommandShortcut={false}
                                                 useTuiEditorEmoji={true}
-                                                hideModeSwitch={true}
+                                                hideModeSwitch={false}
                                                 plugins={[colorSyntax,fontSize]}
                                                 language="ko-KR"
                                                 ref={etcRef}

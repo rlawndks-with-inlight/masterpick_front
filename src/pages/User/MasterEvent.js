@@ -52,10 +52,11 @@ const MasterEvent = () => {
                 desc: true,
                 status: 1
             })
-            setPosts(response?.data?.data)
+            setPosts(response?.data?.data);
             setTimeout(() => setLoading(false), 1000);
         }
         fetchPost();
+
     }, [])
 
     const onClickMaster = async (num) => {
@@ -82,7 +83,7 @@ const MasterEvent = () => {
         }
 
         const { data: response } = await axios.post(`/api/getmastercontents`, obj)
-        setPosts(response?.data?.data)
+        setPosts(response?.data?.data);
         setLoading(false);
     }
     return (
@@ -101,9 +102,9 @@ const MasterEvent = () => {
                     :
                     <>
                         <div style={{ position: 'relative' }}>
-                            <ScreenDiv onClick={() => navigate('/masterlist')}>
+                            {/* <ScreenDiv onClick={() => navigate('/masterlist')}>
                                 <p style={{ margin: 'auto' }}>TOP 10 보러가기</p>
-                            </ScreenDiv>
+                            </ScreenDiv> */}
                             <ContentTable columns={[
                                 { name: "대가이름", column: "master_name", width: "", type: 'text' },
                                 { name: "종목명", column: "name", width: "", type: 'text' },

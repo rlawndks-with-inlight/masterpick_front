@@ -33,7 +33,6 @@ font-weight:bold;
     width:85vw;
     padding:2.5vw;
 }
-
 `
 const BannerContent = styled.div`
 display:flex;
@@ -99,7 +98,7 @@ const Home = () => {
     useEffect(() => {
         setPosts(zTalk[0].image_list);
         async function fetchPost() {
-            //setLoading(true)
+            setLoading(true)
             const { data: masterResponse } = await axios.get('/api/items?table=master');
 
             const { data: response } = await axios.get('/api/getmaincontent');

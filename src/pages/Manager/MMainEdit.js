@@ -306,26 +306,7 @@ const MMainEdit = () => {
             <Card>
                 {params.category == 'header_img' ?
                     <>
-                        <Row>
-                            <Col>
-                                <Title>헤더 배너</Title>
-                                <ImageContainer for="file0">
 
-                                    {headerUrl ?
-                                        <>
-                                            <Img src={headerUrl} alt="#"
-                                            />
-                                        </>
-                                        :
-                                        <>
-                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
-                                        </>}
-                                </ImageContainer>
-                                <div>
-                                    <input type="file" id="file0" onChange={addHeaderFile} style={{ display: 'none' }} />
-                                </div>
-                            </Col>
-                        </Row>
                     </>
                     :
                     <>
@@ -546,7 +527,46 @@ const MMainEdit = () => {
                     </>}
                 {params.category == 'banner_img' ?
                     <>
+                        <Row>
+                            <Col>
+                                <Title>헤더 배너</Title>
+                                <ImageContainer for="file0">
 
+                                    {headerUrl ?
+                                        <>
+                                            <Img src={headerUrl} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file0" onChange={addHeaderFile} style={{ display: 'none' }} />
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Title>메인 배너</Title>
+                                <ImageContainer for="file1">
+
+                                    {url ?
+                                        <>
+                                            <Img src={url} alt="#"
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            <AiFillFileImage style={{ margin: '6rem auto', fontSize: '4rem', color: `${theme.color.manager.font3}` }} />
+                                        </>}
+                                </ImageContainer>
+                                <div>
+                                    <input type="file" id="file1" onChange={addFile} style={{ display: 'none' }} />
+                                </div>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <Col>

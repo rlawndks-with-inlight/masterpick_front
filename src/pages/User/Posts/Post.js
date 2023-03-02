@@ -361,7 +361,8 @@ const Post = () => {
                             <div style={{ display: 'flex', margin: '8px 0', justifyContent: 'space-between', alignItems: 'end' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px' }}>
                                     <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#FB0000', marginBottom: '4px' }}>{item?.name}</div>
-                                    <div style={{ fontSize: theme.size.font3 }}>매수기준가 {commarNumber(item?.base_price ?? '0')}원 ({item?.capture_date} 기준)</div>
+                                    <div style={{ fontSize: theme.size.font3 }}>기준가 {commarNumber(item?.base_price ?? '0')}원</div>
+                                    <div style={{ fontSize: theme.size.font3 }}>기준일 {item?.capture_date} </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'end' }}>
                                     <div style={{ display: 'flex', flexDirection: 'column', marginRight: '12px', cursor: 'pointer' }} onClick={onChangeWheatherDisplay}>

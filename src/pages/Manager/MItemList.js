@@ -201,11 +201,8 @@ const MItemList = () => {
                                     <option value={20}>20개</option>
                                     <option value={30}>30개</option>
                                 </Select>
-
                                 <AddButton style={{ margin: '12px 24px 12px 24px', width: '96px', alignItems: 'center', display: 'flex', justifyContent: 'space-around' }} onClick={exportExcel}><SiMicrosoftexcel /> 액셀추출</AddButton>
-
                             </Row>
-
                         </OptionCardWrappers>
                     </div>
                     {loading ?
@@ -214,7 +211,6 @@ const MItemList = () => {
                         </>
                         :
                         <>
-
                             <DataTable data={posts} column={zColumn} schema={params.table} opTheTopItem={opTheTopItem} changeItemSequence={changeItemSequence} deleteItem={deleteItem} />
                         </>}
 

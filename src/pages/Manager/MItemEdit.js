@@ -249,7 +249,7 @@ const MItemEdit = () => {
                                         initialEditType="wysiwyg"
                                         useCommandShortcut={false}
                                         useTuiEditorEmoji={true}
-                                        hideModeSwitch={true}
+                                        hideModeSwitch={false}
                                         plugins={[colorSyntax]}
                                         language="ko-KR"
                                         ref={editorRef}
@@ -265,6 +265,23 @@ const MItemEdit = () => {
                                                 } else {
                                                     noteFormData.delete('note');
                                                     return;
+                                                }
+                                            }
+                                        }}
+                                        customHTMLRenderer={{
+                                            htmlBlock: {
+                                                iframe(node) {
+                                                    console.log(node)
+                                                    return [
+                                                        {
+                                                            type: 'openTag',
+                                                            tagName: 'iframe',
+                                                            outerNewLine: true,
+                                                            attributes: node.attrs
+                                                        },
+                                                        { type: 'html', content: node.childrenHTML },
+                                                        { type: 'closeTag', tagName: 'iframe', outerNewLine: true }
+                                                    ];
                                                 }
                                             }
                                         }}
